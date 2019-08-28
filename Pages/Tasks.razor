@@ -1,0 +1,52 @@
+﻿@page "/tasks"
+@using Siemens.MP.Entities
+
+    <table class='table' id="tasks">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th>Task Name</th>
+                <th>Task Description</th>
+                <th>Deadline</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Task1</td>
+                <td>description description description description description description description description description description description description description description description description description description description </td>
+                <td>
+                    <center>
+                        <input type="date" value="12.12.12" />
+                    </center>
+                </td>
+                <td>
+                    <select id="selectstatus">
+                        <option value="" selected disabled hidden>Status of task</option>
+                        <option value="todo">To do</option>
+                        <option value="ongoing">Ongoing</option>
+                        <option value="finished">Finished</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Task2</td>
+                <td>Description2</td>
+                <td>12.12.12</td>
+                <td>
+                    <select>
+                        <option value="" selected disabled hidden>Status of task</option>
+                        <option value="todo">To do</option>
+                        <option value="ongoing">Ongoing</option>
+                        <option value="finished">Finished</option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+@code {
+
+}
