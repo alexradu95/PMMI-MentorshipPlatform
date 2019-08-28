@@ -15,7 +15,9 @@ namespace Siemens.MP.Entities
             this.TaskDeadline = taskDeadline;
             this.TaskState = StateOfTask.TO_DO;
         }
+        //ID este suficient, nu stiu daca detecteaza automat daca ii pui IdTask
         public int IdTask { get; set; }
+        //Toate field-urile astea fac parte din task deci nu e nevoie sa pui TaskName, TaskDescription etc... doar Name Description Deadline etc...
         public string TaskName { get; set; }
         public string TaskDescription { get; set; }
         public DateTime TaskDeadline { get; set; }

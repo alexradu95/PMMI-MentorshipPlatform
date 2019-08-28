@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace Siemens.MP.Data
 {
+    //Not needed anymore. 
+    //ApplicationDbContext extents IdentityDBContext which in turn extends DbContext, so we can use AplicationDbContext for DB Operations
     public class TasksDbContext : DbContext
     {
         public DbSet<Tasks> Tasks { get; set; }
