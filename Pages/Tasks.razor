@@ -1,52 +1,89 @@
 ﻿@page "/tasks"
 @using Siemens.MP.Entities
+@using Siemens.MP.Data
+@using Siemens.MP.Enums
+@inject Siemens.MP.Data.ApplicationDbContext DbContext
 
-    <table class='table' id="tasks">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th>Task Name</th>
-                <th>Task Description</th>
-                <th>Deadline</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Task1</td>
-                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultricies, ante vitae faucibus pellentesque, nisi risus pretium neque, eget molestie mauris tortor sed leo.</td>
-                <td>
-                    <center>
-                        <input type="date" value="12.12.12" />
-                    </center>
-                </td>
-                <td>
-                    <select id="selectstatus">
-                        <option value="" selected disabled hidden>Status of task</option>
-                        <option value="todo">To do</option>
-                        <option value="ongoing">Ongoing</option>
-                        <option value="finished">Finished</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Task2</td>
-                <td>Description2</td>
-                <td>12.12.12</td>
-                <td>
-                    <select>
-                        <option value="" selected disabled hidden>Status of task</option>
-                        <option value="todo">To do</option>
-                        <option value="ongoing">Ongoing</option>
-                        <option value="finished">Finished</option>
-                    </select>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<table class='table' id="tasks">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th>Task Name</th>
+            <th>Task Description</th>
+            <th>Deadline</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th></th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td scope="row">#</td>
+            <td>
+                <input placeholder="Task Name" @bind="taskName" />
+            </td>
+            <td>
+                <input placeholder="Description" @bind="taskDescription" />
+            </td>
+            <td>
+                <input type="date" @bind="deadline" />
+            </td>
+            <td>
+                <select id="selectstatus" @bind="status">
+                    <option value="" selected disabled hidden>Status of task</option>
+                    <option value="todo">To do</option>
+                    <option value="ongoing">Ongoing</option>
+                    <option value="finished">Finished</option>
+                </select>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<button @onclick="AddTask">Add</button>
 
 @code {
+
+    private int numberOfTask = 1;
+    private string taskName;
+    private string taskDescription;
+    private DateTime deadline;
+    private StateOfTask status;
+    private IList<Siemens.MP.Entities.Task> tasks;
+
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        tasks = DbContext.Tasks.ToList();
+    }
+
+    private void AddTask()
+    {
+        if (string.IsNullOrWhiteSpace(taskName))
+        {
+            Siemens.MP.Entities.Task newTask = new Siemens.MP.Entities.Task
+            {
+                Name = taskName,
+                Description = taskDescription,
+                Deadline = deadline,
+                State = status
+            };
+            tasks.Add(newTask);
+            DbContext.Add<Siemens.MP.Entities.Task>(newTask);
+            DbContext.SaveChanges();
+
+            numberOfTask++;
+            taskName = string.Empty;
+            taskDescription = string.Empty;
+            status = StateOfTask.TO_DO;
+        }
+    }
+
 
 }
