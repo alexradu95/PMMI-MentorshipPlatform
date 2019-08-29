@@ -10,8 +10,8 @@ using Siemens.MP.Data;
 namespace Siemens.MP.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190829123222_AddTaskTable")]
-    partial class AddTaskTable
+    [Migration("20190829125907_TasksToDB")]
+    partial class TasksToDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
