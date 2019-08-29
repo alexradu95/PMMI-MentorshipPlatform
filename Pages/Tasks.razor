@@ -4,6 +4,7 @@
 @using Siemens.MP.Enums
 @inject Siemens.MP.Data.ApplicationDbContext DbContext
 
+<!--  De afiasat task-urile din baza de date -->
 <table class='table' id="tasks">
     <thead>
         <tr>
@@ -65,24 +66,33 @@
 
     private void AddTask()
     {
-        if (string.IsNullOrWhiteSpace(taskName))
+        if (!string.IsNullOrWhiteSpace(taskName))
         {
-            Siemens.MP.Entities.Task newTask = new Siemens.MP.Entities.Task
-            {
-                Name = taskName,
-                Description = taskDescription,
-                Deadline = deadline,
-                State = status
-            };
-            tasks.Add(newTask);
-            DbContext.Add<Siemens.MP.Entities.Task>(newTask);
-            DbContext.SaveChanges();
-
+            CreateTaskAndSaveToDB();
             numberOfTask++;
-            taskName = string.Empty;
-            taskDescription = string.Empty;
-            status = StateOfTask.TO_DO;
+            ResetFieldToDefault();
         }
+    }
+
+    private void ResetFieldToDefault()
+    {
+        taskName = string.Empty;
+        taskDescription = string.Empty;
+        status = StateOfTask.TO_DO;
+    }
+
+    private void CreateTaskAndSaveToDB()
+    {
+        Siemens.MP.Entities.Task newTask = new Siemens.MP.Entities.Task
+        {
+            Name = taskName,
+            Description = taskDescription,
+            Deadline = deadline,
+            State = status
+        };
+        tasks.Add(newTask);
+        DbContext.Add<Siemens.MP.Entities.Task>(newTask);
+        DbContext.SaveChanges();
     }
 
 
