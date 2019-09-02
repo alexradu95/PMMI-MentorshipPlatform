@@ -214,3 +214,12 @@ app {
     text-overflow: ellipsis;
 }
 
+.project-first-column {
+    width: 25%;
+    float: left;
+}
+
+.project-second-column {
+    width: 60%;
+    float: right;
+}
