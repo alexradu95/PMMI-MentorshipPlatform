@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Siemens.MP.Entities;
 
 namespace Siemens.MP.Data
 {
@@ -12,5 +13,7 @@ namespace Siemens.MP.Data
             : base(options)
         {
         }
+
+        public DbSet<Task> Tasks { get; set; }
     }
 }
