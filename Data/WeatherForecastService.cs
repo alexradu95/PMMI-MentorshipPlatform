@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Authorization;
+using Siemens.MP.Enums;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Siemens.MP.Data
 {
+    
     public class WeatherForecastService
     {
         private static readonly string[] Summaries = new[]

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Siemens.MP.Enums;
 
 namespace Siemens.MP.Areas.Identity
 {
@@ -80,6 +81,7 @@ namespace Siemens.MP.Areas.Identity
                 using (var scope = _scopeFactory.CreateScope())
                 {
                     var signInManager = scope.ServiceProvider.GetRequiredService<SignInManager<TUser>>();
+                    
                     var authenticationState = await _currentAuthenticationStateTask;
                     var validatedUser = await signInManager.ValidateSecurityStampAsync(authenticationState.User);
                     return validatedUser != null;
