@@ -24,4 +24,8 @@
     <Folder Include="Controlers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\css\bootstrap\img.jpg" />
+  </ItemGroup>
+
 </Project>
