@@ -4,11 +4,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-    <h2  style="text-align:center">User Profile Card</h2>
     <div class="modal-body row">
-        <div class="project-first-column">
+        <div class="col-md-4">
             <div class="card" id="profile">
-                <img src="/css/bootstrap/img.jpg" alt="John" style="width:100%;border-radius:12px 12px 0 0">
+                <img src="/css/bootstrap/img.jpg" alt="John" class="card-img-top imgprofile">
                 <p class="title">John Wick</p>
 
                 <div class="text-card">
@@ -39,18 +38,24 @@
 
 
 
-        <div class="project-second-column">
+        <div class="col-md-8">
 
-            <div class="card" id="profile" style="margin-bottom:50px; margin-top:30px;">
+            <div class="card" id="profile" style="margin-bottom:50px;">
                 
-               <div class="row" id="rowtextbackground">
-                   <p id="titlecard"> Projects </p>
-                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for projects..">
-               
-               </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading panelbackground">
+                         <div class="panel-title pull-left titlecard">
+                         Projects
+                         </div>
+                        <div class="pull-right">
+                            <input type="text" class="myInput" onkeyup="myFunction()" placeholder="Search for projects..">
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
                 <hr style="margin-top:0px;margin-bottom:0px;">
 
-               
                 <ul id="myProjectList">
                     <li><a href="#">Project 1</a></li>
                     <li><a href="#">Project 2</a></li>
@@ -61,11 +66,18 @@
 
            <div class="card" id="profile" style="margin-bottom:50px; margin-top:30px;">
                 
-               <div class="row" id="rowtextbackground">
-                   <p id="titlecard"> Tasks </p>
-                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for projects..">
-               
-               </div>
+              <div class="panel panel-default">
+                    <div class="panel-heading panelbackground">
+                         <div class="panel-title pull-left titlecard">
+                         Tasks
+                         </div>
+                        <div class="pull-right">
+                            <input type="text" class="myInput" onkeyup="myFunction()" placeholder="Search for projects..">
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
                 <hr style="margin-top:0px;margin-bottom:0px;">
 
                
