@@ -108,17 +108,23 @@ a {
 .right {
     width: 75%;
 }
-
+#rowtextbackground {
+    background-image: linear-gradient(-50deg,#3a0647,#0b2364);
+    border-radius: 12px 12px 0 0;
+    color: antiquewhite;
+    margin: unset;
+}
 .row:after {
     content: "";
     display: table;
     clear: both;
+    
 }
 
 #myProjectList {
-    list-style-type: none;
+    /*list-style-type: none;    // scoti punctuletele*/
     padding-top: 10px;
-    padding-left: 25px;
+    padding-left: 30px;
 }
 
     #myProjectList li a {
