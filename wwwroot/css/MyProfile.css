@@ -1,0 +1,138 @@
+﻿/*CSS part form myprofile page*/
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin: initial;
+    text-align: left;
+    border-radius: 12px;
+}
+
+
+#profile {
+    border-radius: 12px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.title {
+    color: black;
+    font-size: 40px;
+    text-align: center;
+    padding-top: 30px;
+    margin-bottom: 0px;
+    font-family: 'Segoe';
+    margin-top: -10px;
+}
+
+button {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+}
+
+a {
+    text-decoration: none;
+}
+
+    button:hover, a:hover {
+        opacity: 0.7;
+    }
+
+.text-card {
+    padding: 20px;
+}
+
+.fa-home {
+    margin-right: 12px;
+}
+
+.fa-university {
+    margin-right: 12px;
+}
+
+.fa-phone-square {
+    margin-right: 12px;
+}
+
+.skill-bar {
+    background-color: #bdc9ea;
+    border-radius: 16px;
+}
+
+.progress-bar {
+    padding: 0.1em 16px;
+    border-radius: 16px;
+    text-align: center;
+    color: #fff;
+    background-color: #4b4fe2;
+}
+
+#myInput {
+    background-image: url(searchicon.png);
+    background-position: center right;
+    background-repeat: no-repeat;
+    background-size: 30px;
+    font-size: 15px;
+    padding: 6px;
+    border: 0,5px solid #b600ff;
+    border-radius: 16px;
+    float: right;
+    margin-top: 13px;
+    margin-left: 35px;
+    margin-bottom:5px;
+    height: 40px;
+    width: 300px;
+    padding-left: 10px;
+}
+
+#titlecard {
+    width: 45%;
+    float: left;
+    margin-top: 10px;
+    margin-left: 35px;
+    font-size: 35px;
+    margin-bottom: 5px;
+    font-family: 'Segoe';
+}
+
+.left {
+    width: 25%;
+}
+
+.right {
+    width: 75%;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#myProjectList {
+    list-style-type: none;
+    padding-top: 10px;
+    padding-left: 25px;
+}
+
+    #myProjectList li a {
+        margin-top: -1px; /* Previne suprapunerea marginilor */
+        text-decoration: none; /*Scoate linia de Hyperlink*/
+        color: black; /*Text negru*/
+        font-size: 18px;
+    }
+
+        #myProjectList li a:hover:not(.header) {
+            border: 1px solid #ddd; /*Border pentru toate elementele listei*/
+            background-color: #f6f6f6; /* Gri */
+            border-radius: 10px;
+            display: block;
+            padding-left: 4px;
+            margin-right: 15px;
+        }
