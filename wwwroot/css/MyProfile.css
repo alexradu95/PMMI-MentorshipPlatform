@@ -122,18 +122,17 @@ a {
     
 }
 
-#myProjectList {
-    /*list-style-type: none;    // scoti punctuletele*/
-    padding-top: 8px;
-    padding-left: 30px;
-    margin-bottom: 0px;
+#profileTasksList {
+    list-style-type: none; /* scoti punctuletele*/
+    padding: 8px;
 }
+
 
     #myProjectList li a {
         margin-top: -1px; /* Previne suprapunerea marginilor */
         text-decoration: none; /*Scoate linia de Hyperlink*/
         color: black; /*Text negru*/
-        font-size: 18px;
+        font-size: 20px;
         
     }
 
@@ -150,4 +149,16 @@ a {
     border-radius:12px;
     padding:15px;
     
+}
+.spanprofile{
+    margin-top:18px;
+    margin-right:10px;
+}
+
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
 }
