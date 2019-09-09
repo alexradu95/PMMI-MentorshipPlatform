@@ -1,4 +1,5 @@
 ﻿@page "/myprofile"
+@inject Siemens.MP.Data.ApplicationDbContext DbContext
 <head>
     <link rel="stylesheet" href="/css/MyProfile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -41,14 +42,14 @@
         <div class="col-md-8">
 
             <div class="card" id="profile" style="margin-bottom:50px;">
-                
+
                 <div class="panel panel-default">
                     <div class="panel-heading panelbackground">
-                         <div class="panel-title pull-left titlecard">
-                         Projects
-                         </div>
+                        <div class="panel-title pull-left titlecard">
+                            Projects
+                        </div>
                         <div class="pull-right">
-                            <input type="text" class="myInput" onkeyup="myFunction()" placeholder="Search for projects..">
+                            <input type="text" class="myInput" onkeyup="searchFunction()" placeholder="Search for projects..">
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -64,15 +65,15 @@
 
             </div>
 
-           <div class="card" id="profile" style="margin-bottom:50px; margin-top:30px;">
-                
-              <div class="panel panel-default">
+            <div class="card" id="profile" style="margin-bottom:50px; margin-top:30px;">
+
+                <div class="panel panel-default">
                     <div class="panel-heading panelbackground">
-                         <div class="panel-title pull-left titlecard">
-                         Tasks
-                         </div>
+                        <div class="panel-title pull-left titlecard">
+                            Tasks
+                        </div>
                         <div class="pull-right">
-                            <input type="text" class="myInput" onkeyup="myFunction()" placeholder="Search for projects..">
+                            <input type="text" class="myInput" @bind-value="@searchTerm" @bind-value:event="oninput"  placeholder="Search for projects.." />
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -80,12 +81,14 @@
 
                 <hr style="margin-top:0px;margin-bottom:0px;">
 
-               
+
                 <ul id="myProjectList">
-                    <li><a href="#">Task 1</a></li>
-                    <li><a href="#">Task 2</a></li>
-                    <li><a href="#">Task 3</a></li>
+                    @foreach (var task in filteredTasks)
+                    {
+                        <li><a href="#">@task.Name</a></li>
+                    }
                 </ul>
+
 
             </div>
 
@@ -93,6 +96,14 @@
     </div>
 </body>
 @code {
+    private IList<Siemens.MP.Entities.Task> tasks;
+    private string searchTerm { get; set; } = "";
 
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        tasks = DbContext.Tasks.ToList();
+    }
+
+    private IList<Siemens.MP.Entities.Task> filteredTasks => tasks.Where(i => i.Name.ToLower().Contains(searchTerm.ToLower())).ToList();
 
 }
