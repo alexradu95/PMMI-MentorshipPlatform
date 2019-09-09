@@ -16,15 +16,13 @@ using Siemens.MP.Areas.Identity;
 using Siemens.MP.Data;
 using Siemens.MP.Entities;
 using Microsoft.AspNetCore.Identity.UI.V3.Pages.Account.Internal;
-using Microsoft.VisualBasic.ApplicationServices;
 using System.Configuration;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Siemens.MP
 {
     public class Startup
     {
-
-
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -32,7 +30,6 @@ namespace Siemens.MP
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-          
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -41,7 +38,7 @@ namespace Siemens.MP
                .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddScoped<AuthenticationStateProvider, RevalidatingAuthenticationStateProvider<IdentityUser>>();
+            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
             services.AddScoped<TaskRepository>();
             
 
@@ -126,7 +123,7 @@ namespace Siemens.MP
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapBlazorHub<App>(selector: "app");
+                endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
             CreateRoles(serviceProvider).Wait();
