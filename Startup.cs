@@ -43,6 +43,7 @@ namespace Siemens.MP
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingAuthenticationStateProvider<IdentityUser>>();
             services.AddScoped<TaskRepository>();
+            services.AddScoped<ProjectRepository>();
             
 
 

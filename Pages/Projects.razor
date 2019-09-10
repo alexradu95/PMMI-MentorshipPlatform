@@ -1,30 +1,55 @@
 ﻿@page "/projects"
+@using Siemens.MP.Enums
+@using Siemens.MP.Entities
+@inject Siemens.MP.Data.ApplicationDbContext DbContext
+@inject Siemens.MP.Data.ProjectRepository ProjectRepository
 
-<div class="modal-body row">
-    <div class="project-first-column">
-        <h3>Projects</h3>
-        <ol class="list-group list-group-flush">
-            <li class="list-group-item">
-                <span class="issue-link-key"><a href="project/id">Project name</a></span>
-                <span class="issue-link-summary">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
-            </li>
-            <li class="list-group-item">
-                <span class="issue-link-key"><a href="project/id">Project name</a></span>
-                <span class="issue-link-summary">Project description</span>
-            </li>
-            <li class="list-group-item">
-                <span class="issue-link-key"><a href="project/id">Project name</a></span>
-                <span class="issue-link-summary">Project description</span>
-            </li>
-        </ol>
+@if (projects == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="modal-body row">
+        <div class="project-first-column">
+            <h3>Projects</h3>
+            <ol class="list-group list-group-flush">
+                @foreach (Siemens.MP.Entities.Project project in projects)
+                {
+                    <li class="list-group-item">
+                        <button class="btn btn-primary" @onclick="ChangeTheProjectID">@project.Title</button>
+                        <span class="issue-link-summary">@project.Description</span>
+                    </li>
+                }
+            </ol>
+        </div>
+        <div class="project-second-column">
+                @*<Siemens.MP.Pages.Components.ProjectTasks @bind-IdProject="ProjectID" ></Siemens.MP.Pages.Components.ProjectTasks>*@
+        </div>
     </div>
-    <div class="project-second-column">
-        <Siemens.MP.Pages.Components.ProjectTasks></Siemens.MP.Pages.Components.ProjectTasks>
-    </div>
-</div>
-
+}
 
 
 @code {
+
+    private IList<Siemens.MP.Entities.Project> projects;
+
+    [Parameter]
+    public int ProjectID { get; set; }
+
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        projects = await ProjectRepository.GetProjectsAsync();
+    }
+    private void ChangeTheProjectID()
+    {
+    }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback<UIMouseEventArgs> ShowTasks { get; set; }
+
 
 }

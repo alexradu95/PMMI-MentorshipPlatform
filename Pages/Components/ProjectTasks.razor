@@ -1,67 +1,39 @@
-﻿<h3>ProjectTasks</h3>
-<h3>To Do</h3>
-<div class="row">
-    <div class="col-sm">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#!" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-    </div>
+﻿@using Siemens.MP.Enums
+@inject Siemens.MP.Data.TaskRepository TaskRepository
 
-    <div class="col-sm">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#!" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#!" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-    </div>
-</div>
-<h3>Ongoing</h3>
 <div class="row">
-    <div class="col-sm">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#!" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-    </div>
+    @NumberOfComponents = 0;
+    @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.TO_DO)
+        {
+            if (NumberOfComponents % 3 == 0) { }
+            <div class="col-sm">
 
-    <div class="col-sm">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#!" class="btn btn-primary">Go somewhere</a>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@task.Name</h5>
+                        <p class="card-text">@task.Description</p>
+                        <p class="card-text">@task.Deadline</p>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="col-sm">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#!" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-    </div>
+        }
 </div>
 
 @code {
+    private IList<Siemens.MP.Entities.Task> tasks = new List<Siemens.MP.Entities.Task>();
+
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        tasks = await TaskRepository.GetTasksAsync();
+    }
+
+    [Parameter]
+    public int IdProject { get; set; }
+    [Parameter]
+    public EventCallback<int> IdProjectChanged { get; set; }
+    [Parameter]
+    public StateOfTask StateOfTask { get; set; }
+
+    private int NumberOfComponents;
 
 }

@@ -1,29 +1,29 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Siemens.MP.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Task = Siemens.MP.Entities.Task;
 
 namespace Siemens.MP.Data
 {
-    public class TaskRepository : ITaskRepository, IDisposable
+    public class ProjectRepository : IProjectRepository, IDisposable
     {
         private ApplicationDbContext context;
 
-        public TaskRepository(ApplicationDbContext context)
+        public ProjectRepository(ApplicationDbContext context)
         {
             this.context = context;
         }
 
-        public Task<List<Task>> GetTasksAsync()
+        public Task<List<Project>> GetProjectsAsync()
         {
-            List<Task> colTasks = new List<Task>();
+            List<Project> colProjects = new List<Project>();
             using (var context = new ApplicationDbContext())
             {
-                colTasks = (from tasks in context.Tasks   select tasks).ToList();
+                colProjects = (from projects in context.Projects select projects).ToList();
             }
-            return System.Threading.Tasks.Task.FromResult(colTasks);
+            return System.Threading.Tasks.Task.FromResult(colProjects);
         }
 
         //public async System.Threading.Tasks.Task<List<Task>> GetTasksAsync()
@@ -31,26 +31,27 @@ namespace Siemens.MP.Data
         //    return await System.Threading.Tasks.Task.Run(() => context.Tasks.ToList());
         //}
 
-        public Task GetTaskByID(int id)
+        public Project GetProjectByID(int id)
         {
-            return context.Tasks.Find(id);
+            return context.Projects.Find(id);
         }
 
-        public void InsertTask(Task task)
+        public void InsertProject(Project project)
         {
-            context.Tasks.Add(task);
+            context.Projects.Add(project);
             Save();
         }
 
-        public void DeleteTask(int taskID)
+        public void DeleteProject(int projectID)
         {
-            Task task = context.Tasks.Find(taskID);
-            context.Tasks.Remove(task);
+            Project project = context.Projects.Find(projectID);
+
+            context.Projects.Remove(project);
         }
 
-        public void UpdateTask(Task task)
+        public void UpdateProject(Project project)
         {
-            context.Entry(task).State = EntityState.Modified;
+            context.Entry(project).State = EntityState.Modified;
         }
 
         public void Save()

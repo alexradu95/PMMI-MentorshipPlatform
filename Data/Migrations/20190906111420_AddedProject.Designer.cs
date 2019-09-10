@@ -11,7 +11,7 @@ namespace Siemens.MP.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20190906111420_AddedProjectIdToTask")]
-    partial class AddedProjectIdToTask
+    partial class AddedProject
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

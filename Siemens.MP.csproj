@@ -9,6 +9,8 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20190829123222_AddTaskTable.cs" />
     <Compile Remove="Data\Migrations\20190829123222_AddTaskTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190910083221_AddedProject.cs" />
+    <Compile Remove="Data\Migrations\20190910083221_AddedProject.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
