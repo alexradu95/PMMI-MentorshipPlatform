@@ -8,12 +8,13 @@ namespace Siemens.MP.Data.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private ApplicationDbContext _context = null;
-        private DbSet<T> table = null;
+        private readonly ApplicationDbContext _context = null;
+        private readonly DbSet<T> table = null;
 
         public GenericRepository(ApplicationDbContext _context)
         {
             this._context = _context;
+            table = _context.Set<T>();
         }
 
         public System.Threading.Tasks.Task<List<T>> GetAll()
@@ -25,7 +26,7 @@ namespace Siemens.MP.Data.Repositories
             }
             return System.Threading.Tasks.Task.FromResult(obj);
         }
-        public T GetById(object id)
+        public T GetById(int id)
         {
             return table.Find(id);
         }
@@ -36,15 +37,17 @@ namespace Siemens.MP.Data.Repositories
         }
         public void Delete(object id)
         {
-
+            T obj = table.Find(id);
+            table.Remove(obj);
         }
         public void Update(T obj)
         {
-
+            table.Attach(obj);
+            _context.Entry(obj).State = EntityState.Modified;
         }
         public void Save()
         {
-
+            _context.SaveChanges();
         }
     }
 }

@@ -2,7 +2,7 @@
 @using Siemens.MP.Entities
 @using Siemens.MP.Data
 @using Siemens.MP.Enums
-@inject Siemens.MP.Data.TaskRepository TaskRepository
+@inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Task> TaskRepository
 
 @if (tasks == null)
 {
@@ -68,7 +68,7 @@ else
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
-        tasks = await TaskRepository.GetTasksAsync();
+        tasks = await TaskRepository.GetAll();
     }
 
     private void AddTask()
@@ -80,7 +80,7 @@ else
             Deadline = deadline,
             State = status
         };
-        TaskRepository.InsertTask(newTask);
+        TaskRepository.Insert(newTask);
         OnInitializedAsync();
         ResetFieldToDefault();
     }

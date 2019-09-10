@@ -2,7 +2,7 @@
 @using Siemens.MP.Enums
 @using Siemens.MP.Entities
 @inject Siemens.MP.Data.ApplicationDbContext DbContext
-@inject Siemens.MP.Data.ProjectRepository ProjectRepository
+@inject Siemens.MP.Data.Repositories.GenericRepository<Project> ProjectRepository
 
 @if (projects == null)
 {
@@ -39,7 +39,7 @@ else
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
-        projects = await ProjectRepository.GetProjectsAsync();
+        projects = await ProjectRepository.GetAll();
     }
     private void ChangeTheProjectID(int projectID)
     {
