@@ -18,6 +18,7 @@ using Siemens.MP.Entities;
 using Microsoft.AspNetCore.Identity.UI.V3.Pages.Account.Internal;
 using System.Configuration;
 using Microsoft.AspNetCore.Components.Authorization;
+using Siemens.MP.Enums;
 
 namespace Siemens.MP
 {
@@ -51,7 +52,7 @@ namespace Siemens.MP
             //initializing custom roles 
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
-            string[] roleNames = { "Admin", "Mentor", "Student" };
+            string[] roleNames = { RoleType.ADMIN.ToString(), RoleType.MENTOR.ToString(), RoleType.STUDENT.ToString()};
             IdentityResult roleResult;
             
             
@@ -69,12 +70,12 @@ namespace Siemens.MP
             var poweruser = new IdentityUser
             {
 
-                UserName = "admin@gmail.com",
-                Email = "admin@gmail.com"
+                UserName = "admin1@gmail.com",
+                Email = "admin1@gmail.com"
             };
             //Ensure you have these values in your appsettings.json file
             string userPWD = "1q2w3e4rT!";
-            var _user = await UserManager.FindByEmailAsync("admin@gmail.com");
+            var _user = await UserManager.FindByEmailAsync("admin1@gmail.com");
         
             if (_user == null)
             {
@@ -82,7 +83,7 @@ namespace Siemens.MP
                 if (createPowerUser.Succeeded)
                 {
                     //here we tie the new user to the role
-                    await UserManager.AddToRoleAsync(poweruser, "Admin");
+                    await UserManager.AddToRoleAsync(poweruser,RoleType.ADMIN.ToString());
 
                 }
             }

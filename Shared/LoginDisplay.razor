@@ -1,12 +1,19 @@
 ﻿<Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+
     <Authorized>
         <a href="Identity/Account/Manage">Hello, @context.User.Identity.Name!</a>
         <form method="post" action="Identity/Account/LogOut">
             <button type="submit" class="nav-link btn btn-link">Log out</button>
         </form>
     </Authorized>
+
     <NotAuthorized>
-        <a href="Identity/Account/Register">Register</a>
+
         <a href="Identity/Account/Login">Log in</a>
     </NotAuthorized>
+
 </Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+
+<AuthorizeView Roles="Admin">
+    <a href="Identity/Account/Register">Register</a>
+</AuthorizeView>

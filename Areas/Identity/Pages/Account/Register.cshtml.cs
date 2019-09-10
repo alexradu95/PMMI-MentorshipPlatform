@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Siemens.MP.Enums;
 
 namespace Siemens.MP.Areas.Identity.Pages.Account
 {
@@ -60,6 +61,10 @@ namespace Siemens.MP.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+            [Display(Name ="Choose Role")]
+            public RoleType roleType { get; set; }
+
+            
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -76,9 +81,10 @@ namespace Siemens.MP.Areas.Identity.Pages.Account
             {
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                var role = Input.roleType.ToString();
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, "Student");
+                    await _userManager.AddToRoleAsync(user,role);
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -98,8 +104,8 @@ namespace Siemens.MP.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                      // await _signInManager.SignInAsync(user, isPersistent: false);
+                      // return LocalRedirect(returnUrl);
                     }
                 }
                 foreach (var error in result.Errors)
