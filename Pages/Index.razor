@@ -1,5 +1,22 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+<h3>Hello, Full Name of Student</h3>
 
-Welcome to your new app.
+<div class="card" style="width: 18rem;">
+    <img src="..." class="card-img-top" alt="...">
+    <div class="card-body">
+        <h5 class="card-title">Task-urile tale sunt:</h5>
+        <ul class="card-text">
+            <li>de facut: @x</li>
+            <li>in curs de desfasurare::</li>
+            <li>reizuirea codului:</li>
+            <li>facut:</li>
+        </ul>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+</div>
+
+@code
+{
+    private int x = 7;
+}

@@ -1,6 +1,7 @@
 ﻿@page "/myprofile"
 @inject Siemens.MP.Data.ApplicationDbContext DbContext
 @using Siemens.MP.Entities;
+@inject Siemens.MP.Data.TaskRepository TaskRepository
 <head>
     <link rel="stylesheet" href="/css/MyProfile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -50,7 +51,7 @@
                             Projects
                         </div>
                         <div class="pull-right">
-                            <input type="text" class="myInput" onkeyup="searchFunction()" placeholder="Search for projects..">
+                            <input type="text" class="myInput" @bind-value="@searchTerm" @bind-value:event="oninput" placeholder="Search for projects.." />
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -74,7 +75,7 @@
                             Tasks
                         </div>
                         <div class="pull-right">
-                            <input type="text" class="myInput" @bind-value="@searchTerm" @bind-value:event="oninput" placeholder="Search for projects.." />
+                            <input type="text" class="myInput" @bind-value="@searchTerm" @bind-value:event="oninput" placeholder="Search for tasks.." />
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -83,31 +84,30 @@
                 <hr style="margin-top:0px;margin-bottom:0px;">
 
 
-                <ul class="myProjectList">
+                <ul class="list-group">
                     @foreach (var task in filteredTasks)
                     {
-                        <li>
-                            <a href="#" class="align-content-center">
 
-                                @task.Name
-                                @if (task.State == Enums.StateOfTask.TO_DO)
-                                {
-                                    <span class="badge badge-primary badge-pill pull-right spanprofile list-group-item-danger">@task.State</span>
-                                }
-                                else if (task.State == Enums.StateOfTask.DONE)
-                                {
-                                    <span class="badge badge-primary badge-pill pull-right spanprofile list-group-item-success">@task.State</span>
-                                }
-                                else if (task.State == Enums.StateOfTask.CODE_REVIEW)
-                                {
-                                    <span class="badge badge-primary badge-pill pull-right spanprofile list-group-item-light">@task.State</span>
-                                }
-                                else if (task.State == Enums.StateOfTask.ONGOING)
-                                {
-                                    <span class="badge badge-primary badge-pill pull-right spanprofile list-group-item-info">@task.State</span>
-                                }
-                            </a>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="#">@task.Name</a>
+                            @if (task.State == Enums.StateOfTask.TO_DO)
+                            {
+                                <span class="badge badge-primary badge-pill list-group-item-danger">@task.State</span>
+                            }
+                            else if (task.State == Enums.StateOfTask.DONE)
+                            {
+                                <span class="badge badge-primary badge-pill list-group-item-success">@task.State</span>
+                            }
+                            else if (task.State == Enums.StateOfTask.CODE_REVIEW)
+                            {
+                                <span class="badge badge-primary badge-pill list-group-item-light">@task.State</span>
+                            }
+                            else if (task.State == Enums.StateOfTask.ONGOING)
+                            {
+                                <span class="badge badge-primary badge-pill list-group-item-info">@task.State</span>
+                            }
                         </li>
+
                     }
                 </ul>
 
@@ -120,11 +120,10 @@
 @code {
     private IList<Siemens.MP.Entities.Task> tasks;
     private string searchTerm { get; set; } = "";
-    private String importance;
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
-        tasks = DbContext.Tasks.ToList();
+        tasks = await TaskRepository.GetTasksAsync();
     }
     private IList<Siemens.MP.Entities.Task> filteredTasks => tasks.Where(i => i.Name.ToLower().Contains(searchTerm.ToLower())).ToList();
 
