@@ -19,15 +19,17 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.0.0-preview8.19405.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0-preview8.19405.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0-preview8.19405.11" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0-preview9.19423.4" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0-preview9-19453-02" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controlers\" />
+    <None Include="wwwroot\css\bootstrap\img.jpg" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\css\bootstrap\img.jpg" />
+    <Folder Include="Controlers\" />
   </ItemGroup>
 
 </Project>
