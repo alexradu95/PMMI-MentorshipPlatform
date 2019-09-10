@@ -1,0 +1,39 @@
+﻿@inject Siemens.MP.Data.ProjectRepository ProjectRepository
+
+<div class="card" id="profile" style="margin-bottom:50px;">
+
+    <div class="panel panel-default">
+        <div class="panel-heading panelbackground">
+            <div class="panel-title pull-left titlecard">
+                Projects
+            </div>
+            <div class="pull-right">
+                <input type="text" class="myInput" @bind-value="@searchTerm" @bind-value:event="oninput" placeholder="Search for projects.." />
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <hr style="margin-top:0px;margin-bottom:0px;">
+    <ul class="list-group">
+        @foreach (var project in filteredProjects)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="#">@project.Title</a>
+            </li>
+        }
+    </ul>
+
+
+</div>
+@code {
+    private IList<Siemens.MP.Entities.Project> projects;
+    private string searchTerm { get; set; } = "";
+
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        projects = await ProjectRepository.GetProjectsAsync();
+    }
+    private IList<Siemens.MP.Entities.Project> filteredProjects => projects.Where(i => i.Title.ToLower().Contains(searchTerm.ToLower())).ToList();
+
+}
