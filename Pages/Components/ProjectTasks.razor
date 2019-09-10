@@ -1,23 +1,41 @@
 ﻿@using Siemens.MP.Enums
 @inject Siemens.MP.Data.TaskRepository TaskRepository
 
-<div class="row">
-    @NumberOfComponents = 0;
-    @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.TO_DO)
+    <div class="row">
+        @NumberOfComponents = 0;
+        @if (IdProject == 1)
         {
-            if (NumberOfComponents % 3 == 0) { }
-            <div class="col-sm">
+            @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.TO_DO)
+                {
+                    <div class="col-sm">
 
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">@task.Name</h5>
-                        <p class="card-text">@task.Description</p>
-                        <p class="card-text">@task.Deadline</p>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">@task.Name</h5>
+                                <p class="card-text">@task.Description</p>
+                                <p class="card-text">@task.Deadline</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                }
         }
-</div>
+        @if (IdProject == 2)
+        {
+            @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.DONE)
+                {
+                    <div class="col-sm">
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">@task.Name</h5>
+                                <p class="card-text">@task.Description</p>
+                                <p class="card-text">@task.Deadline</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+        }
+    </div>
 
 @code {
     private IList<Siemens.MP.Entities.Task> tasks = new List<Siemens.MP.Entities.Task>();

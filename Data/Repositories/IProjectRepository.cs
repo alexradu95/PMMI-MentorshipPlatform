@@ -6,16 +6,13 @@ using System.Threading.Tasks;
 
 namespace Siemens.MP.Data
 {
-    public class IProjectRepository
-    {
-        public interface ITaskRepository : IDisposable
+        public interface IProjectRepository : IDisposable
         {
-            System.Threading.Tasks.Task<List<Project>> GetTasksAsync();
+            System.Threading.Tasks.Task<List<Project>> GetProjectsAsync();
             Project GetProjectByID(int projectID);
             void InsertProject(Project project);
             void DeleteProject(int projectID);
             void UpdateProject(Project project);
             void Save();
         }
-    }
 }

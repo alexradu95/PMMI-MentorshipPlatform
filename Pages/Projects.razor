@@ -17,14 +17,14 @@ else
                 @foreach (Siemens.MP.Entities.Project project in projects)
                 {
                     <li class="list-group-item">
-                        <button class="btn btn-primary" @onclick="ChangeTheProjectID">@project.Title</button>
+                        <button class="btn btn-primary" @onclick="@(() => ChangeTheProjectID(project.Id))">@project.Title</button>
                         <span class="issue-link-summary">@project.Description</span>
                     </li>
                 }
             </ol>
         </div>
         <div class="project-second-column">
-                @*<Siemens.MP.Pages.Components.ProjectTasks @bind-IdProject="ProjectID" ></Siemens.MP.Pages.Components.ProjectTasks>*@
+                <Siemens.MP.Pages.Components.ProjectTasks @bind-IdProject="ProjectID" ></Siemens.MP.Pages.Components.ProjectTasks>
         </div>
     </div>
 }
@@ -41,8 +41,9 @@ else
     {
         projects = await ProjectRepository.GetProjectsAsync();
     }
-    private void ChangeTheProjectID()
+    private void ChangeTheProjectID(int projectID)
     {
+        ProjectID = projectID;
     }
 
     [Parameter]
