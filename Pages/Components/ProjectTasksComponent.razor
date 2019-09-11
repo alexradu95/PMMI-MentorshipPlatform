@@ -1,40 +1,48 @@
 ﻿@using Siemens.MP.Enums
 @inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Task> TaskRepository
 
-    <div class="row">
-        @if (IdProject == 1)
-        {
-            @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.TO_DO)
-                {
-                    <div class="col-sm">
 
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">@task.Name</h5>
-                                <p class="card-text">@task.Description</p>
-                                <p class="card-text">@task.Deadline</p>
-                            </div>
-                        </div>
-                    </div>
-                }
-        }
-        @if (IdProject == 2)
-        {
-            @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.DONE)
-                {
-                    <div class="col-sm">
-
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">@task.Name</h5>
-                                <p class="card-text">@task.Description</p>
-                                <p class="card-text">@task.Deadline</p>
-                            </div>
-                        </div>
-                    </div>
-                }
-        }
-    </div>
+<div class="row">
+    @if (IdProject == 1)
+    {
+        <div class="taskcolumn">
+            <div class="taskcard">
+                <h4>To do tasks</h4>
+                @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.TO_DO)
+                    {
+                        <span class="badge badge-primary badge-pill list-group-item-success">@task.Name</span><br />
+                    }
+            </div>
+        </div>
+        <div class="taskcolumn">
+            <div class="taskcard">
+                <h4>Ongoing tasks</h4>
+                @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.ONGOING)
+                    {
+                        <span class="badge badge-primary badge-pill list-group-item-info">@task.Name</span><br />
+                    }
+            </div>
+        </div>
+        <div class="taskcolumn">
+            <div class="taskcard">
+                <h4>On review tasks</h4>
+                @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.CODE_REVIEW)
+                    {
+                         <span class="badge badge-primary badge-pill list-group-item-warning">@task.Name</span><br />
+                    }
+            </div>
+        </div>
+        <div class="taskcolumn">
+            <div class="taskcard">
+                <h4>Done tasks</h4>
+                @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.DONE)
+                    {
+                        <span class="badge badge-primary badge-pill list-group-item-success">@task.Name</span><br />
+                    }
+            </div>
+        </div>
+    }
+</div>
 
 @code {
     private IList<Siemens.MP.Entities.Task> tasks = new List<Siemens.MP.Entities.Task>();
