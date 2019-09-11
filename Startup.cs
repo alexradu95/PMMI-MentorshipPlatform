@@ -71,12 +71,12 @@ namespace Siemens.MP
             var poweruser = new IdentityUser
             {
 
-                UserName = "admin1@gmail.com",
-                Email = "admin1@gmail.com"
+                UserName = "admin@gmail.com",
+                Email = "admin@gmail.com"
             };
             //Ensure you have these values in your appsettings.json file
             string userPWD = "1q2w3e4rT!";
-            var _user = await UserManager.FindByEmailAsync("admin1@gmail.com");
+            var _user = await UserManager.FindByEmailAsync("admin@gmail.com");
         
             if (_user == null)
             {
