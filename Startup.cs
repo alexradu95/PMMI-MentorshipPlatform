@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Identity.UI.V3.Pages.Account.Internal;
 using System.Configuration;
 using Microsoft.AspNetCore.Components.Authorization;
 using Siemens.MP.Enums;
+using Siemens.MP.Data.Repositories;
 
 namespace Siemens.MP
 {
@@ -40,9 +41,9 @@ namespace Siemens.MP
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-            services.AddScoped<TaskRepository>();
-            services.AddScoped<ProjectRepository>();
-            
+            services.AddScoped<GenericRepository<Project>>();
+            services.AddScoped<GenericRepository<Siemens.MP.Entities.Task>>();
+
 
 
 

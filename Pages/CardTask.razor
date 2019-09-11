@@ -1,4 +1,4 @@
-﻿@inject Siemens.MP.Data.TaskRepository TaskRepository
+﻿@inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Task> TaskRepository
 <div class="card" id="profile" style="margin-bottom:50px; margin-top:30px;">
 
     <div class="panel panel-default">
@@ -53,7 +53,7 @@
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
-        tasks = await TaskRepository.GetTasksAsync();
+        tasks = await TaskRepository.GetAll();
     }
     private IList<Siemens.MP.Entities.Task>
         filteredTasks => tasks.Where(i => i.Name.ToLower().Contains(searchTerm.ToLower())).ToList();

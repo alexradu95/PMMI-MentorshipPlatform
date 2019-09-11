@@ -1,8 +1,7 @@
 ﻿@using Siemens.MP.Enums
-@inject Siemens.MP.Data.TaskRepository TaskRepository
+@inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Task> TaskRepository
 
     <div class="row">
-        @NumberOfComponents = 0;
         @if (IdProject == 1)
         {
             @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.TO_DO)
@@ -42,7 +41,7 @@
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
-        tasks = await TaskRepository.GetTasksAsync();
+        tasks = await TaskRepository.GetAll();
     }
 
     [Parameter]
@@ -52,6 +51,6 @@
     [Parameter]
     public StateOfTask StateOfTask { get; set; }
 
-    private int NumberOfComponents;
+    private int NumberOfComponents = 0;
 
 }

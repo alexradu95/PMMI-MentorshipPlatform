@@ -1,4 +1,5 @@
-﻿@inject Siemens.MP.Data.ProjectRepository ProjectRepository
+﻿@using Siemens.MP.Entities
+@inject Siemens.MP.Data.Repositories.GenericRepository<Project> ProjectRepository
 
 <div class="card" id="profile" style="margin-bottom:50px;">
 
@@ -27,12 +28,12 @@
 
 </div>
 @code {
-    private IList<Siemens.MP.Entities.Project> projects;
+    private List<Siemens.MP.Entities.Project> projects;
     private string searchTerm { get; set; } = "";
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
-        projects = await ProjectRepository.GetProjectsAsync();
+        projects = await ProjectRepository.GetAll();
     }
     private IList<Siemens.MP.Entities.Project> filteredProjects => projects.Where(i => i.Title.ToLower().Contains(searchTerm.ToLower())).ToList();
 
