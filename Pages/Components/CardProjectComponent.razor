@@ -17,12 +17,20 @@
 
     <hr style="margin-top:0px;margin-bottom:0px;">
     <ul class="list-group">
-        @foreach (var project in filteredProjects)
+        @if (filteredProjects.Count != 0)
         {
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="#">@project.Title</a>
-            </li>
+            @foreach (var project in filteredProjects)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="#">@project.Title</a>
+                </li>
+            }
+        } else
+        {
+            <div class=" list-group-item-danger align-self-center" style="padding:3px; margin:6px;">No results available.</div>
         }
+
+
     </ul>
 
 
