@@ -1,0 +1,41 @@
+﻿@page "/detailedtask"
+<body>
+    <div class="container" id="centerContainer">
+        <div class="float-left">
+            <h2>Project Title</h2>
+            <label><b>Task Description:</b></label>
+            <div class="card">
+                <textarea readonly style="width:700px;resize:none" rows="5">This is the detailed description of the current task that you have selected</textarea>
+            </div>
+            <div class="media border p-3">
+                <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                <div class="media-body">
+                    <h4>John Doe <small><i>Posted on February 19, 2016</i></small></h4>
+                    <p>Lorem ipsum...</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="comment"><b>Comment:</b></label>
+                <textarea style="resize:none" class="form-control" rows="7" id="comment"></textarea>
+                <button type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+    <div class="container" id="rightSideContainer">
+        <div class="float-right">
+            <ul class="list-group">
+                <li class="list-group-item">Assignee: </li>
+                <li class="list-group-item">Reporter: </li>
+                <li class="list-group-item">Status: <span class="badge badge-secondary">To_Do </span></li>
+                <li class="list-group-item">Priority: <span class="badge badge-danger">Urgent</span> </li>
+                <li class="list-group-item">Created Date :</li>
+                <li class="list-group-item">Due Date: </li>
+                <li class="list-group-item">Remaining Time: </li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+@code {
+
+}
