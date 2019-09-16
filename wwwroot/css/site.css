@@ -103,6 +103,10 @@ app {
     outline: 1px solid #26b050;
 }
 
+.navbar-nav{
+    overflow:inherit;
+}
+
 .invalid {
     outline: 1px solid red;
 }
@@ -215,16 +219,52 @@ app {
 }
 
 .project-first-column {
-    width: 25%;
+    width: 20%;
     float: left;
+    border-right:groove;
 }
 
 .project-second-column {
-    width: 60%;
+    text-align: center;
+    width: 80%;
     float: right;
     padding-left: 80px;
-
 }
 
 
 
+/* Float four columns side by side */
+.taskcolumn {
+    float: left;
+    width: 25%;
+    padding: 0 10px;
+}
+
+/* Remove extra left and right margins, due to padding */
+.row {
+    margin: 0 -5px;
+}
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+/* Responsive columns */
+@media screen and (max-width: 600px) {
+    .taskcolumn {
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
+    }
+}
+
+/* Style the counter cards */
+.taskcard {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: #f1f1f1;
+}
