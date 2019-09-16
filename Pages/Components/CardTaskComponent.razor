@@ -1,4 +1,11 @@
 ﻿@inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Task> TaskRepository
+
+@if (tasks == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
 <div class="card" id="profile" style="margin-bottom:50px; margin-top:30px;">
 
     <div class="panel panel-default">
@@ -45,7 +52,7 @@
 
 
 </div>
-
+}
 @code {
     private IList<Siemens.MP.Entities.Task>
     tasks;

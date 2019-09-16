@@ -209,6 +209,7 @@ app {
 .issue-link-key {
     display: block;
     font-size: 20px;
+    font-weight: bold;
 }
 
 .issue-link-summary {
@@ -218,10 +219,48 @@ app {
     text-overflow: ellipsis;
 }
 
+.issue-content-container {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    border: 1px solid #CCC;
+    box-shadow: 0 0 5px -1px rgba(0,0,0,0.2);
+    cursor: pointer;
+    vertical-align: middle;
+    padding: 5px;
+    width:100%;
+    
+}
+
+#projlist li {
+    background-color: transparent;
+    text-decoration: none;
+}
+
+    #projlist li:hover {
+        background-color: #ff8700;
+    }
+
+    #projlist li:focus {
+        background-color: red;
+    }
+
+    #projlist li a {
+        display: block;
+    }
+
+        #projlist li a:target {
+            background-color: aqua;
+        }
+
+
 .project-first-column {
     width: 20%;
     float: left;
-    border-right:groove;
+    border-right: groove;
+    height: 650px;
+    overflow: scroll;
 }
 
 .project-second-column {
@@ -232,7 +271,24 @@ app {
 }
 
 
+.liproject a {
+    color: #d7d7d7;
+    border-radius: 4px;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    line-height: 3rem;
+}
 
+    .liproject a.active {
+        background-color: rgba(255,255,255,0.25);
+        color: white;
+    }
+
+    .liproject a:hover {
+        background-color: rgba(255,255,255,0.1);
+        color: white;
+    }
 /* Float four columns side by side */
 .taskcolumn {
     float: left;
@@ -267,4 +323,8 @@ app {
     padding: 16px;
     text-align: center;
     background-color: #f1f1f1;
+}
+
+.taskinfo {
+    font-size: 15px;
 }

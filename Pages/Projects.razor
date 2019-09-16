@@ -13,19 +13,21 @@ else
     <div class="modal-body row">
         <div class="project-first-column">
             <h3>Projects</h3>
-            <ol class="list-group list-group-flush">
+            <ul id="projlist" class="projects list-group list-group-flush">
                 @foreach (Siemens.MP.Entities.Project project in projects)
                 {
-                    <li class="list-group-item">
-                        <button class="btn btn-primary" @onclick="@(() => ChangeTheProjectID(project.Id))">@project.Title</button>
-                        <span class="issue-link-summary">@project.Description</span>
-                    </li>
+                        <li title="@project.Description" class="liproject">
+                                <div class="issue-content-container" @onclick="@(() => ChangeTheProjectID(project.Id))">
+                                    <span class="issue-link-key">@project.Title</span>
+                                    <span class="issue-link-summary">@project.Description</span>
+                                </div>
+                        </li>
                 }
-            </ol>
+            </ul>
         </div>
         <div class="project-second-column">
-            <Siemens.MP.Pages.Components.DetailedProjectComponent></Siemens.MP.Pages.Components.DetailedProjectComponent>
-            <Siemens.MP.Pages.Components.ProjectTasksComponent @bind-IdProject="ProjectID" ></Siemens.MP.Pages.Components.ProjectTasksComponent>
+            <Siemens.MP.Pages.Components.DetailedProjectComponent @bind-IdProject="ProjectID"></Siemens.MP.Pages.Components.DetailedProjectComponent>
+            <Siemens.MP.Pages.Components.ProjectTasksComponent @bind-IdProject="ProjectID"></Siemens.MP.Pages.Components.ProjectTasksComponent>
         </div>
     </div>
 }
