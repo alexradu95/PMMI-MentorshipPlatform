@@ -1,0 +1,9 @@
+﻿
+/*Textul ramane in div*/
+.toronto-content {
+    white-space: normal;
+    overflow:overlay;
+}
+.article{
+padding:10px;
+}
