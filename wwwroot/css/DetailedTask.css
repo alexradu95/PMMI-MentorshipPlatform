@@ -1,40 +1,40 @@
 ﻿.right-side-container{
-    margin-right:90px;
-    margin-top:85px;
+   
+    margin-top:10px;
     margin-bottom:60px
 }
 .upper-container{
-    margin-top:40px;
+    margin-top:20px;
 }
 .comment-section{
     padding-top:20px;
-    margin-top:60px;
+    margin-top:40px;
 }
 h2{
-    color:slateblue;
+    color:black;
     font-family:'Times New Roman', Times, serif;
     font-size:50px;
     margin-left:50px;
 }
 label{
-    color:turquoise;
+    color:black;
 }
 .border-style {
     resize: none;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    border: 2px solid #4CAF50;
+    border: 2px solid black;
     border-radius:1%;
     
 }
 .button1 {
     background-color: white;
     color: black;
-    border: 2px solid #4CAF50;
+    border: 2px solid black;
     
 }
 
     .button1:hover {
-        background-color: #4CAF50;
+        background-color: black;
         color: white;
     }
 
@@ -44,5 +44,8 @@ media{
 .comment-text{
     width:500px;
     resize:none;
+}
+.size-of-details{
+    width:auto;
 }
 

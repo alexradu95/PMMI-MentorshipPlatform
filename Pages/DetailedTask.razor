@@ -25,20 +25,21 @@
         </div>
     </div>
     <div class="container  ">
-        <div class="float-right right-side-container">
-            <ul class="list-group">
-                <li class="list-group-item border-style">Assignee: </li>
-                <li class="list-group-item  border-style">Reporter: </li>
-                <li class="list-group-item  border-style">Status: <span class="badge badge-secondary">To_Do </span></li>
-                <li class="list-group-item  border-style">Priority: <span class="badge badge-danger">Urgent</span> </li>
-                <li class="list-group-item  border-style">Created Date :</li>
-                <li class="list-group-item  border-style">Due Date: </li>
-                <li class="list-group-item  border-style">Remaining Time: </li>
+        <div class="float-right right-side-container ">
+            <ul class="list-group ">
+                <li  class="list-group-item py-4 border-style size-of-details">Assignee: <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:40px;" /> John Doe </li>
+                <li class="list-group-item py-4 border-style size-of-details">Reporter: <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:40px;"/> Alt John Doe..</li>
+                <li class="list-group-item py-4 border-style size-of-details">Status: <span class="badge badge-secondary">To_Do </span></li>
+                <li class="list-group-item py-4 border-style size-of-details">Priority: <span class="badge badge-danger">Urgent</span> </li>
+                <li class="list-group-item py-4 border-style size-of-details">Created Date : @date1</li>
+                <li class="list-group-item py-4 border-style size-of-details">Due Date: @date2 </li>
+                <li class="list-group-item py-4 border-style size-of-details">Remaining Time:  </li>
             </ul>
         </div>
     </div>
 
 </body>
 @code {
-
+    public  DateTime date1 = DateTime.Now;
+    public  DateTime date2 = DateTime.Now.AddDays(1);   
 }
