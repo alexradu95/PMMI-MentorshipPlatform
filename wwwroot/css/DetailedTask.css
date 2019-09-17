@@ -1,20 +1,22 @@
 ﻿.right-side-container{
    
     margin-top:10px;
-    margin-bottom:60px
+    margin-bottom:60px;
+    width:40%;
 }
 .upper-container{
     margin-top:20px;
+    width:60%;
+    margin-right:700px;
 }
 .comment-section{
-    padding-top:20px;
-    margin-top:40px;
+    margin-top:20px;
 }
 h2{
     color:black;
     font-family:'Times New Roman', Times, serif;
     font-size:50px;
-    margin-left:50px;
+    margin-left:14px;
 }
 label{
     color:black;
@@ -30,6 +32,7 @@ label{
     background-color: white;
     color: black;
     border: 2px solid black;
+    margin-top:5px;
     
 }
 
@@ -41,11 +44,17 @@ label{
 media{
     height:150px;
 }
-.comment-text{
-    width:500px;
-    resize:none;
+.comment-text {
+    width: 500px;
+    resize: none;
 }
 .size-of-details{
     width:auto;
+    background-color:azure;
+    text-overflow:ellipsis;
+    
+}
+.commet-area{
+   margin-top:5px;
 }
 
