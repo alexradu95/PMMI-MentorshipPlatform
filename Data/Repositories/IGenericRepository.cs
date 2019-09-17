@@ -9,7 +9,7 @@ namespace Siemens.MP.Data.Repositories
     public interface IGenericRepository<T> where T: class
     {
         System.Threading.Tasks.Task<List<T>> GetAll();
-        T GetById(int id);
+        Task<T> GetAsync(int id);
         void Insert(T obj);
         void Delete(object id);
         void Update(T obj);

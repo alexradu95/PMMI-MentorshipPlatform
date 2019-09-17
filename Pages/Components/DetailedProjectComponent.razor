@@ -1,39 +1,57 @@
-﻿@if (IdProject == 1)
-{
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title" style="font-weight:bold">Project name</h5>
-            <p class="card-text">Project description lorem ipsum bla bla sal cf</p>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <span class="taskinfo badge badge-primary badge-pill list-group-item-danger">Name of the owner</span>
-            </li>
-            <li class="list-group-item">
-                <span class="taskinfo badge badge-primary badge-pill list-group-item-success">Marti intr-o joi</span>
-            </li>
-
-            <li class="list-group-item">
-                <h4>Students working on this project</h4>
-                <span class="taskinfo badge badge-primary badge-pill list-group-item-info">Marcelino</span>
-                <span class="taskinfo badge badge-primary badge-pill list-group-item-info">Iohannis</span>
-                <span class="taskinfo badge badge-primary badge-pill list-group-item-info">Base</span>
-                <span class="taskinfo badge badge-primary badge-pill list-group-item-info">Dancila</span>
-            </li>
-        </ul>
-    </div>
-}
-else if (IdProject == 0)
+﻿@using Siemens.MP.Entities
+@inject Siemens.MP.Data.Repositories.GenericRepository<Project> ProjectRepository
+@if (projects == null)
 {
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Please choose a project from the list to get detailed information about it.</h4>
         </div>
-    </div>   
+    </div>
+}
+else
+{
+    @foreach (Project project in projects) if (project.Id == IdProject)
+        {
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" style="font-weight:bold">@project.Title</h5>
+                    <p class="card-text">@project.Description</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <span class="taskinfo badge badge-primary badge-pill list-group-item-danger">Name of the owner</span>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="taskinfo badge badge-primary badge-pill list-group-item-success">Marti intr-o joi</span>
+                    </li>
+
+                    <li class="list-group-item">
+                        <h4>Students working on this project</h4>
+                        <span class="taskinfo badge badge-primary badge-pill list-group-item-info">Marcelino</span>
+                        <span class="taskinfo badge badge-primary badge-pill list-group-item-info">Iohannis</span>
+                        <span class="taskinfo badge badge-primary badge-pill list-group-item-info">Base</span>
+                        <span class="taskinfo badge badge-primary badge-pill list-group-item-info">Dancila</span>
+                    </li>
+                </ul>
+            </div>
+        }
 }
 @code {
     [Parameter]
-    public int IdProject { get; set ; }
+    public int IdProject { get; set; }
     [Parameter]
     public EventCallback<int> IdProjectChanged { get; set; }
+
+    //private Project project = new Project();
+
+    //protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    //{
+    //    project = await ProjectRepository.GetAsync(IdProject);
+    //}
+    private IList<Siemens.MP.Entities.Project> projects;
+
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        projects = await ProjectRepository.GetAll();
+    }
 }

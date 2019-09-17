@@ -16,12 +16,12 @@ else
             <ul id="projlist" class="projects list-group list-group-flush">
                 @foreach (Siemens.MP.Entities.Project project in projects)
                 {
-                        <li title="@project.Description" class="liproject">
-                                <div class="issue-content-container" @onclick="@(() => ChangeTheProjectID(project.Id))">
-                                    <span class="issue-link-key">@project.Title</span>
-                                    <span class="issue-link-summary">@project.Description</span>
-                                </div>
-                        </li>
+                    <li title="@project.Description" class="liproject">
+                        <div class="issue-content-container" @onclick="@(() => ChangeTheProjectID(project.Id))">
+                            <span class="issue-link-key">@project.Title</span>
+                            <span class="issue-link-summary">@project.Description</span>
+                        </div>
+                    </li>
                 }
             </ul>
         </div>
