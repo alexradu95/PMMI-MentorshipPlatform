@@ -1,36 +1,39 @@
 ﻿@page "/detailedtask"
+<link rel="stylesheet" href="/css/DetailedTask.css">
 <body>
-    <div class="container" id="centerContainer">
+    <h2><i>Task Title</i></h2>
+    <div class="container upper-container">
         <div class="float-left">
-            <h2>Project Title</h2>
-            <label><b>Task Description:</b></label>
+            <label><b><i>Task Description:</i></b></label>
             <div class="card">
-                <textarea readonly style="width:700px;resize:none" rows="5">This is the detailed description of the current task that you have selected</textarea>
+                <textarea readonly style="width:700px" class="border-style" rows="5">This is the detailed description of the current task that you have selected</textarea>
             </div>
-            <div class="media border p-3">
-                <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
-                <div class="media-body">
-                    <h4>John Doe <small><i>Posted on February 19, 2016</i></small></h4>
-                    <p>Lorem ipsum...</p>
+            <div class="form-group comment-section">
+                <label><b><i>Comment Section: </i></b></label>
+                <div class="media  border-style p-3 ">
+                    <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                    <div class="media-body">
+                        <h4>John Doe <small><i>Posted on February 19, 2016</i></small></h4>
+                        <textarea readonly rows="5" class="comment-text form-control">Lorem ipsum..Lorem ipsum...Lorem ipsum...Lorem ipsum...Lorem ipsum...Lorem ipsum...Lorem ipsum...Lorem ipsum...Lorem ipsum...Lorem ipsum...Lorem ipsum...Lorem ipsum...Lorem ipsum...Lorem ipsum...Lorem ipsum...Lorem ipsum...Lorem ipsum...Lorem ipsum...Lorem ipsum...Lorem ipsum....</textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="comment"><b>Comment:</b></label>
-                <textarea style="resize:none" class="form-control" rows="7" id="comment"></textarea>
-                <button type="button" class="btn btn-primary">Submit</button>
+                <div class="form-group ">
+                    <textarea style="height:90px" class="form-control border-style" rows="7" id="comment"></textarea>
+                    <button type="button" class="btn btn-primary button1">Submit</button>
+                </div>
             </div>
         </div>
     </div>
-    <div class="container" id="rightSideContainer">
-        <div class="float-right">
+    <div class="container  ">
+        <div class="float-right right-side-container">
             <ul class="list-group">
-                <li class="list-group-item">Assignee: </li>
-                <li class="list-group-item">Reporter: </li>
-                <li class="list-group-item">Status: <span class="badge badge-secondary">To_Do </span></li>
-                <li class="list-group-item">Priority: <span class="badge badge-danger">Urgent</span> </li>
-                <li class="list-group-item">Created Date :</li>
-                <li class="list-group-item">Due Date: </li>
-                <li class="list-group-item">Remaining Time: </li>
+                <li class="list-group-item border-style">Assignee: </li>
+                <li class="list-group-item  border-style">Reporter: </li>
+                <li class="list-group-item  border-style">Status: <span class="badge badge-secondary">To_Do </span></li>
+                <li class="list-group-item  border-style">Priority: <span class="badge badge-danger">Urgent</span> </li>
+                <li class="list-group-item  border-style">Created Date :</li>
+                <li class="list-group-item  border-style">Due Date: </li>
+                <li class="list-group-item  border-style">Remaining Time: </li>
             </ul>
         </div>
     </div>

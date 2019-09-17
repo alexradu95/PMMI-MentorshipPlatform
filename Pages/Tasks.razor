@@ -25,7 +25,7 @@ else
             {
                 <tr>
                     <th>@task.Id</th>
-                    <td>@task.Name</td>
+                    <td><a href="/DetailedTask" class="card-link"> @task.Name</a></td>
                     <td>@task.Description</td>
                     <td>@task.Deadline</td>
                     <td>@task.State</td>
@@ -36,7 +36,7 @@ else
             <tr>
                 <td scope="row">#</td>
                 <td>
-                    <input placeholder="Task Name" @bind="taskName" />
+                     <input placeholder="Task Name" @bind="taskName" />
                 </td>
                 <td>
                     <input placeholder="Description" @bind="taskDescription" />
@@ -44,7 +44,7 @@ else
                 <td>
                     <input type="date" @bind="deadline" />
                 </td>
-                <td>
+                <td >
                     <select id="selectstatus" @bind="status">
                         <option value="" selected disabled hidden>Status of task</option>
                         <option value="todo">To do</option>

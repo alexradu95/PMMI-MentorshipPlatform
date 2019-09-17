@@ -1,0 +1,48 @@
+﻿.right-side-container{
+    margin-right:90px;
+    margin-top:85px;
+    margin-bottom:60px
+}
+.upper-container{
+    margin-top:40px;
+}
+.comment-section{
+    padding-top:20px;
+    margin-top:60px;
+}
+h2{
+    color:slateblue;
+    font-family:'Times New Roman', Times, serif;
+    font-size:50px;
+    margin-left:50px;
+}
+label{
+    color:turquoise;
+}
+.border-style {
+    resize: none;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    border: 2px solid #4CAF50;
+    border-radius:1%;
+    
+}
+.button1 {
+    background-color: white;
+    color: black;
+    border: 2px solid #4CAF50;
+    
+}
+
+    .button1:hover {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+media{
+    height:150px;
+}
+.comment-text{
+    width:500px;
+    resize:none;
+}
+
