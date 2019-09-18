@@ -23,6 +23,10 @@
     <Compile Remove="Data\Migrations\20190918103117_AddedInfoForProjectsAndTasks.Designer.cs" />
     <Compile Remove="Data\Migrations\20190918120354_addedconstrains.cs" />
     <Compile Remove="Data\Migrations\20190918120354_addedconstrains.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190918131345_abstractEntityFields.cs" />
+    <Compile Remove="Data\Migrations\20190918131345_abstractEntityFields.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190918133039_AbstractEntityFields.cs" />
+    <Compile Remove="Data\Migrations\20190918133039_AbstractEntityFields.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

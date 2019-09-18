@@ -2,6 +2,7 @@
 @using Siemens.MP.Entities
 @using Siemens.MP.Data
 @using Siemens.MP.Enums
+@using Microsoft.AspNetCore.Identity;
 @inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Task> TaskRepository
 @inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
 
@@ -70,7 +71,8 @@ else
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
-        tasks = await TaskRepository.GetAll();
+        List<Siemens.MP.Entities.Task> taskList = await TaskRepository.GetAll();
+        tasks = taskList;
     }
 
     private void AddTask()

@@ -3,10 +3,22 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Siemens.MP.Data.Migrations
 {
-    public partial class abstractEntityFields : Migration
+    public partial class AbstractEntity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Articles_AspNetUsers_UserId",
+                table: "Articles");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Articles_UserId",
+                table: "Articles");
+
+            migrationBuilder.DropColumn(
+                name: "UserId",
+                table: "Articles");
+
             migrationBuilder.AddColumn<DateTime>(
                 name: "CreatedAt",
                 table: "Tasks",
@@ -249,6 +261,25 @@ namespace Siemens.MP.Data.Migrations
             migrationBuilder.DropColumn(
                 name: "ModifiedById",
                 table: "Articles");
+
+            migrationBuilder.AddColumn<string>(
+                name: "UserId",
+                table: "Articles",
+                type: "nvarchar(450)",
+                nullable: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Articles_UserId",
+                table: "Articles",
+                column: "UserId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Articles_AspNetUsers_UserId",
+                table: "Articles",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
         }
     }
 }

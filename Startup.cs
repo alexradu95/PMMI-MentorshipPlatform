@@ -20,6 +20,7 @@ using System.Configuration;
 using Microsoft.AspNetCore.Components.Authorization;
 using Siemens.MP.Enums;
 using Siemens.MP.Data.Repositories;
+using Microsoft.AspNetCore.Http;
 
 namespace Siemens.MP
 {
@@ -44,7 +45,7 @@ namespace Siemens.MP
             services.AddScoped<GenericRepository<Project>>();
             services.AddScoped<GenericRepository<Siemens.MP.Entities.Task>>();
             services.AddScoped<GenericRepository<Siemens.MP.Entities.Article>>();
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 
 
