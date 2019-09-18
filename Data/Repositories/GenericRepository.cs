@@ -17,19 +17,20 @@ namespace Siemens.MP.Data.Repositories
             table = _context.Set<T>();
         }
 
-        public System.Threading.Tasks.Task<List<T>> GetAll()
+        public async System.Threading.Tasks.Task<List<T>> GetAll()
         {
             List<T> obj = new List<T>();
             using (var context = new ApplicationDbContext())
             {
                 obj = (from objs in table select objs).ToList();
             }
-            return System.Threading.Tasks.Task.FromResult(obj);
+            return await System.Threading.Tasks.Task.FromResult(obj);
         }
-        public T GetById(int id)
+        public virtual async Task<T> GetAsync(int id)
         {
-            return table.Find(id);
+            return await _context.Set<T>().FindAsync(id);
         }
+
         public void Insert(T obj)
         {
             table.Add(obj);

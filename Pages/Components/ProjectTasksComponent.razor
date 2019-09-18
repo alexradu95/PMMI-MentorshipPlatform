@@ -3,12 +3,10 @@
 
 
 <div class="row">
-    @if (IdProject == 1)
-    {
         <div class="taskcolumn">
             <div class="taskcard">
                 <h4>To do tasks</h4>
-                @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.TO_DO)
+                @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.TO_DO && task.ProjectId == IdProject)
                     {
                         <span class="taskinfo badge badge-primary badge-pill list-group-item-danger">@task.Name</span><br />
                     }
@@ -17,7 +15,7 @@
         <div class="taskcolumn">
             <div class="taskcard">
                 <h4>Ongoing tasks</h4>
-                @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.ONGOING)
+                @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.ONGOING && task.ProjectId == IdProject)
                     {
                         <span class="taskinfo badge badge-primary badge-pill list-group-item-info">@task.Name</span><br />
                     }
@@ -26,7 +24,7 @@
         <div class="taskcolumn">
             <div class="taskcard">
                 <h4>On review tasks</h4>
-                @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.CODE_REVIEW)
+                @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.CODE_REVIEW && task.ProjectId == IdProject)
                     {
                          <span class="taskinfo badge badge-primary badge-pill list-group-item-warning">@task.Name</span><br />
                     }
@@ -35,13 +33,12 @@
         <div class="taskcolumn">
             <div class="taskcard">
                 <h4>Done tasks</h4>
-                @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.DONE)
+                @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.DONE && task.ProjectId == IdProject)
                     {
                         <span class="taskinfo badge badge-primary badge-pill list-group-item-success">@task.Name</span><br />
                     }
             </div>
         </div>
-    }
 </div>
 
 @code {
@@ -58,7 +55,5 @@
     public EventCallback<int> IdProjectChanged { get; set; }
     [Parameter]
     public StateOfTask StateOfTask { get; set; }
-
-    private int NumberOfComponents = 0;
 
 }

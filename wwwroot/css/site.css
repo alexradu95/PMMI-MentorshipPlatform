@@ -239,18 +239,18 @@ app {
 }
 
     #projlist li:hover {
-        background-color: #ff8700;
+        background-color: #f1f1f1;
     }
 
     #projlist li:focus {
         background-color: red;
     }
 
-    #projlist li a {
+    #projlist li a{
         display: block;
     }
 
-        #projlist li a:target {
+        #projlist li a:active {
             background-color: aqua;
         }
 
@@ -271,7 +271,7 @@ app {
 }
 
 
-.liproject a {
+/*.liproject a {
     color: #d7d7d7;
     border-radius: 4px;
     height: 3rem;
@@ -288,7 +288,7 @@ app {
     .liproject a:hover {
         background-color: rgba(255,255,255,0.1);
         color: white;
-    }
+    }*/
 /* Float four columns side by side */
 .taskcolumn {
     float: left;

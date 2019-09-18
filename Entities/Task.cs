@@ -13,6 +13,7 @@ namespace Siemens.MP.Entities
         public string Description { get; set; }
         public DateTime Deadline { get; set; }
         public StateOfTask State { get; set; }
-        
+        public int? ProjectId { get; set; }
+        public virtual Project Project { get; set; }
     }
 }
