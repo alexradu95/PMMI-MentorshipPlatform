@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,7 +12,8 @@ namespace Siemens.MP.Entities
         public int Id { get; set; }
         public string Title { get; set; }
         public string Text { get; set; }
+        [ForeignKey("UserId")]
+        public virtual IdentityUser ApplicationUser { get; set; }
 
-        public Author Author { get; set; }
     }
 }

@@ -11,8 +11,12 @@
     <Compile Remove="Data\Migrations\20190829123222_AddTaskTable.Designer.cs" />
     <Compile Remove="Data\Migrations\20190910083221_AddedProject.cs" />
     <Compile Remove="Data\Migrations\20190910083221_AddedProject.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190917095653_RelationBetweenProjectAndTask.cs" />
+    <Compile Remove="Data\Migrations\20190917095653_RelationBetweenProjectAndTask.Designer.cs" />
     <Compile Remove="Data\Migrations\20190918090412_addedTwoMoreCollumnsInTaskEntity.cs" />
     <Compile Remove="Data\Migrations\20190918090412_addedTwoMoreCollumnsInTaskEntity.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190918103117_AddedInfoForProjectsAndTasks.cs" />
+    <Compile Remove="Data\Migrations\20190918103117_AddedInfoForProjectsAndTasks.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +28,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0-rc1-19462-10" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0-preview9.19421.4" />
   </ItemGroup>
 

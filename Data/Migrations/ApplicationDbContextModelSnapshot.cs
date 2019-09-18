@@ -226,35 +226,20 @@ namespace Siemens.MP.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AuthorId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Articles");
-                });
-
-            modelBuilder.Entity("Siemens.MP.Entities.Author", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("Siemens.MP.Entities.Project", b =>
@@ -264,8 +249,17 @@ namespace Siemens.MP.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("DeadLine")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DescriptionPreview")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdReporter")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -282,14 +276,29 @@ namespace Siemens.MP.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("Deadline")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DescriptionPreview")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdAsignee")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdReporter")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PriorityState")
+                        .HasColumnType("int");
 
                     b.Property<int?>("ProjectId")
                         .HasColumnType("int");
@@ -357,9 +366,9 @@ namespace Siemens.MP.Data.Migrations
 
             modelBuilder.Entity("Siemens.MP.Entities.Article", b =>
                 {
-                    b.HasOne("Siemens.MP.Entities.Author", "Author")
-                        .WithMany("Articles")
-                        .HasForeignKey("AuthorId");
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Siemens.MP.Entities.Task", b =>
