@@ -1,15 +1,15 @@
-﻿@page "/detailedtask/{taskName}/{taskDescription}/{taskState}/{taskDeadline}"
+﻿@page "/detailedtask/{taskId}"
 @inject NavigationManager navigationManager
 @using Microsoft.AspNetCore.WebUtilities
-@using Siemens.MP.Enums
+@inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Task> TaskRepository
 <link rel="stylesheet" href="/css/DetailedTask.css">
 <body>
-    <h2><i>@taskName</i></h2>
+    <h2><i>@task.Name</i></h2>
     <div class="container upper-container">
         <div class="float-left">
             <label><b><i>Task Description:</i></b></label>
             <div class="card">
-                <textarea readonly style="width:700px" class="border-style" rows="5">@taskDescription</textarea>
+                <textarea readonly style="width:700px" class="border-style" rows="5">@task.Description</textarea>
             </div>
             <div class="form-group comment-section">
                 <label><b><i>Comment Section: </i></b></label>
@@ -32,10 +32,10 @@
             <ul class="list-group ">
                 <li class="list-group-item py-4 border-style size-of-details">Assignee: <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-1 mt-1 rounded-circle" style="width:40px;" /> Baies Darius Incaunnume alfabetuefrumos </li>
                 <li class="list-group-item py-4 border-style size-of-details">Reporter: <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-1 mt-1 rounded-circle" style="width:40px;" /> Alban the big nosed one</li>
-                <li class="list-group-item py-4 border-style size-of-details">Status: <span class="badge badge-secondary">@taskState</span></li>
+                <li class="list-group-item py-4 border-style size-of-details">Status: <span class="badge badge-secondary">@task.State</span></li>
                 <li class="list-group-item py-4 border-style size-of-details">Priority: <span class="badge badge-danger">Urgent</span> </li>
-                <li class="list-group-item py-4 border-style size-of-details">Created Date : @date1</li>
-                <li class="list-group-item py-4 border-style size-of-details">Due Date: @taskDeadline </li>
+                <li class="list-group-item py-4 border-style size-of-details">Created Date : </li>
+                <li class="list-group-item py-4 border-style size-of-details">Due Date: @task.Deadline </li>
                 <li class="list-group-item py-4 border-style size-of-details">Remaining Time:  </li>
             </ul>
         </div>
@@ -43,39 +43,29 @@
 
 </body>
 @code {
-    public DateTime date1 = DateTime.Now;
-    public DateTime date2 = DateTime.Now.AddDays(1);
+
     [Parameter]
-    public string taskName { get; set; }
-    [Parameter]
-    public string taskDescription { get; set; }
-    [Parameter]
-    public string taskDeadline { get; set; }
-    [Parameter]
-    public string taskState { get; set; }
+    public string taskId { get; set; }
+
+    public int i = 1;
 
     protected override void OnInitialized()
     {
-        var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri); //you can use IURIHelper for older versions
+        var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri);
 
-        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("taskName", out var taskName))
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("taskId", out var taskId))
         {
-            var name = taskName.First();
-        }
-
-        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("taskDescription", out var taskDescription))
-        {
-            var desc = taskDescription.First();
-
-        }        
-        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("taskDeadline", out var taskDeadline))
-        {
-            var deadline = taskDeadline.First();
-        }        
-        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("taskState", out var taskState))
-        {
-            var state = taskState.First();
+            var name = taskId.First();
         }
     }
+    public IList<Siemens.MP.Entities.Task> tasksList;
+
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        tasksList = await TaskRepository.GetAll();
+    }
+
+    public Siemens.MP.Entities.Task
+       task => tasksList.FirstOrDefault(task => task.Id.ToString() == taskId);
 }
 

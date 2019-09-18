@@ -27,8 +27,7 @@ else
             {
                 <tr>
                     <th>@task.Id</th>
-                    <td><button class="btn btn-primary" @onclick="@(() => Navigate(task.Name,task.Description,task.Deadline,task.State
-                                                                    ))">@task.Name</button></td>
+                    <td><button class="btn btn-primary" @onclick="@(() => Navigate(task.Id))">@task.Name</button></td>
                     <td>@task.Description</td>
                     <td>@task.Deadline</td>
                     <td>@task.State</td>
@@ -87,9 +86,9 @@ else
         OnInitializedAsync();
         ResetFieldToDefault();
     }
-        public void Navigate(string name, string desc, DateTime deadline , StateOfTask state)
+    public void Navigate(int id)
     {
-        navigationManager.NavigateTo($"/detailedtask/{name}/{desc}/{state.ToString()}/{deadline.ToString().Replace(@"/",".")}");
+        navigationManager.NavigateTo($"/detailedtask/{id.ToString()}");
 
     }
 
