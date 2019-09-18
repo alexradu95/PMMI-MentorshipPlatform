@@ -9,6 +9,10 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20190829123222_AddTaskTable.cs" />
     <Compile Remove="Data\Migrations\20190829123222_AddTaskTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190829125907_TasksToDB.cs" />
+    <Compile Remove="Data\Migrations\20190829125907_TasksToDB.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190906112524_RemovedProjectIdfromTasks.cs" />
+    <Compile Remove="Data\Migrations\20190906112524_RemovedProjectIdfromTasks.Designer.cs" />
     <Compile Remove="Data\Migrations\20190910083221_AddedProject.cs" />
     <Compile Remove="Data\Migrations\20190910083221_AddedProject.Designer.cs" />
     <Compile Remove="Data\Migrations\20190917095653_RelationBetweenProjectAndTask.cs" />
@@ -17,6 +21,8 @@
     <Compile Remove="Data\Migrations\20190918090412_addedTwoMoreCollumnsInTaskEntity.Designer.cs" />
     <Compile Remove="Data\Migrations\20190918103117_AddedInfoForProjectsAndTasks.cs" />
     <Compile Remove="Data\Migrations\20190918103117_AddedInfoForProjectsAndTasks.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190918120354_addedconstrains.cs" />
+    <Compile Remove="Data\Migrations\20190918120354_addedconstrains.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
