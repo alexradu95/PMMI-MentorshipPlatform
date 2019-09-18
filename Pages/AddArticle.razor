@@ -1,0 +1,55 @@
+﻿@page "/addarticle"
+@using Microsoft.AspNetCore.Identity;
+@inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Article> ArticleRepository
+@inject NavigationManager nav
+
+<head>
+
+</head>
+<body>
+
+    <div class="container">
+        <h2>Add your article</h2>
+        <form>
+            <div class="form-group col-md-6">
+                <input class="form-control" id="inputEmail4" placeholder="Titlu" @bind="@Title" />
+            </div>
+            <div class="form-group">
+
+                <textarea class="form-control" rows="5" id="comment" @bind="@Description"></textarea>
+            </div>
+        </form>
+    </div>
+    <div class="align-self-end ml-auto">
+        <button type="button" class="btn btn-primary" @onclick="AddArticlee">Done</button>
+    </div>
+
+</body>
+
+
+
+
+
+@code {
+    private string Title;
+    private string Description;
+
+
+    private void AddArticlee()
+    {
+        Siemens.MP.Entities.Article newArticle = new Siemens.MP.Entities.Article
+        {
+            Title = Title,
+            Text = Description,
+            ApplicationUser = default
+        };
+        ArticleRepository.Insert(newArticle);
+
+        Title = string.Empty;
+        Description = string.Empty;
+        nav.NavigateTo("/knowledge");
+
+
+
+    }
+}

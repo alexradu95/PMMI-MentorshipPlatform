@@ -43,6 +43,7 @@ namespace Siemens.MP
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
             services.AddScoped<GenericRepository<Project>>();
             services.AddScoped<GenericRepository<Siemens.MP.Entities.Task>>();
+            services.AddScoped<GenericRepository<Siemens.MP.Entities.Article>>();
 
 
 
