@@ -60,32 +60,12 @@
             </div>
 
 
-            <!--html code for chart(week)-->
-            <div class="col col-lg-4">
-                <div class="card my-4">
-                    <div class="card-header">
-                        <div class="card-title">Line</div>
-                        <button id="0HLPS2LT5SOCD" type="button" class="btn" style="" _bl_4="">Redraw</button>
-                    </div>
-                    <div class="card-body">
-                        <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
-                            <div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-                                <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
-                            </div>
-                            <div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-                                <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
-                            </div>
-                        </div>
-                        <canvas id="0HLPS2LT5SOC7" class="chartjs-render-monitor" style="display: block; width: 654px; height: 327px;" width="654" height="327"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <Button Clicked="@(async () => await HandleRedraw())">Redraw</Button>
 
             <LineChart @ref="lineChart" TItem="double" />
 
 
+            <button id="0HLPT1HBT4CU7" type="button" class="btn btn-outline-light" style="font-size:40px">⇦</button>
+            <button id="0HLPT1HBT4CU7" type="button" class="btn btn-outline-light" style="font-size:40px; float:right">⇨</button>
 
         </div>
     </div>
@@ -110,16 +90,17 @@
 
     private DateTime now = DateTime.Now;
 
+
+
     LineChart<double> lineChart;
 
-       protected override  async Task OnAfterRenderAsync(bool firstRender)
-       {
-           await HandleRedraw();         
-       }
-
-    async Task HandleRedraw()
+    protected override  async Task OnAfterRenderAsync(bool firstRender)
     {
-        lineChart.Clear();
+        await HandleDraw();
+    }
+
+    async Task HandleDraw()
+    {
 
         lineChart.AddLabel( Labels );
 
@@ -132,24 +113,24 @@
     {
         return new LineChartDataset<double>
         {
-            Label = "# of randoms",
-            Data = RandomizeData(),
+            Label = "number of your done tasks",
+            Data = DataHardcode(),
             BackgroundColor = backgroundColors,
             BorderColor = borderColors,
             Fill = true,
-            PointRadius = 2,
+            PointRadius = 5,
             BorderDash = new List<int> { }
         };
     }
 
-    string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
-    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
-    List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+    string[] Labels = { "week 1", "week 2", "week 3", "week 4", "week 5", "week 6" };  //array --> list
+    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 93, 206, 212, 0.5f) };
+    List<string> borderColors = new List<string> { ChartColor.FromRgba( 50, 191, 195, 1 ) };
 
-    List<double> RandomizeData()
+
+    List<double> DataHardcode()
     {
-        var r = new Random( DateTime.Now.Millisecond );
-
-        return new List<double> { r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble() };
+        var listData = new List<double> { 0,1,3,1,4,5};
+        return listData;
     }
 }
