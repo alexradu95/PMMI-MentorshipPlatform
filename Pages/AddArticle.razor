@@ -7,21 +7,31 @@
 
 </head>
 <body>
+    <div class="modal-body row ">
 
-    <div class="container">
-        <h2>Add your article</h2>
-        <form>
-            <div class="form-group col-md-6">
-                <input class="form-control" id="inputEmail4" placeholder="Titlu" @bind="@Title" />
-            </div>
-            <div class="form-group">
+        <div class="container">
+            <h2>Add your article</h2>
+            <form>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Title</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1" @bind="@Title" />
+                </div>
 
-                <textarea class="form-control" rows="5" id="comment" @bind="@Description"></textarea>
-            </div>
-        </form>
-    </div>
-    <div class="align-self-end ml-auto">
-        <button type="button" class="btn btn-primary" @onclick="AddArticlee">Done</button>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Description</span>
+                    </div>
+                    <textarea class="form-control" aria-label="With textarea" rows="8" cols="100" @bind="@Description"></textarea>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="align-self-center ml-auto">
+            <button type="button" class="btn btn-primary" @onclick="AddArticlee">Done</button>
+        </div>
     </div>
 
 </body>

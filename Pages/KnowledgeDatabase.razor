@@ -32,11 +32,7 @@
                 <h4 class="mb-0">
                     <a class="text-dark">@article.Title</a>
                 </h4>
-                <AuthorizeView>
-                    <Authorized>
-                        <div class="mb-1 text-muted">@context.User.Identity.Name.Split('@').First()</div>
-                    </Authorized>
-                </AuthorizeView>
+                <div class="mb-1 text-muted">@article.CreatedBy.UserName.Split('@').First()</div>
                 <p class="mb-auto">@article.Text</p>
             </div>
         }
