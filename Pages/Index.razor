@@ -1,22 +1,155 @@
 ﻿@page "/"
 
 <h3>Hello, Full Name of Student</h3>
+<p></p>
 
-<div class="card" style="width: 18rem;">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-        <h5 class="card-title">Task-urile tale sunt:</h5>
-        <ul class="card-text">
-            <li>de facut: @x</li>
-            <li>in curs de desfasurare::</li>
-            <li>reizuirea codului:</li>
-            <li>facut:</li>
-        </ul>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+<head>
+    <link rel="stylesheet" href="/css/Index.css" />
+</head>
+
+<body>
+    <div class="card">
+        <h5 class="card-header">Task-uile actuale</h5>
+        <div class="card-body">
+            <div>
+                <h5 class="card-title" style="float:left">Grafic : @now.ToShortDateString().Replace('-', ' ')</h5>
+                <button id="0HLPS1QEUG99M" type="button" class="btn btn-outline-info" onclick="popoverFunction()" data-toggle="popover" data-content="Number of Tasks" data-placement="bottom"
+                        style="width:80px; height:30px; margin-bottom:0px; margin-left:17px">
+                    INFO
+                </button>
+                <button type="button" class="btn btn-link">Tasks</button>
+            </div>
+
+            <p></p>
+
+            <div>
+                <div>
+                    <p style="float:left; width:90px">To Do:</p>
+                    <div class="progress" style="margin:40px; height:25px" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="@nrToDo">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @firstWidth%; background-color:firebrick" aria-valuemin="0" aria-valuemax="100">@firstWidth%</div>
+                    </div>
+                </div>
+
+                <div>
+                    <p style="float:left; clear:both; width:90px">Ongoing:</p>
+                    <div class="progress" style="margin:40px; height:25px" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="@nrOngoing">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @secondWidth%; background-color:darkorange" aria-valuemin="0" aria-valuemax="100">@secondWidth%</div>
+                    </div>
+                </div>
+
+                <div>
+                    <p style="float:left; clear:both; width:90px">Code review:</p>
+                    <div class="progress" style="margin:40px; height:25px" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="@nrCodeReview">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @thirdWidth%; background-color:mediumpurple" aria-valuemin="0" aria-valuemax="100">@thirdWidth%</div>
+                    </div>
+                </div>
+
+                <div>
+                    <p style="float:left; clear:both; width:90px">Done:</p>
+                    <div class="progress" style="margin:40px; height:25px" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="@nrDone">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @fourthWidth%; background-color:lightseagreen" aria-valuemin="0" aria-valuemax="100">@fourthWidth%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                Ai <a href="#" class="alert-link">@numberOfUrgentTasks</a> task-uri urgente! <strong>Alert Link.</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+            <!--html code for chart(week)-->
+            <div class="col col-lg-4">
+                <div class="card my-4">
+                    <div class="card-header">
+                        <div class="card-title">Line</div>
+                        <button id="0HLPS2LT5SOCD" type="button" class="btn" style="" _bl_4="">Redraw</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+                            <div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+                            </div>
+                            <div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+                            </div>
+                        </div>
+                        <canvas id="0HLPS2LT5SOC7" class="chartjs-render-monitor" style="display: block; width: 654px; height: 327px;" width="654" height="327"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <Button Clicked="@(async () => await HandleRedraw())">Redraw</Button>
+
+            <LineChart @ref="lineChart" TItem="double" />
+
+
+
+        </div>
     </div>
-</div>
+</body>
+
+
 
 @code
 {
     private int x = 7;
+    private int firstWidth = 25;
+    private int secondWidth = 10;
+    private int thirdWidth = 83;
+    private int fourthWidth = 2;
+
+    private int numberOfUrgentTasks = 7;
+
+    private int nrToDo = 4;
+    private int nrOngoing = 8;
+    private int nrCodeReview = 5;
+    private int nrDone = 1;
+
+    private DateTime now = DateTime.Now;
+
+    LineChart<double> lineChart;
+
+       protected override  async Task OnAfterRenderAsync(bool firstRender)
+       {
+           await HandleRedraw();         
+       }
+
+    async Task HandleRedraw()
+    {
+        lineChart.Clear();
+
+        lineChart.AddLabel( Labels );
+
+        lineChart.AddDataSet( GetLineChartDataset() );
+
+        await lineChart.Update();
+    }
+
+    LineChartDataset<double> GetLineChartDataset()
+    {
+        return new LineChartDataset<double>
+        {
+            Label = "# of randoms",
+            Data = RandomizeData(),
+            BackgroundColor = backgroundColors,
+            BorderColor = borderColors,
+            Fill = true,
+            PointRadius = 2,
+            BorderDash = new List<int> { }
+        };
+    }
+
+    string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
+    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
+    List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+
+    List<double> RandomizeData()
+    {
+        var r = new Random( DateTime.Now.Millisecond );
+
+        return new List<double> { r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble() };
+    }
 }

@@ -27,7 +27,7 @@ namespace Siemens.MP.Data.Repositories
             List<T> obj = new List<T>();
             using (var context = new ApplicationDbContext())
             {
-                obj = (from objs in table select objs).ToList();
+                obj = (from objs in table select objs).Include(m => m.CreatedBy).Include(n => n.ModifiedBy).ToList();          
             }
             return await System.Threading.Tasks.Task.FromResult(obj);
         }

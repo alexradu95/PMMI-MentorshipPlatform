@@ -20,6 +20,9 @@ using System.Configuration;
 using Microsoft.AspNetCore.Components.Authorization;
 using Siemens.MP.Enums;
 using Siemens.MP.Data.Repositories;
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 using Microsoft.AspNetCore.Http;
 
 namespace Siemens.MP
@@ -46,7 +49,17 @@ namespace Siemens.MP
             services.AddScoped<GenericRepository<Siemens.MP.Entities.Task>>();
             services.AddScoped<GenericRepository<Siemens.MP.Entities.Article>>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-             services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
+
+
+            services.AddScoped<GenericRepository<Siemens.MP.Entities.Article>>();
+
+            services
+                .AddBlazorise(options =>
+                {
+                    options.ChangeTextOnKeyPress = true; // optional
+                })
+                .AddBootstrapProviders()
+                .AddFontAwesomeIcons();
 
         }
         private async System.Threading.Tasks.Task CreateRoles(IServiceProvider serviceProvider)

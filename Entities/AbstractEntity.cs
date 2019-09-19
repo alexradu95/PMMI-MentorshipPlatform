@@ -15,8 +15,8 @@ namespace Siemens.MP.Entities
         public string CreatedById { get; set; }
         public string ModifiedById { get; set; }
 
-        public IdentityUser CreatedBy { get; set; }
-        public IdentityUser ModifiedBy { get; set; }
+        public virtual IdentityUser CreatedBy { get; set; }
+        public virtual IdentityUser ModifiedBy { get; set; }
 
     }
 }
