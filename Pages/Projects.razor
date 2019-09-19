@@ -19,11 +19,60 @@ else
                     <li title="@project.Description" class="liproject">
                         <div class="issue-content-container" @onclick="@(() => ChangeTheProjectID(project.Id))">
                             <span class="issue-link-key">@project.Title</span>
-                            <span class="issue-link-summary">@project.Description</span>
+                            <span class="issue-link-summary">@project.DescriptionPreview</span>
                         </div>
                     </li>
                 }
             </ul>
+            <p>
+                <button class="btn btn-primary"
+                        @onclick="AddNewProject">
+                    Add New Project
+                </button>
+                @if (ShowPopup)
+                {
+                    <!-- This is the popup to create a project -->
+                    <div class="modal" tabindex="-1" style="display:block" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title">Add new Project</h3>
+                                    <!-- Button to close the popup -->
+                                    <button type="button" class="close"
+                                            @onclick="ClosePopup">
+                                        <span aria-hidden="true">X</span>
+                                    </button>
+                                </div>
+                                <!-- Form to add a new project -->
+                                <div class="modal-body">
+                                    <input class="form-control" type="text"
+                                           placeholder="Project Title"
+                                           @bind="project.Title" />
+
+                                    <input class="form-control" type="text"
+                                           placeholder="Project Description"
+                                           @bind="project.Description" />
+
+                                    <input class="form-control" type="text"
+                                           placeholder="Project Short Description"
+                                           @bind="project.DescriptionPreview" />
+
+                                    <input class="form-control" type="datetime"
+                                           placeholder="Project Deadline"
+                                           @bind="project.DeadLine" />
+
+                                    <br />
+                                    <!-- Button to save the project -->
+                                    <button class="btn btn-primary"
+                                            @onclick="SaveProject">
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </p>
         </div>
         <div class="project-second-column">
             <Siemens.MP.Pages.Components.DetailedProjectComponent @bind-IdProject="ProjectID"></Siemens.MP.Pages.Components.DetailedProjectComponent>
@@ -51,5 +100,37 @@ else
 
     [Parameter]
     public RenderFragment ChildContent { get; set; }
+
+    Project project = new Project();
+
+    bool ShowPopup = false;
+
+    void AddNewProject()
+    {
+        // Make new forecast
+        project = new Project();
+        // Set Id to 0 so we know it is a new record
+        project.Id = 0;
+        // Open the Popup
+        ShowPopup = true;
+    }
+
+    void ClosePopup()
+    {
+        // Close the Popup
+        ShowPopup = false;
+    }
+    private void SaveProject()
+    {
+        Project newProject = new Project
+        {
+            Title = project.Title,
+            Description = project.Description,
+            DescriptionPreview = project.DescriptionPreview,
+            DeadLine = project.DeadLine
+        };
+        ProjectRepository.Insert(newProject);
+        OnInitializedAsync();
+    }
 
 }
