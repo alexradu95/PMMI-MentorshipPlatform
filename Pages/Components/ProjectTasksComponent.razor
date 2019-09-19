@@ -1,44 +1,44 @@
 ﻿@using Siemens.MP.Enums
 @inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Task> TaskRepository
-
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
 
 <div class="row">
-        <div class="taskcolumn">
-            <div class="taskcard">
-                <h4>To do tasks</h4>
-                @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.TO_DO && task.ProjectId == IdProject)
-                    {
-                        <span class="taskinfo badge badge-primary badge-pill list-group-item-danger">@task.Name</span><br />
-                    }
-            </div>
+    <div class="taskcolumn">
+        <div class="taskcard">
+            <h4>To do tasks</h4>
+            @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.TO_DO && task.ProjectId == IdProject)
+                {
+                    <span class="taskinfo badge badge-primary badge-pill list-group-item-danger" @onclick="@(() => Navigate(task.Id))">@task.Name</span><br />
+                }
         </div>
-        <div class="taskcolumn">
-            <div class="taskcard">
-                <h4>Ongoing tasks</h4>
-                @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.ONGOING && task.ProjectId == IdProject)
-                    {
-                        <span class="taskinfo badge badge-primary badge-pill list-group-item-info">@task.Name</span><br />
-                    }
-            </div>
+    </div>
+    <div class="taskcolumn">
+        <div class="taskcard">
+            <h4>Ongoing tasks</h4>
+            @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.ONGOING && task.ProjectId == IdProject)
+                {
+                    <span class="taskinfo badge badge-primary badge-pill list-group-item-info" @onclick="@(() => Navigate(task.Id))">@task.Name</span><br />
+                }
         </div>
-        <div class="taskcolumn">
-            <div class="taskcard">
-                <h4>On review tasks</h4>
-                @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.CODE_REVIEW && task.ProjectId == IdProject)
-                    {
-                         <span class="taskinfo badge badge-primary badge-pill list-group-item-warning">@task.Name</span><br />
-                    }
-            </div>
+    </div>
+    <div class="taskcolumn">
+        <div class="taskcard">
+            <h4>On review tasks</h4>
+            @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.CODE_REVIEW && task.ProjectId == IdProject)
+                {
+                    <span class="taskinfo badge badge-primary badge-pill list-group-item-warning" @onclick="@(() => Navigate(task.Id))">@task.Name</span><br />
+                }
         </div>
-        <div class="taskcolumn">
-            <div class="taskcard">
-                <h4>Done tasks</h4>
-                @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.DONE && task.ProjectId == IdProject)
-                    {
-                        <span class="taskinfo badge badge-primary badge-pill list-group-item-success">@task.Name</span><br />
-                    }
-            </div>
+    </div>
+    <div class="taskcolumn">
+        <div class="taskcard">
+            <h4>Done tasks</h4>
+            @foreach (Siemens.MP.Entities.Task task in tasks) if (task.State == Enums.StateOfTask.DONE && task.ProjectId == IdProject)
+                {
+                    <span class="taskinfo badge badge-primary badge-pill list-group-item-success" @onclick="@(() => Navigate(task.Id))">@task.Name</span><br />
+                }
         </div>
+    </div>
 </div>
 
 @code {
@@ -47,6 +47,12 @@
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
         tasks = await TaskRepository.GetAll();
+    }
+
+    public void Navigate(int id)
+    {
+        navigationManager.NavigateTo($"/detailedtask/{id.ToString()}");
+
     }
 
     [Parameter]

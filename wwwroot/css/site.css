@@ -260,7 +260,7 @@ app {
     float: left;
     border-right: groove;
     height: 650px;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .project-second-column {
@@ -327,4 +327,5 @@ app {
 
 .taskinfo {
     font-size: 15px;
+    cursor: pointer;
 }

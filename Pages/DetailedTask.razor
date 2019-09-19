@@ -48,7 +48,7 @@
                 <li class="list-group-item py-4 border-style size-of-details">Priority: <span class="badge badge-danger">@task.PriorityState</span> </li>
                 <li class="list-group-item py-4 border-style size-of-details">Created Date: @task.CreatedAt</li>
                 <li class="list-group-item py-4 border-style size-of-details">Due Date: @task.Deadline </li>
-                <li class="list-group-item py-4 border-style size-of-details">Remaining Time:  </li>
+                <li class="list-group-item py-4 border-style size-of-details">Remaining Time: @NumberOfDaysRemaining days</li>
             </ul>
         </div>
     </div>
@@ -59,7 +59,8 @@
     [Parameter]
     public string taskId { get; set; }
     public StateOfTask status;
-
+    public TimeSpan difference;
+    public int NumberOfDaysRemaining;
 
     public int i = 1;
 
@@ -77,6 +78,8 @@
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
         tasksList = await TaskRepository.GetAll();
+        difference = task.Deadline - DateTime.Now;
+        NumberOfDaysRemaining = (int) difference.TotalDays;
     }
 
     public Siemens.MP.Entities.Task
