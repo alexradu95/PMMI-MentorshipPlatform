@@ -7,10 +7,10 @@ namespace Siemens.MP.Enums
 {
     public enum Categories
     {
+        ANOTHER_SUBJECT,
         C_SHARP,
         JAVA,
         PYTHON,
-        CPP,
-        ANOTHER_SUBJECT
+        CPP
     }
 }

@@ -7,42 +7,48 @@
 
 
 <link rel="stylesheet" href="/css/knowledge.css">
+@if (articles == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="modal-body row ">
 
-<div class="modal-body row ">
+        <div class="col-md-2 border-right border-dark toronto-content">
 
-    <div class="col-md-2 border-right border-dark toronto-content">
+            <h2>Categories</h2>
 
-        <h2>Categories</h2>
+            <ol class="list-group list-group-flush">
+                @for (int i = 0; i < 5; i++)
+                {
+                    <li class="list-group-item border-top ">
+                        <h5> <a href="#">Language C#</a></h5>
+                    </li>
+                }
+            </ol>
+        </div>
 
-        <ol class="list-group list-group-flush">
-            @for (int i = 0; i < 3; i++)
+
+        <div class="col-md-10">
+            @foreach (var article in articles)
             {
-                <li class="list-group-item border-top ">
-                    <h5> <a href="#">Language C#</a></h5>
-                </li>
-            }
-        </ol>
-    </div>
-
-
-    <div class="col-md-10">
-        @foreach (var article in articles)
-        {
             <div class="article">
                 <h4 class="mb-0">
                     <a class="text-dark">@article.Title</a>
                 </h4>
                 <div class="mb-1 text-muted">@article.CreatedBy.UserName.Split('@').First()</div>
                 <p class="mb-auto">@article.Text</p>
+                <p class="mb-auto">@article.ArticleCategory</p>
             </div>
-        }
-    </div>
+            }
+        </div>
 
-    <div class="align-self-end ml-auto">
-        <button type="button" class="btn btn-primary" onclick="location.href='addarticle'">Add article</button>
+        <div class="align-self-end ml-auto">
+            <button type="button" class="btn btn-primary" onclick="location.href='addarticle'">Add article</button>
+        </div>
     </div>
-</div>
-
+}
 
 @code {
     private List<Siemens.MP.Entities.Article> articles;

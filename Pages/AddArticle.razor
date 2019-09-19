@@ -1,11 +1,13 @@
 ﻿@page "/addarticle"
 @using Microsoft.AspNetCore.Identity;
+@using Siemens.MP.Enums;
 @inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Article> ArticleRepository
 @inject NavigationManager nav
 
 <head>
 
 </head>
+
 <body>
     <div class="modal-body row ">
 
@@ -19,6 +21,14 @@
                     <input type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1" @bind="@Title" />
                 </div>
 
+                <select @bind="selectedCategory" class="custom-select custom-select-sm">
+                    <option value="@Categories.ANOTHER_SUBJECT">@Categories.ANOTHER_SUBJECT</option>
+                    <option value="@Categories.C_SHARP">@Categories.C_SHARP</option>
+                    <option value="@Categories.JAVA">@Categories.JAVA</option>
+                    <option value="@Categories.PYTHON">@Categories.PYTHON</option>
+                    <option value="@Categories.CPP">@Categories.CPP</option>
+                </select>
+                
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Description</span>
@@ -43,6 +53,7 @@
 @code {
     private string Title;
     private string Description;
+    private Categories selectedCategory;
 
 
     private void AddArticlee()
@@ -50,7 +61,8 @@
         Siemens.MP.Entities.Article newArticle = new Siemens.MP.Entities.Article
         {
             Title = Title,
-            Text = Description
+            Text = Description,
+            ArticleCategory=selectedCategory
         };
         ArticleRepository.Insert(newArticle);
 
