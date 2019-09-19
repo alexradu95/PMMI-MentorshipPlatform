@@ -13,67 +13,92 @@
 }
 else
 {
-<table class='table' id="tasks">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th>Task Name</th>
-            <th>Description Preveiew</th>
-            <th>Deadline</th>
-            <th>Priority</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var task in tasks)
+    <table class='table' id="tasks">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th>Task Name</th>
+                <th>Description Preveiew</th>
+                <th>Deadline</th>
+                <th>Priority</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var task in tasks)
+            {
+                <tr>
+                    <th>@task.Id</th>
+                    <td><button class="btn btn-primary" @onclick="@(() => Navigate(task.Id))">@task.Name</button></td>
+                    <td>@task.DescriptionPreview</td>
+                    <td>@task.Deadline</td>
+                    <td>@task.PriorityState</td>
+                    <td>
+                        @task.State
+                    </td>
+                </tr>
+            }
+        </tbody>
+        </table>
+     <AuthorizeView Roles="ADMIN,MENTOR">
+    <p>
+        <button class="btn btn-primary"
+                @onclick="AddNewProject">
+            Add New Project
+        </button>
+        @if (ShowPopup)
         {
-            <tr>
-                <th>@task.Id</th>
-                <td><button class="btn btn-primary" @onclick="@(() => Navigate(task.Id))">@task.Name</button></td>
-                <td>@task.DescriptionPreview</td>
-                <td>@task.Deadline</td>
-                <td>@task.PriorityState</td>
-                <td>
-                    @task.State
-                </td>
-            </tr>
+            <!-- This is the popup to create a project -->
+            <div class="modal" tabindex="-1" style="display:block" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Add new Task</h3>
+                            <!-- Button to close the popup -->
+                            <button type="button" class="close"
+                                    @onclick="ClosePopup">
+                                <span aria-hidden="true">X</span>
+                            </button>
+                        </div>
+                        <!-- Form to add a new project -->
+                        <div class="modal-body">
+                            <input class="form-control" type="text"
+                                   placeholder="Task Title"
+                                   @bind="taskName" />
+
+                            <input class="form-control" type="text"
+                                   placeholder="Task Description"
+                                   @bind="taskDescription" />
+
+                            <input class="form-control" type="text"
+                                   placeholder="Task Short Description"
+                                   @bind="taskDescriptionPreview" />
+
+                            <input class="form-control" type="date"
+                                   placeholder="Task Deadline"
+                                   @bind="deadline" />
+
+                            <select @bind="priorityState">
+                                @foreach (Priority pS in Enum.GetValues(typeof(Priority)))
+                                {
+                                    <option value=@pS>@pS.ToString()</option>
+                                }
+                            </select>
+                            <br />
+                            <!-- Button to save the project -->
+                            <button class="btn btn-primary"
+                                    @onclick="AddTask">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-    <AuthorizeView Roles="ADMIN,MENTOR">
-        <tfoot>
-
-            <tr>
-                <td scope="row">#</td>
-                <td>
-                    <input placeholder="Task Name" @bind="taskName" />
-                </td>
-                <td>
-                    <input placeholder="Preview of description" @bind="taskDescriptionPreview" />
-                </td>
-                <td>
-                    <input type="date" @bind="deadline" />
-                </td>
-                <td>
-                    <select @bind="priorityState">
-                        @foreach (Priority pS in Enum.GetValues(typeof(Priority)))
-                        {
-                            <option value=@pS>@pS.ToString()</option>
-                        }
-                    </select>
-                </td>
-                <td></td>
-            </tr>
-        </tfoot>
-    </AuthorizeView>
-</table>
-
-<AuthorizeView Roles="ADMIN,MENTOR">
-    <div class="float-left">
-        <button class="float-md-none" @onclick="AddTask">Add</button>
-        <textarea placeholder="This is a task description" rows="3" style="resize:none;width:1000px" @bind="taskDescription"></textarea>
-    </div>
-</AuthorizeView>
+    </p>
+         </AuthorizeView>
 }
+
 @code {
 
     private string taskName;
@@ -83,6 +108,26 @@ else
     List<Siemens.MP.Entities.Task> tasks;
     private Priority priorityState;
     private string taskDescription;
+
+    bool ShowPopup = false;
+
+    Entities.Task task= new Entities.Task();
+
+    void AddNewProject()
+    {
+        // Make new forecast
+        task = new Entities.Task();
+        // Set Id to 0 so we know it is a new record
+        task.Id = 0;
+        // Open the Popup
+        ShowPopup = true;
+    }
+
+    void ClosePopup()
+    {
+        // Close the Popup
+        ShowPopup = false;
+    }
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
