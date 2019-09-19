@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Siemens.MP.Enums
 {
-    public enum Categories
+    public enum ArticleCategory
     {
         ANOTHER_SUBJECT,
         C_SHARP,

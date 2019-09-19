@@ -22,11 +22,11 @@
                 </div>
 
                 <select @bind="selectedCategory" class="custom-select custom-select-sm">
-                    <option value="@Categories.ANOTHER_SUBJECT">@Categories.ANOTHER_SUBJECT</option>
-                    <option value="@Categories.C_SHARP">@Categories.C_SHARP</option>
-                    <option value="@Categories.JAVA">@Categories.JAVA</option>
-                    <option value="@Categories.PYTHON">@Categories.PYTHON</option>
-                    <option value="@Categories.CPP">@Categories.CPP</option>
+                    <option value="@ArticleCategory.ANOTHER_SUBJECT">@ArticleCategory.ANOTHER_SUBJECT</option>
+                    <option value="@ArticleCategory.C_SHARP">@ArticleCategory.C_SHARP</option>
+                    <option value="@ArticleCategory.JAVA">@ArticleCategory.JAVA</option>
+                    <option value="@ArticleCategory.PYTHON">@ArticleCategory.PYTHON</option>
+                    <option value="@ArticleCategory.CPP">@ArticleCategory.CPP</option>
                 </select>
                 
                 <div class="input-group">
@@ -53,7 +53,7 @@
 @code {
     private string Title;
     private string Description;
-    private Categories selectedCategory;
+    private ArticleCategory selectedCategory;
 
 
     private void AddArticlee()

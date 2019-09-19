@@ -1,0 +1,27 @@
+﻿@using Siemens.MP.Enums
+@inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Article> ArticleRepository
+
+<div class="col-md-10">
+    @foreach (var article in articles) if (articleCategory == article.ArticleCategory)
+    {
+        <div class="article">
+            <h4 class="mb-0">
+                <a class="text-dark">@article.Title</a>
+            </h4>
+            <div class="mb-1 text-muted">@article.CreatedBy.UserName.Split('@').First()</div>
+            <p class="mb-auto">@article.Text</p>
+        </div>
+    }
+</div>
+
+@code {
+    private List<Siemens.MP.Entities.Article> articles;
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        articles = await ArticleRepository.GetAll();
+    }
+    [Parameter]
+    public ArticleCategory articleCategory { get; set; }
+    [Parameter]
+    public EventCallback<ArticleCategory> articleCategoryChanged { get; set; }
+}

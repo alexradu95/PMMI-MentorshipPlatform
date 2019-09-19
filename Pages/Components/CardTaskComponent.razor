@@ -1,4 +1,5 @@
 ﻿@inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Task> TaskRepository
+@inject NavigationManager navigationManager
 
 @if (tasks == null)
 {
@@ -6,58 +7,58 @@
 }
 else
 {
-<div class="card" id="profile" style="margin-bottom:50px; margin-top:30px;">
+    <div class="card" id="profile" style="margin-bottom:50px; margin-top:30px;">
 
-    <div class="panel panel-default">
-        <div class="panel-heading panelbackground">
-            <div class="panel-title pull-left titlecard">
-                Tasks
+        <div class="panel panel-default">
+            <div class="panel-heading panelbackground">
+                <div class="panel-title pull-left titlecard">
+                    Tasks
+                </div>
+                <div class="pull-right">
+                    <input type="text" class="myInput" @bind-value="@searchTerm" @bind-value:event="oninput" placeholder="Search for tasks.." />
+                </div>
+                <div class="clearfix"></div>
             </div>
-            <div class="pull-right">
-                <input type="text" class="myInput" @bind-value="@searchTerm" @bind-value:event="oninput" placeholder="Search for tasks.." />
-            </div>
-            <div class="clearfix"></div>
         </div>
-    </div>
 
-    <hr style="margin-top:0px;margin-bottom:0px;">
+        <hr style="margin-top:0px;margin-bottom:0px;">
 
 
-    <ul class="list-group">
-        @if (filteredTasks.Count != 0)
-        {
-            @foreach (var task in filteredTasks)
+        <ul class="list-group">
+            @if (filteredTasks.Count != 0)
             {
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <a href="#">@task.Name</a>
-                    @if (task.State == Enums.StateOfTask.TO_DO)
-                    {
-                        <span class="badge badge-primary badge-pill list-group-item-danger">@task.State</span>
-                    }
-                    else if (task.State == Enums.StateOfTask.DONE)
-                    {
-                        <span class="badge badge-primary badge-pill list-group-item-success">@task.State</span>
-                    }
-                    else if (task.State == Enums.StateOfTask.CODE_REVIEW)
-                    {
-                        <span class="badge badge-primary badge-pill list-group-item-light">@task.State</span>
-                    }
-                    else if (task.State == Enums.StateOfTask.ONGOING)
-                    {
-                        <span class="badge badge-primary badge-pill list-group-item-info">@task.State</span>
-                    }
-                </li>
+                @foreach (var task in filteredTasks)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <button class="btn btn-primary" @onclick="@(() => Navigate(task.Id))">@task.Name</button>
+                        @if (task.State == Enums.StateOfTask.TO_DO)
+                        {
+                            <span class="badge badge-primary badge-pill list-group-item-danger">@task.State</span>
+                        }
+                        else if (task.State == Enums.StateOfTask.DONE)
+                        {
+                            <span class="badge badge-primary badge-pill list-group-item-success">@task.State</span>
+                        }
+                        else if (task.State == Enums.StateOfTask.CODE_REVIEW)
+                        {
+                            <span class="badge badge-primary badge-pill list-group-item-light">@task.State</span>
+                        }
+                        else if (task.State == Enums.StateOfTask.ONGOING)
+                        {
+                            <span class="badge badge-primary badge-pill list-group-item-info">@task.State</span>
+                        }
+                    </li>
 
+                }
             }
-        }
-        else
-        {
-            <div class=" list-group-item-danger align-self-center" style="padding:3px; margin:6px;">No results available.</div>
-        }
-    </ul>
+            else
+            {
+                <div class=" list-group-item-danger align-self-center" style="padding:3px; margin:6px;">No results available.</div>
+            }
+        </ul>
 
 
-</div>
+    </div>
 }
 @code {
     private IList<Siemens.MP.Entities.Task>
@@ -70,5 +71,11 @@ else
     }
     private IList<Siemens.MP.Entities.Task>
         filteredTasks => tasks.Where(i => i.Name.ToLower().Contains(searchTerm.ToLower())).ToList();
+
+    public void Navigate(int id)
+    {
+        navigationManager.NavigateTo($"/detailedtask/{id.ToString()}");
+
+    }
 
 }
