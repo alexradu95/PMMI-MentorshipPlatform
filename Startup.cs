@@ -46,8 +46,7 @@ namespace Siemens.MP
             services.AddScoped<GenericRepository<Siemens.MP.Entities.Task>>();
             services.AddScoped<GenericRepository<Siemens.MP.Entities.Article>>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-
+             services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
 
         }
         private async System.Threading.Tasks.Task CreateRoles(IServiceProvider serviceProvider)

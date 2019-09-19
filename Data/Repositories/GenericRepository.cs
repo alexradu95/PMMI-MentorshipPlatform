@@ -36,11 +36,11 @@ namespace Siemens.MP.Data.Repositories
             return await _context.Set<T>().FindAsync(id);
         }
 
-        public void Insert(T obj)
-        {
-            beforeInsert(obj);
-            table.Add(obj);
-            Save();
+       public void Insert(T obj)
+       {
+           beforeInsert(obj);
+           table.Add(obj);
+           Save();
         }
 
         private void beforeInsert(T obj)

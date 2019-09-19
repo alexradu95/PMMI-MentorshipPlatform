@@ -13,66 +13,82 @@
 }
 else
 {
-    <table class='table' id="tasks">
-        <thead>
+<table class='table' id="tasks">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th>Task Name</th>
+            <th>Description Preveiew</th>
+            <th>Deadline</th>
+            <th>Priority</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var task in tasks)
+        {
             <tr>
-                <th scope="col">#</th>
-                <th>Task Name</th>
-                <th>Task Description</th>
-                <th>Deadline</th>
-                <th>Status</th>
+                <th>@task.Id</th>
+                <td><button class="btn btn-primary" @onclick="@(() => Navigate(task.Id))">@task.Name</button></td>
+                <td>@task.DescriptionPreview</td>
+                <td>@task.Deadline</td>
+                <td>@task.PriorityState</td>
+                <td>
+                    @task.State
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var task in tasks)
-            {
-                <tr>
-                    <th>@task.Id</th>
-                    <td><button class="btn btn-primary" @onclick="@(() => Navigate(task.Id))">@task.Name</button></td>
-                    <td>@task.Description</td>
-                    <td>@task.Deadline</td>
-                    <td>@task.State</td>
-                </tr>
-            }
-        </tbody>
+        }
+    </tbody>
+    <AuthorizeView Roles="ADMIN,MENTOR">
         <tfoot>
+
             <tr>
                 <td scope="row">#</td>
                 <td>
                     <input placeholder="Task Name" @bind="taskName" />
                 </td>
                 <td>
-                    <input placeholder="Description" @bind="taskDescription" />
+                    <input placeholder="Preview of description" @bind="taskDescriptionPreview" />
                 </td>
                 <td>
                     <input type="date" @bind="deadline" />
                 </td>
                 <td>
-                    <select id="selectstatus" @bind="status">
-                        <option value="" selected disabled hidden>Status of task</option>
-                        <option value="todo">To do</option>
-                        <option value="ongoing">Ongoing</option>
-                        <option value="finished">Finished</option>
+                    <select @bind="priorityState">
+                        @foreach (Priority pS in Enum.GetValues(typeof(Priority)))
+                        {
+                            <option value=@pS>@pS.ToString()</option>
+                        }
                     </select>
                 </td>
+                <td></td>
             </tr>
         </tfoot>
-    </table>
+    </AuthorizeView>
+</table>
 
-    <button @onclick="AddTask">Add</button>
+<AuthorizeView Roles="ADMIN,MENTOR">
+    <div class="float-left">
+        <button class="float-md-none" @onclick="AddTask">Add</button>
+        <textarea placeholder="This is a task description" rows="3" style="resize:none;width:1000px" @bind="taskDescription"></textarea>
+    </div>
+</AuthorizeView>
 }
 @code {
 
     private string taskName;
-    private string taskDescription;
+    private string taskDescriptionPreview;
     private DateTime deadline;
     private StateOfTask status;
     List<Siemens.MP.Entities.Task> tasks;
+    private Priority priorityState;
+    private string taskDescription;
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
         List<Siemens.MP.Entities.Task> taskList = await TaskRepository.GetAll();
         tasks = taskList;
+
     }
 
     private void AddTask()
@@ -80,9 +96,10 @@ else
         Siemens.MP.Entities.Task newTask = new Siemens.MP.Entities.Task
         {
             Name = taskName,
-            Description = taskDescription,
+            DescriptionPreview = taskDescriptionPreview,
             Deadline = deadline,
-            State = status
+            Description = taskDescription,
+            PriorityState = priorityState,
         };
         TaskRepository.Insert(newTask);
         OnInitializedAsync();
@@ -97,6 +114,7 @@ else
     private void ResetFieldToDefault()
     {
         taskName = string.Empty;
+        taskDescriptionPreview = string.Empty;
         taskDescription = string.Empty;
     }
 
