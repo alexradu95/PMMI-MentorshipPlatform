@@ -43,8 +43,8 @@ else
      <AuthorizeView Roles="ADMIN,MENTOR">
     <p>
         <button class="btn btn-primary"
-                @onclick="AddNewProject">
-            Add New Project
+                @onclick="AddNewTask">
+            Add New Task
         </button>
         @if (ShowPopup)
         {
@@ -113,7 +113,7 @@ else
 
     Entities.Task task= new Entities.Task();
 
-    void AddNewProject()
+    void AddNewTask()
     {
         // Make new forecast
         task = new Entities.Task();
@@ -149,6 +149,7 @@ else
         TaskRepository.Insert(newTask);
         OnInitializedAsync();
         ResetFieldToDefault();
+        ClosePopup();
     }
     public void Navigate(int id)
     {

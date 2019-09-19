@@ -107,7 +107,7 @@ else
 
     void AddNewProject()
     {
-        // Make new forecast
+        // Make new project
         project = new Project();
         // Set Id to 0 so we know it is a new record
         project.Id = 0;
@@ -131,6 +131,7 @@ else
         };
         ProjectRepository.Insert(newProject);
         OnInitializedAsync();
+        ClosePopup();
     }
 
 }
