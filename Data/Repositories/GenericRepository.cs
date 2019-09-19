@@ -1,18 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Siemens.MP.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Siemens.MP.Data.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : AbstractEntity
     {
         private readonly ApplicationDbContext _context = null;
         private readonly DbSet<T> table = null;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public GenericRepository(ApplicationDbContext _context)
+        public GenericRepository(ApplicationDbContext _context, IHttpContextAccessor httpContextAccessor)
         {
+            this._httpContextAccessor = httpContextAccessor;
             this._context = _context;
             table = _context.Set<T>();
         }
@@ -22,7 +27,7 @@ namespace Siemens.MP.Data.Repositories
             List<T> obj = new List<T>();
             using (var context = new ApplicationDbContext())
             {
-                obj = (from objs in table select objs).ToList();
+                obj = (from objs in table select objs).Include(m => m.CreatedBy).Include(n => n.ModifiedBy).ToList();          
             }
             return await System.Threading.Tasks.Task.FromResult(obj);
         }
@@ -33,9 +38,25 @@ namespace Siemens.MP.Data.Repositories
 
         public void Insert(T obj)
         {
+            beforeInsert(obj);
             table.Add(obj);
             Save();
         }
+
+        private void beforeInsert(T obj)
+        {
+            obj.CreatedById = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            obj.ModifiedById = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            obj.CreatedAt = DateTime.Now;
+            obj.ModifiedAt = DateTime.Now;
+        }
+
+        private void beforeUpdate(T obj)
+        {
+            obj.ModifiedById = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            obj.ModifiedAt = DateTime.Now;
+        }
+
         public void Delete(object id)
         {
             T obj = table.Find(id);
@@ -43,6 +64,7 @@ namespace Siemens.MP.Data.Repositories
         }
         public void Update(T obj)
         {
+            beforeUpdate(obj);
             table.Attach(obj);
             _context.Entry(obj).State = EntityState.Modified;
         }

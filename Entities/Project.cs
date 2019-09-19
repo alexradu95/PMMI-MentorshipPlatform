@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Siemens.MP.Entities
 {
-    public class Project
+    public class Project : AbstractEntity
     {
         public Project() {}
         public Project(string title, string description)
