@@ -48,6 +48,7 @@ namespace Siemens.MP
             services.AddScoped<GenericRepository<Project>>();
             services.AddScoped<GenericRepository<Siemens.MP.Entities.Task>>();
             services.AddScoped<GenericRepository<Siemens.MP.Entities.Article>>();
+            
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 

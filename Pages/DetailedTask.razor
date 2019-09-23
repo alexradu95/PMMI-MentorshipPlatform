@@ -32,18 +32,18 @@
     <div class="container">
         <div class="float-right right-side-container ">
             <ul class="list-group ">
-                <li class="list-group-item py-4 border-style size-of-details">Assignee: <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-1 mt-1 rounded-circle" style="width:40px;" /> </li>
+                <li class="list-group-item py-4 border-style size-of-details">Assignee: <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-1 mt-1 rounded-circle" style="width:40px;" /> @task.IdAsignee</li>
                 <li class="list-group-item py-4 border-style size-of-details">Reporter: <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-1 mt-1 rounded-circle" style="width:40px;" /> @task.CreatedBy</li>
                 <li class="list-group-item py-4 border-style size-of-details">
                     Status: <span class="badge badge-secondary">
-                        <select @bind="@task.State">
+                        <select @bind="@task.State" >
                             @foreach (StateOfTask taskState in Enum.GetValues(typeof(StateOfTask)))
                             {
                                 <option value=@taskState>@taskState.ToString()</option>
                             }
                         </select>
-                        <button @onclick="AddTask">Add</button>
                     </span>
+                    <button class="btn btn-primary" @onclick="UpdateDB">Update</button>
                 </li>
                 <li class="list-group-item py-4 border-style size-of-details">Priority: <span class="badge badge-danger">@task.PriorityState</span> </li>
                 <li class="list-group-item py-4 border-style size-of-details">Created Date: @task.CreatedAt</li>
@@ -58,10 +58,9 @@
 
     [Parameter]
     public string taskId { get; set; }
-    public StateOfTask status;
     public TimeSpan difference;
     public int NumberOfDaysRemaining;
-
+    public Siemens.MP.Entities.Task newTask = new Siemens.MP.Entities.Task();
     public int i = 1;
 
     protected override void OnInitialized()
@@ -78,21 +77,19 @@
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
         tasksList = await TaskRepository.GetAll();
-        difference = task.Deadline - DateTime.Now;
-        NumberOfDaysRemaining = (int) difference.TotalDays;
+        if (DateTime.Now < task.Deadline)
+        {
+            difference = task.Deadline - DateTime.Now;
+            NumberOfDaysRemaining = (int) difference.TotalDays;
+        }
+
     }
 
     public Siemens.MP.Entities.Task
        task => tasksList.FirstOrDefault(task => task.Id.ToString() == taskId);
-    private void AddTask()
+    private void UpdateDB()
     {
-        Siemens.MP.Entities.Task newTask = task;
-        {
-            status = task.State;
-
-        }
-
-
+        newTask = task;
         TaskRepository.Update(newTask);
     }
 

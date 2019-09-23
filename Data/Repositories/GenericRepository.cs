@@ -12,7 +12,7 @@ namespace Siemens.MP.Data.Repositories
     public class GenericRepository<T> : IGenericRepository<T> where T : AbstractEntity
     {
         private readonly ApplicationDbContext _context = null;
-        private readonly DbSet<T> table = null;
+        private readonly DbSet<T> table = null;  
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public GenericRepository(ApplicationDbContext _context, IHttpContextAccessor httpContextAccessor)
@@ -20,6 +20,8 @@ namespace Siemens.MP.Data.Repositories
             this._httpContextAccessor = httpContextAccessor;
             this._context = _context;
             table = _context.Set<T>();
+                
+                
         }
 
         public async System.Threading.Tasks.Task<List<T>> GetAll()
@@ -55,6 +57,8 @@ namespace Siemens.MP.Data.Repositories
         {
             obj.ModifiedById = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             obj.ModifiedAt = DateTime.Now;
+           
+            
         }
 
         public void Delete(object id)
@@ -65,8 +69,9 @@ namespace Siemens.MP.Data.Repositories
         public void Update(T obj)
         {
             beforeUpdate(obj);
-            table.Attach(obj);
+           table.Attach(obj);
             _context.Entry(obj).State = EntityState.Modified;
+            Save();
         }
         public void Save()
         {
