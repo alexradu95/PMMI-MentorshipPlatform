@@ -9,7 +9,11 @@
                 <a class="text-dark">@article.Title</a>
             </h4>
             <div class="mb-1 text-muted">@article.CreatedBy.UserName.Split('@').First()</div>
-            <p class="mb-auto">@article.Text</p>
+            <details>
+                <summary>Read more</summary>
+                <p class="mb-auto">@article.Text</p>
+            </details>
+            
         </div>
     }
 </div>

@@ -30,7 +30,7 @@ else
                 @foreach (var task in filteredTasks)
                 {
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <button class="btn btn-primary" @onclick="@(() => Navigate(task.Id))">@task.Name</button>
+                        <button class="buttontask" @onclick="@(() => Navigate(task.Id))">@task.Name</button>
                         @if (task.State == Enums.StateOfTask.TO_DO)
                         {
                             <span class="badge badge-primary badge-pill list-group-item-danger">@task.State</span>
