@@ -65,6 +65,7 @@ namespace Siemens.MP.Data.Repositories
         {
             T obj = table.Find(id);
             table.Remove(obj);
+            Save();
         }
         public void Update(T obj)
         {

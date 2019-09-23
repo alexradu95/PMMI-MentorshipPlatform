@@ -39,64 +39,64 @@ else
                 </tr>
             }
         </tbody>
-        </table>
-     <AuthorizeView Roles="ADMIN,MENTOR">
-    <p>
-        <button class="btn btn-primary"
-                @onclick="AddNewTask">
-            Add New Task
-        </button>
-        @if (ShowPopup)
-        {
-            <!-- This is the popup to create a project -->
-            <div class="modal" tabindex="-1" style="display:block" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 class="modal-title">Add new Task</h3>
-                            <!-- Button to close the popup -->
-                            <button type="button" class="close"
-                                    @onclick="ClosePopup">
-                                <span aria-hidden="true">X</span>
-                            </button>
-                        </div>
-                        <!-- Form to add a new project -->
-                        <div class="modal-body">
-                            <input class="form-control" type="text"
-                                   placeholder="Task Title"
-                                   @bind="taskName" />
+    </table>
+    <AuthorizeView Roles="ADMIN,MENTOR">
+        <p>
+            <button class="btn btn-primary"
+                    @onclick="AddNewTask">
+                Add New Task
+            </button>
+            @if (ShowPopup)
+            {
+                <!-- This is the popup to create a project -->
+                <div class="modal" tabindex="-1" style="display:block" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Add new Task</h3>
+                                <!-- Button to close the popup -->
+                                <button type="button" class="close"
+                                        @onclick="ClosePopup">
+                                    <span aria-hidden="true">X</span>
+                                </button>
+                            </div>
+                            <!-- Form to add a new project -->
+                            <div class="modal-body">
+                                <input class="form-control" type="text"
+                                       placeholder="Task Title"
+                                       @bind="taskName" />
 
-                            <input class="form-control" type="text"
-                                   placeholder="Task Description"
-                                   @bind="taskDescription" />
+                                <input class="form-control" type="text"
+                                       placeholder="Task Description"
+                                       @bind="taskDescription" />
 
-                            <input class="form-control" type="text"
-                                   placeholder="Task Short Description"
-                                   @bind="taskDescriptionPreview" />
+                                <input class="form-control" type="text"
+                                       placeholder="Task Short Description"
+                                       @bind="taskDescriptionPreview" />
 
-                            <input class="form-control" type="date"
-                                   placeholder="Task Deadline"
-                                   @bind="deadline" />
+                                <input class="form-control" type="date"
+                                       placeholder="Task Deadline"
+                                       @bind="deadline" />
 
-                            <select @bind="priorityState">
-                                @foreach (Priority pS in Enum.GetValues(typeof(Priority)))
-                                {
-                                    <option value=@pS>@pS.ToString()</option>
-                                }
-                            </select>
-                            <br />
-                            <!-- Button to save the project -->
-                            <button class="btn btn-primary"
-                                    @onclick="AddTask">
-                                Save
-                            </button>
+                                <select @bind="priorityState">
+                                    @foreach (Priority pS in Enum.GetValues(typeof(Priority)))
+                                    {
+                                        <option value=@pS>@pS.ToString()</option>
+                                    }
+                                </select>
+                                <br />
+                                <!-- Button to save the project -->
+                                <button class="btn btn-primary"
+                                        @onclick="AddTask">
+                                    Save
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        }
-    </p>
-         </AuthorizeView>
+            }
+        </p>
+    </AuthorizeView>
 }
 
 @code {
@@ -111,7 +111,7 @@ else
 
     bool ShowPopup = false;
 
-    Entities.Task task= new Entities.Task();
+    Entities.Task task = new Entities.Task();
 
     void AddNewTask()
     {

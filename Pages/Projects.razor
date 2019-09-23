@@ -27,57 +27,15 @@ else
             <AuthorizeView Roles="ADMIN,MENTOR">
                 <p>
                     <button class="btn btn-primary"
-                            @onclick="AddNewProject">
+                            @onclick="TriggerPopUp">
                         Add New Project
                     </button>
-                    @if (ShowPopup)
-                    {
-                        <!-- This is the popup to create a project -->
-                        <div class="modal" tabindex="-1" style="display:block" role="dialog">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h3 class="modal-title">Add new Project</h3>
-                                        <!-- Button to close the popup -->
-                                        <button type="button" class="close"
-                                                @onclick="ClosePopup">
-                                            <span aria-hidden="true">X</span>
-                                        </button>
-                                    </div>
-                                    <!-- Form to add a new project -->
-                                    <div class="modal-body">
-                                        <input class="form-control" type="text"
-                                               placeholder="Project Title"
-                                               @bind="project.Title" />
-
-                                        <input class="form-control" type="text"
-                                               placeholder="Project Description"
-                                               @bind="project.Description" />
-
-                                        <input class="form-control" type="text"
-                                               placeholder="Project Short Description"
-                                               @bind="project.DescriptionPreview" />
-
-                                        <input class="form-control" type="date"
-                                               placeholder="Project Deadline"
-                                               @bind="project.DeadLine" />
-
-                                        <br />
-                                        <!-- Button to save the project -->
-                                        <button class="btn btn-primary"
-                                                @onclick="SaveProject">
-                                            Save
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
+                    <Siemens.MP.Pages.Components.AddProjectComponent @bind-ShowPopup="ShowPopup"></Siemens.MP.Pages.Components.AddProjectComponent>
                 </p>
                 </AuthorizeView>
         </div>
         <div class="project-second-column">
-            <Siemens.MP.Pages.Components.DetailedProjectComponent @bind-IdProject="ProjectID"></Siemens.MP.Pages.Components.DetailedProjectComponent>
+            <Siemens.MP.Pages.Components.DetailedProjectComponent @bind-IdProject="ProjectID" @bind-edit="edit"></Siemens.MP.Pages.Components.DetailedProjectComponent>
             <Siemens.MP.Pages.Components.ProjectTasksComponent @bind-IdProject="ProjectID"></Siemens.MP.Pages.Components.ProjectTasksComponent>
         </div>
     </div>
@@ -91,49 +49,30 @@ else
     [Parameter]
     public int ProjectID { get; set; }
 
+    [Parameter]
+    public bool edit { get; set; }
+
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
         projects = await ProjectRepository.GetAll();
+        ShowPopup = false;
     }
     private void ChangeTheProjectID(int projectID)
     {
         ProjectID = projectID;
+        edit = false;
+        ShowPopup = false;
     }
 
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
-    Project project = new Project();
+    [Parameter]
+    public bool ShowPopup { get; set; }
 
-    bool ShowPopup = false;
-
-    void AddNewProject()
+    public void TriggerPopUp()
     {
-        // Make new project
-        project = new Project();
-        // Set Id to 0 so we know it is a new record
-        project.Id = 0;
-        // Open the Popup
         ShowPopup = true;
-    }
-
-    void ClosePopup()
-    {
-        // Close the Popup
-        ShowPopup = false;
-    }
-    private void SaveProject()
-    {
-        Project newProject = new Project
-        {
-            Title = project.Title,
-            Description = project.Description,
-            DescriptionPreview = project.DescriptionPreview,
-            DeadLine = project.DeadLine
-        };
-        ProjectRepository.Insert(newProject);
-        OnInitializedAsync();
-        ClosePopup();
     }
 
 }
