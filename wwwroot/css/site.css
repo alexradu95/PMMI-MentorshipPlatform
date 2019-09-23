@@ -103,8 +103,8 @@ app {
     outline: 1px solid #26b050;
 }
 
-.navbar-nav{
-    overflow:inherit;
+.navbar-nav {
+    overflow: inherit;
 }
 
 .invalid {
@@ -227,9 +227,8 @@ app {
     cursor: pointer;
     vertical-align: middle;
     padding: 5px;
-    width:100%;
-    height:14%;
-    
+    width: 100%;
+    height: 14%;
 }
 
 #projlist li {

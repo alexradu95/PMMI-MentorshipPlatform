@@ -21,7 +21,7 @@
                            placeholder="Project Title"
                            @bind="project.Title" />
 
-                    <input class="form-control" type="text"
+                    <input class="form-control" type="text" 
                            placeholder="Project Description"
                            @bind="project.Description" />
 
@@ -30,10 +30,10 @@
                            @bind="project.DescriptionPreview" />
 
                     <input class="form-control" type="date"
-                           placeholder="Project Deadline"
                            @bind="project.DeadLine" />
 
                     <br />
+                    <p style="color:red">@errorMessage</p>
                     <!-- Button to save the project -->
                     <button class="btn btn-primary"
                             @onclick="SaveProject">
@@ -47,6 +47,7 @@
 
 @code {
     private IList<Siemens.MP.Entities.Project> projects;
+
 
     [Parameter]
     public bool ShowPopup { get; set; }
@@ -63,26 +64,37 @@
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
         projects = await ProjectRepository.GetAll();
+        project.DeadLine = DateTime.Now.AddDays(1);
     }
 
     Project project = new Project();
 
+    public string errorMessage;
+
     void ClosePopup()
     {
-        // Close the Popup
         ShowPopup = false;
+        errorMessage = "";
     }
+
     private void SaveProject()
     {
-        Project newProject = new Project
+        if (project.Title != null && project.Description != null && project.DescriptionPreview != null && project.DeadLine > DateTime.Now)
         {
-            Title = project.Title,
-            Description = project.Description,
-            DescriptionPreview = project.DescriptionPreview,
-            DeadLine = project.DeadLine
-        };
-        ProjectRepository.Insert(newProject);
-        OnInitializedAsync();
-        ClosePopup();
+            Project newProject = new Project
+            {
+                Title = project.Title,
+                Description = project.Description,
+                DescriptionPreview = project.DescriptionPreview,
+                DeadLine = project.DeadLine
+            };
+            ProjectRepository.Insert(newProject);
+            ClosePopup();
+            base.StateHasChanged();
+        }
+        else
+        {
+            errorMessage = "Please insert Title, Descriptions and Deadline!";
+        }
     }
 }

@@ -1,8 +1,10 @@
 ﻿@page "/projects"
 @using Siemens.MP.Enums
 @using Siemens.MP.Entities
+@using System.Threading
 @inject Siemens.MP.Data.ApplicationDbContext DbContext
 @inject Siemens.MP.Data.Repositories.GenericRepository<Project> ProjectRepository
+<link rel="stylesheet" href="/css/DetailedTask.css">
 
 @if (projects == null)
 {
@@ -16,23 +18,29 @@ else
             <ul id="projlist" class="projects list-group list-group-flush">
                 @foreach (Siemens.MP.Entities.Project project in projects)
                 {
-                    <li title="@project.Description" class="liproject">
+                    <li class="list-group-item py-4 border-style size-of-details liproject" title="@project.DescriptionPreview">
                         <div class="issue-content-container" @onclick="@(() => ChangeTheProjectID(project.Id))">
-                            <span class="issue-link-key">@project.Title</span>
-                            <span class="issue-link-summary">@project.DescriptionPreview</span>
+                            <center>
+                                <span class="issue-link-key">@project.Title</span>
+                                <span class="issue-link-summary">@project.DescriptionPreview</span>
+                            </center>
                         </div>
                     </li>
                 }
-            </ul>
-            <AuthorizeView Roles="ADMIN,MENTOR">
-                <p>
-                    <button class="btn btn-primary"
-                            @onclick="TriggerPopUp">
-                        Add New Project
-                    </button>
-                    <Siemens.MP.Pages.Components.AddProjectComponent @bind-ShowPopup="ShowPopup"></Siemens.MP.Pages.Components.AddProjectComponent>
-                </p>
+                <AuthorizeView Roles="ADMIN,MENTOR">
+
+                    <li class="list-group-item py-4 border-style size-of-details liproject">
+                        <center>
+                            <button class="btn btn-primary"
+                                    @onclick="TriggerPopUp">
+                                Add New Project
+                            </button>
+                            <Siemens.MP.Pages.Components.AddProjectComponent @bind-ShowPopup="ShowPopup"></Siemens.MP.Pages.Components.AddProjectComponent>
+                        </center>
+                    </li>
+
                 </AuthorizeView>
+            </ul>
         </div>
         <div class="project-second-column">
             <Siemens.MP.Pages.Components.DetailedProjectComponent @bind-IdProject="ProjectID" @bind-edit="edit"></Siemens.MP.Pages.Components.DetailedProjectComponent>
@@ -57,11 +65,13 @@ else
         projects = await ProjectRepository.GetAll();
         ShowPopup = false;
     }
-    private void ChangeTheProjectID(int projectID)
+
+    private async System.Threading.Tasks.Task ChangeTheProjectID(int projectID)
     {
         ProjectID = projectID;
         edit = false;
         ShowPopup = false;
+        await OnInitializedAsync();
     }
 
     [Parameter]

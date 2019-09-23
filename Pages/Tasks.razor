@@ -138,18 +138,21 @@ else
 
     private void AddTask()
     {
-        Siemens.MP.Entities.Task newTask = new Siemens.MP.Entities.Task
+        if (taskName != "" && taskDescriptionPreview != "" && deadline > DateTime.Now && taskDescription != "" && priorityState != Priority.DEFAULT)
         {
-            Name = taskName,
-            DescriptionPreview = taskDescriptionPreview,
-            Deadline = deadline,
-            Description = taskDescription,
-            PriorityState = priorityState,
-        };
-        TaskRepository.Insert(newTask);
-        OnInitializedAsync();
-        ResetFieldToDefault();
-        ClosePopup();
+            Siemens.MP.Entities.Task newTask = new Siemens.MP.Entities.Task
+            {
+                Name = taskName,
+                DescriptionPreview = taskDescriptionPreview,
+                Deadline = deadline,
+                Description = taskDescription,
+                PriorityState = priorityState,
+            };
+            TaskRepository.Insert(newTask);
+            OnInitializedAsync();
+            ResetFieldToDefault();
+            ClosePopup();
+        }
     }
     public void Navigate(int id)
     {
