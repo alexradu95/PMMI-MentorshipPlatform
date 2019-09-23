@@ -79,7 +79,7 @@
     {
         tasksList = await TaskRepository.GetAll();
         difference = task.Deadline - DateTime.Now;
-        NumberOfDaysRemaining = (int) difference.TotalDays;
+        NumberOfDaysRemaining = (int)difference.TotalDays;
     }
 
     public Siemens.MP.Entities.Task

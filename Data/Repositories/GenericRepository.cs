@@ -61,12 +61,14 @@ namespace Siemens.MP.Data.Repositories
         {
             T obj = table.Find(id);
             table.Remove(obj);
+            Save();
         }
         public void Update(T obj)
         {
             beforeUpdate(obj);
             table.Attach(obj);
             _context.Entry(obj).State = EntityState.Modified;
+            Save();
         }
         public void Save()
         {
