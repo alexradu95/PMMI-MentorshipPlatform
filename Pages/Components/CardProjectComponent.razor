@@ -1,5 +1,7 @@
 ﻿@using Siemens.MP.Entities
 @inject Siemens.MP.Data.Repositories.GenericRepository<Project> ProjectRepository
+@inject NavigationManager navigationManager
+
 
 <div class="card" id="profile" style="margin-bottom:50px;">
 
@@ -22,10 +24,11 @@
             @foreach (var project in filteredProjects)
             {
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <a href="#">@project.Title</a>
+                    <button class="buttontask" onclick="location.href='projects'">@project.Title</button>
                 </li>
             }
-        } else
+        }
+        else
         {
             <div class=" list-group-item-danger align-self-center" style="padding:3px; margin:6px;">No results available.</div>
         }

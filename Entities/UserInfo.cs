@@ -1,0 +1,20 @@
+﻿using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Siemens.MP.Entities
+{
+    public class UserInfo : IdentityUser
+    {
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string City { get; set; }
+        public string University { get; set; }
+        public string Phone { get; set; }
+        public string Github { get; set; }
+        public string Facebook { get; set; }
+    }
+}
