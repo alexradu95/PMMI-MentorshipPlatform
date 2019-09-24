@@ -1,15 +1,17 @@
 ﻿@page "/"
 
+@using Siemens.MP.Entities
+@inject Siemens.MP.Data.Repositories.GenericRepository<Note> NoteRepository
+
 <h3>Hello, Full Name of Student</h3>
 <p></p>
 
 <head>
     <link rel="stylesheet" href="/css/Index.css" />
 </head>
-
 <body>
     <div class="card">
-        <h5 class="card-header">Task-uile actuale</h5>
+        <h5 class="card-header">Actual tasks</h5>
         <div class="card-body">
             <div>
                 <h5 class="card-title" style="float:left">Grafic : @now.ToShortDateString().Replace('-', ' ')</h5>
@@ -58,19 +60,78 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-
-
-
-            <LineChart @ref="lineChart" TItem="double" />
-
-
-            <button id="0HLPT1HBT4CU7" type="button" class="btn btn-outline-light" style="font-size:40px">⇦</button>
-            <button id="0HLPT1HBT4CU7" type="button" class="btn btn-outline-light" style="font-size:40px; float:right">⇨</button>
-
         </div>
     </div>
-</body>
 
+    <div class="card">
+        <div class="card-header" style="background-color:beige">
+            <p class="h5">
+                <button id="0HLPTKM2659LL" type="button" class="btn" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    <b>Weekly productivity tracking</b>
+                    <div class="spinner-grow spinner-grow-sm text-danger" role="status" style="animation-duration:1s">
+                        <span class="sr-only"></span>
+                    </div>
+                </button>
+            </p>
+        </div>
+        <div class="collapse" id="collapseOne">
+            <div class="card-body">
+
+                <LineChart @ref="lineChart" TItem="double" />
+
+                <button id="0HLPT1HBT4CU7" type="button" class="btn btn-outline-light" style="font-size:40px">⇦</button>
+                <button id="0HLPT1HBT4CU7" type="button" class="btn btn-outline-light" style="font-size:40px; float:right">⇨</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header" style="background-color:burlywood">
+            <p class="h5">
+                <button id="0HLPTKM2659LL" type="button" class="btn" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    <b>Note</b>
+                    <img src="/css/writing.png" height="20" width="20">
+                </button>
+            </p>
+        </div>
+        <div class="collapse" id="collapseTwo">
+            <div class="card-body">
+                <ul>
+                    @foreach (var note in notes)
+                    {
+                        <li>
+                            <input @bind="note.Title" />
+                            <input @bind="note.CreatedAt" />
+                        </li>
+                    }
+                </ul>
+                <button id="0HLPTP1OMP5O1" type="button" class="btn btn-outline-success" onclick="modalFunction()" data-toggle="modal" data-target="#exampleModal">
+                    Add
+                </button>
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <input placeholder="Note Title" style="width:400px" @bind="title" />
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <textarea style="width:460px; height:400px" @bind="content"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn btn-success" @onclick="AddNote">Save</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
 
 
 @code
@@ -90,21 +151,44 @@
 
     private DateTime now = DateTime.Now;
 
+    private string title;
+    private string content;
+    private IList<Note> notes;
+
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        notes = await NoteRepository.GetAll();
+    }
+
+    private void AddNote()
+    {
+        if (!string.IsNullOrWhiteSpace(title) && !string.IsNullOrWhiteSpace(content))
+        {
+            //Note note = new Note { Title = title, Content = content };
+            //DbContext.Add<Note>(note);
+            //DbContext.SaveChanges();
+        }
+
+        title = string.Empty;
+        content = string.Empty;
+
+    }
 
 
     LineChart<double> lineChart;
 
-    protected override  async Task OnAfterRenderAsync(bool firstRender)
+    protected override async System.Threading.Tasks.Task OnAfterRenderAsync(bool firstRender)
     {
         await HandleDraw();
     }
 
-    async Task HandleDraw()
+
+    async System.Threading.Tasks.Task HandleDraw()
     {
 
-        lineChart.AddLabel( Labels );
+        lineChart.AddLabel(Labels);
 
-        lineChart.AddDataSet( GetLineChartDataset() );
+        lineChart.AddDataSet(GetLineChartDataset());
 
         await lineChart.Update();
     }
@@ -124,13 +208,13 @@
     }
 
     string[] Labels = { "week 1", "week 2", "week 3", "week 4", "week 5", "week 6" };  //array --> list
-    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 93, 206, 212, 0.5f) };
-    List<string> borderColors = new List<string> { ChartColor.FromRgba( 50, 191, 195, 1 ) };
+    List<string> backgroundColors = new List<string> { ChartColor.FromRgba(93, 206, 212, 0.5f) };
+    List<string> borderColors = new List<string> { ChartColor.FromRgba(50, 191, 195, 1) };
 
 
     List<double> DataHardcode()
     {
-        var listData = new List<double> { 0,1,3,1,4,5};
+        var listData = new List<double> { 0, 1, 3, 1, 4, 5 };
         return listData;
     }
 }

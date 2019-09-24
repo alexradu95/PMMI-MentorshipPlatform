@@ -48,11 +48,12 @@ namespace Siemens.MP
             services.AddScoped<GenericRepository<Project>>();
             services.AddScoped<GenericRepository<Siemens.MP.Entities.Task>>();
             services.AddScoped<GenericRepository<Siemens.MP.Entities.Article>>();
-            
+            services.AddScoped<GenericRepository<Siemens.MP.Entities.Note>>();
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 
-            services.AddScoped<GenericRepository<Siemens.MP.Entities.Article>>();
+
 
             services
                 .AddBlazorise(options =>
