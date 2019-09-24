@@ -1,5 +1,6 @@
 ﻿@using Siemens.MP.Entities
 @inject Siemens.MP.Data.Repositories.GenericRepository<Project> ProjectRepository
+@inject NavigationManager NavManager
 @if (project == null)
 {
     <div class="card">

@@ -5,6 +5,7 @@
 @using Microsoft.AspNetCore.Identity;
 @inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Task> TaskRepository
 @inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+@inject UserManager<IdentityUser> userManager
 
 
 @if (tasks == null)
@@ -78,6 +79,14 @@ else
                                        placeholder="Task Deadline"
                                        @bind="deadline" />
 
+                                <select>
+                                    @foreach (var student in studentList)
+                                    {
+                                        
+                                        <option value=@student.UserName>@student.ToString()</option>
+                                        
+                                    }
+                                </select>
                                 <select @bind="priorityState">
                                     @foreach (Priority pS in Enum.GetValues(typeof(Priority)))
                                     {
@@ -108,8 +117,10 @@ else
     List<Siemens.MP.Entities.Task> tasks;
     private Priority priorityState;
     private string taskDescription;
-
+    private IList<IdentityUser> studentList;
     bool ShowPopup = false;
+    public RoleType role;
+    
 
     Entities.Task task = new Entities.Task();
 
@@ -131,9 +142,9 @@ else
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
+        studentList = userManager.Users.ToList();
         List<Siemens.MP.Entities.Task> taskList = await TaskRepository.GetAll();
         tasks = taskList;
-
     }
 
     private void AddTask()
@@ -147,6 +158,7 @@ else
                 Deadline = deadline,
                 Description = taskDescription,
                 PriorityState = priorityState,
+               
             };
             TaskRepository.Insert(newTask);
             OnInitializedAsync();
@@ -166,6 +178,4 @@ else
         taskDescriptionPreview = string.Empty;
         taskDescription = string.Empty;
     }
-
-
 }

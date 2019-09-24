@@ -3,7 +3,9 @@
 @using Microsoft.AspNetCore.WebUtilities
 @using Siemens.MP.Enums
 @inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Task> TaskRepository
+
 @using System.Threading;
+@inject NavigationManager NavManager
 <link rel="stylesheet" href="/css/DetailedTask.css">
 <body>
     <h2><i>@task.Name</i></h2>
@@ -36,7 +38,7 @@
                 <li class="list-group-item py-4 border-style size-of-details">Reporter: <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-1 mt-1 rounded-circle" style="width:40px;" /> @task.CreatedBy</li>
                 <li class="list-group-item py-4 border-style size-of-details">
                     Status: <span class="badge badge-secondary">
-                        <select @bind="@task.State" >
+                        <select @bind="@task.State">
                             @foreach (StateOfTask taskState in Enum.GetValues(typeof(StateOfTask)))
                             {
                                 <option value=@taskState>@taskState.ToString()</option>
@@ -50,6 +52,9 @@
                 <li class="list-group-item py-4 border-style size-of-details">Due Date: @task.Deadline </li>
                 <li class="list-group-item py-4 border-style size-of-details">Remaining Time: @NumberOfDaysRemaining days</li>
             </ul>
+            <AuthorizeView Roles="ADMIN,MENTOR">
+                <button class="btn btn-primary button2" @onclick="DeleteTask">Delete Task</button>
+            </AuthorizeView>
         </div>
     </div>
 
@@ -73,14 +78,16 @@
         }
     }
     public IList<Siemens.MP.Entities.Task> tasksList;
+    
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
+        
         tasksList = await TaskRepository.GetAll();
         if (DateTime.Now < task.Deadline)
         {
             difference = task.Deadline - DateTime.Now;
-            NumberOfDaysRemaining = (int) difference.TotalDays;
+            NumberOfDaysRemaining = (int)difference.TotalDays;
         }
 
     }
@@ -92,6 +99,10 @@
         newTask = task;
         TaskRepository.Update(newTask);
     }
-
+    public void DeleteTask()
+    {
+        TaskRepository.Delete(task.Id);
+        NavManager.NavigateTo("/tasks");
+    }
 }
 
