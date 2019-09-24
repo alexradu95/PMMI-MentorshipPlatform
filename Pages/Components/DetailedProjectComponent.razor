@@ -1,6 +1,8 @@
 ﻿@using Siemens.MP.Entities
+@using Siemens.MP.Enums
 @inject Siemens.MP.Data.Repositories.GenericRepository<Project> ProjectRepository
-@inject NavigationManager NavManager
+@inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Task> TaskRepository
+
 @if (project == null)
 {
     <div class="card">
@@ -50,6 +52,49 @@ else if (edit == true)
         </div>
     </center>
 }
+else if (addTask == true)
+{
+    <center>
+        <div class="modal-body" style="width:50%; text-align: center;">
+            <p>Enter the task name:</p>
+            <input class="form-control" type="text"
+                   placeholder="Task name:"
+                   @bind="taskName" /> <br />
+
+            <p>Enter the task description:</p>
+            <input class="form-control" type="text"
+                   placeholder="Task Description"
+                   @bind="taskDescription" /> <br />
+
+            <p>Enter the task short description</p>
+            <input class="form-control" type="text"
+                   placeholder="Task Short Description"
+                   @bind="taskDescriptionPreview" /> <br />
+
+            <p>Enter the task deadline:</p>
+            <input class="form-control" type="date"
+                   placeholder="Task Deadline"
+                   @bind="deadline" />  <br />
+
+            <select @bind="priorityState">
+                @foreach (Priority pS in Enum.GetValues(typeof(Priority)))
+                {
+                    <option value=@pS>@pS.ToString()</option>
+                }
+            </select>
+
+            <!-- Button to add the task -->
+            <button class="btn btn-primary"
+                    @onclick="SaveTask">
+                Add Task
+            </button>
+            <button class="btn btn-success"
+                    @onclick="GoBack">
+                Back
+            </button>
+        </div>
+    </center>
+}
 else
 {
     <div class="card">
@@ -78,11 +123,22 @@ else
                 <button class="btn btn-primary" @onclick="@(() => EditProject(project))" style="width:20%">
                     Edit Project
                 </button>
+                <button class="btn btn-primary" @onclick="@(() => AddTask())" style="width:20%">
+                    Add New Task
+                </button>
             </center>
         </AuthorizeView>
     </div>
 }
 @code {
+
+    private string taskName;
+    private string taskDescriptionPreview;
+    private DateTime deadline;
+    private StateOfTask status;
+    private Priority priorityState;
+    private string taskDescription;
+
     [Parameter]
     public int IdProject { get; set; }
     [Parameter]
@@ -93,6 +149,7 @@ else
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
         projects = await ProjectRepository.GetAll();
+        deadline = DateTime.Now.AddDays(1);
     }
 
     public Siemens.MP.Entities.Project
@@ -103,12 +160,41 @@ else
     [Parameter]
     public EventCallback<bool> editChanged { get; set; }
 
+    [Parameter]
+    public bool addTask { get; set; }
+    [Parameter]
+    public EventCallback<bool> addTaskChanged { get; set; }
+
     public Project objProject;
 
-    void EditProject(Project editProject)
+    private void EditProject(Project editProject)
     {
         objProject = editProject;
         edit = true;
+    }
+
+    private void AddTask()
+    {
+        addTask = true;
+    }
+
+    private void SaveTask()
+    {
+        if (taskName != "" && taskDescription != "" && deadline > DateTime.Now && taskDescriptionPreview != "" && priorityState != Priority.DEFAULT)
+        {
+            Siemens.MP.Entities.Task newTask = new Siemens.MP.Entities.Task
+            {
+                Name = taskName,
+                DescriptionPreview = taskDescriptionPreview,
+                Deadline = deadline,
+                Description = taskDescription,
+                PriorityState = priorityState,
+                ProjectId = IdProject
+            };
+            TaskRepository.Insert(newTask);
+            OnInitializedAsync();
+            addTask = false;
+        }
     }
 
     private void SaveProject()
@@ -127,6 +213,9 @@ else
 
     private void GoBack()
     {
-        edit = false;
+        if (edit == true)
+            edit = false;
+        else if (addTask == true)
+            addTask = false;
     }
 }
