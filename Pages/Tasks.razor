@@ -112,7 +112,7 @@ else
 
     private string taskName;
     private string taskDescriptionPreview;
-    private DateTime deadline;
+    private DateTime deadline=DateTime.Now;
     private StateOfTask status;
     List<Siemens.MP.Entities.Task> tasks;
     private Priority priorityState;
@@ -149,7 +149,7 @@ else
 
     private void AddTask()
     {
-        if (taskName != "" && taskDescriptionPreview != "" && deadline > DateTime.Now && taskDescription != "" && priorityState != Priority.DEFAULT)
+        if (!string.IsNullOrEmpty(taskName) && !string.IsNullOrEmpty(taskDescriptionPreview) && deadline >= DateTime.Now && !string.IsNullOrEmpty(taskDescription) && priorityState != Priority.DEFAULT)
         {
             Siemens.MP.Entities.Task newTask = new Siemens.MP.Entities.Task
             {
