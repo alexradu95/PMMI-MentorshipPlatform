@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Siemens.MP.Entities
 {
-    public class UserInfo : IdentityUser
+    public class UserInfo : AbstractEntity
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

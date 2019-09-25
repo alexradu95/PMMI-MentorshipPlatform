@@ -8,29 +8,32 @@
 
 <link rel="stylesheet" href="/css/knowledge.css">
 
-    <div class="modal-body row ">
+<div class="modal-body row ">
 
-        <div class="col-md-2 border-right border-dark toronto-content">
+    <div class="col-md-2 border-right border-dark toronto-content">
 
-            <h2>Categories</h2>
-
-            <ol class="list-group list-group-flush">
-                @foreach (ArticleCategory category in Enum.GetValues(typeof(ArticleCategory)))
-                {
-                    <li class="list-group-item border-top " @onclick="@(() => ChangeTheCategory(category))">
-                        <h5>@MakeEnumPretty(category)</h5>
-                    </li>
-                }
-            </ol>
-        </div>
-
-        <Siemens.MP.Pages.Components.KnowledgeDbArticlesListComponent @bind-articleCategory="articleCategory"></Siemens.MP.Pages.Components.KnowledgeDbArticlesListComponent>
-
-
-        <div class="align-self-end ml-auto">
-            <button type="button" class="btn btn-primary" onclick="location.href='addarticle'">Add article</button>
-        </div>
+        <h2>Categories</h2>
+        <ul id="projlist" class="projects list-group list-group-flush">
+            @foreach (ArticleCategory category in Enum.GetValues(typeof(ArticleCategory)))
+            {
+                <li class="list-group-item py-4 border-style size-of-details liproject" @onclick="@(() => ChangeTheCategory(category))">
+                    <div class="issue-content-container">
+                        <center>
+                            <h5>@MakeEnumPretty(category)</h5>
+                        </center>
+                    </div>
+                </li>
+            }
+        </ul>
     </div>
+
+    <Siemens.MP.Pages.Components.KnowledgeDbArticlesListComponent @bind-articleCategory="articleCategory"></Siemens.MP.Pages.Components.KnowledgeDbArticlesListComponent>
+
+
+    <div class="align-self-end ml-auto">
+        <button type="button" class="btn btn-primary" onclick="location.href='addarticle'">Add article</button>
+    </div>
+</div>
 
 
 

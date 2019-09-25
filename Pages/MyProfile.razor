@@ -1,7 +1,7 @@
 ﻿@page "/myprofile"
-@inject Siemens.MP.Data.ApplicationDbContext DbContext
 @using Siemens.MP.Entities;
 @using Siemens.MP.Pages.Components
+
 <head>
     <link rel="stylesheet" href="/css/MyProfile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -9,37 +9,109 @@
 <body>
     <div class="modal-body row">
         <div class="col-md-4">
+
             <div class="card profile">
-                <img src="/css/bootstrap/img.jpg" alt="John" class="card-img-top imgprofile">
-                <p class="title">John Wick</p>
+                @if (edit == true)
+                {
+                    <center>
 
-                <div class="text-card">
-                    <p><i class="fa fa-home"></i>Brasov</p>
-                    <p><i class="fa fa-university"></i>Matematica si Informatica</p>
-                    <p><i class="fa fa-phone-square"></i>0760030989</p>
-                    <hr>
-                    <p><b><i class="fa fa-asterisk info"></i>Skills</b></p>
-                    <div class="skill-bar">
-                        <div class="progress-bar" style="width:80%">Language C# 80%</div>
+                        <div class="modal-body" style="width:50%; text-align: center;">
+                            <bold>
+                                <p>First name:</p>
+                                <input class="form-control" type="text"
+                                       placeholder="enter the first name"
+                                  // @bind="userInfo.FirstName" /> <br />
+
+                                <p>Last name:</p>
+                                <input class="form-control" type="text"
+                                       placeholder="enter the last name"
+                                  // @bind="userInfo.LastName" /> <br />
+
+                                <p>City:</p>
+                                <input class="form-control" type="text"
+                                       placeholder="enter the city"
+                                  // @bind="userInfo.City" /> <br />
+
+                                <p>University:</p>
+                                <input class="form-control" type="text"
+                                       placeholder="enter the university"
+                                 //  @bind="userInfo.University" /> <br />
+
+                                <p>Phone:</p>
+                                <input class="form-control" type="text"
+                                       placeholder="enter the phone"
+                                  // @bind="userInfo.Phone" /> <br />
+
+                                <p>Github:</p>
+                                <input class="form-control" type="text"
+                                       placeholder="enter your github link"
+                                 //  @bind="userInfo.Github" /> <br />
+
+                                <p>Facebook:</p>
+                                <input class="form-control" type="text"
+                                       placeholder="enter your facebook link"
+                                 //  @bind="userInfo.Facebook" /> <br />
+                            </bold>
+
+                        </div>
+                    </center>
+                    <!-- Button to save the project -->
+
+                    <div class="row" style="margin-bottom:20px">
+                        <div class="col">
+                            <button class="btn btn-primary" 
+                                    @onclick="SaveChanges">
+                                Save Changes
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-success"
+                                    @onclick="GoBack">
+                                Back
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                <center>
-                    <p>
-                        <a href="https://www.facebook.com/ionuut.alban">
-                            <i class="fa fa-facebook-square"></i>
-                        </a>
-                        <a href="https://github.com/albanionut">
-                            <i class="fa fa-github" aria-hidden="true"></i>
-                        </a>
-                    </p>
-                </center>
+                }
+                else
+                {
+                    <img src="/css/bootstrap/img.jpg" alt="John" class="card-img-top imgprofile">
+                    <p class="title">John Wick</p>
+
+                    <div class="text-card">
+                        <p><i class="fa fa-home"></i>Brasov</p>
+                        <p><i class="fa fa-university"></i>Matematica si Informatica</p>
+                        <p><i class="fa fa-phone-square"></i>0760030989</p>
+                        <hr>
+                        <p><b><i class="fa fa-asterisk info"></i>Skills</b></p>
+                        <div class="skill-bar">
+                            <div class="progress-bar" style="width:80%">Language C# 80%</div>
+                        </div>
+                    </div>
+
+                    <center>
+                        <p>
+                            <a href="https://www.facebook.com/ionuut.alban">
+                                <i class="fa fa-facebook-square"></i>
+                            </a>
+                            <a href="https://github.com/albanionut">
+                                <i class="fa fa-github" aria-hidden="true"></i>
+                            </a>
+                        </p>
+                    </center>
+                }
 
             </div>
+            @if (edit == false)
+            {
+                <div class="text-center">
+                    <button class="btn btn-primary " @onclick="@(() => EditUser())" style="width:60%">
+                        Edit your profile.
+                    </button>
+                </div>
+            }
+
         </div>
-
-
-
 
         <div class="col-md-8">
 
@@ -50,7 +122,36 @@
         </div>
     </div>
 </body>
+
 @code {
 
+    //private UserInfo userInfo;
 
+    //public UserInfo objUser;
+
+    public bool edit { get; set; }
+
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        edit = false;
+    }
+
+    private void EditUser()
+    {
+        //objUser = editUser;
+        edit = true;
+    }
+
+    private void SaveChanges()
+    {
+        //UserInfoRepository.Update(objUser);
+        //OnInitializedAsync();
+        edit = false;
+    }
+
+    private void GoBack()
+    {
+        if (edit == true)
+            edit = false;
+    }
 }
