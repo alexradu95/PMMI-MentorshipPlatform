@@ -34,7 +34,7 @@
     <div class="container">
         <div class="float-right right-side-container ">
             <ul class="list-group ">
-                <li class="list-group-item py-4 border-style size-of-details">Assignee: <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-1 mt-1 rounded-circle" style="width:40px;" /> @task.IdAsignee</li>
+                <li class="list-group-item py-4 border-style size-of-details">Assignee: <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-1 mt-1 rounded-circle" style="width:40px;" /> @task.CreatedBy</li>
                 <li class="list-group-item py-4 border-style size-of-details">Reporter: <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-1 mt-1 rounded-circle" style="width:40px;" /> @task.CreatedBy</li>
                 <li class="list-group-item py-4 border-style size-of-details">
                     Status: <span class="badge badge-secondary">
@@ -47,7 +47,22 @@
                     </span>
                     <button class="btn btn-primary" @onclick="UpdateDB">Update</button>
                 </li>
-                <li class="list-group-item py-4 border-style size-of-details">Priority: <span class="badge badge-danger">@task.PriorityState</span> </li>
+       
+                <li class="list-group-item py-4 border-style size-of-details">
+                    Priority:
+                    @if (task.PriorityState.Equals(Priority.HIGH))
+                    {
+                        <span class="badge badge-danger">@task.PriorityState</span>
+                    }
+                    @if (task.PriorityState.Equals(Priority.MEDIUM))
+                    {
+                        <span class="badge badge-warning">@task.PriorityState</span>
+                    }
+                    @if (task.PriorityState.Equals(Priority.LOW))
+                    {
+                        <span class="badge badge-success">@task.PriorityState</span>
+                    }
+                </li>
                 <li class="list-group-item py-4 border-style size-of-details">Created Date: @task.CreatedAt</li>
                 <li class="list-group-item py-4 border-style size-of-details">Due Date: @task.Deadline </li>
                 <li class="list-group-item py-4 border-style size-of-details">Remaining Time: @NumberOfDaysRemaining days</li>

@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Siemens.MP.Entities;
 using Siemens.MP.Enums;
 
 namespace Siemens.MP.Areas.Identity.Pages.Account
@@ -20,14 +21,13 @@ namespace Siemens.MP.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<UserInfo> _signInManager;
+        private readonly UserManager<UserInfo> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<UserInfo> userManager,
+            SignInManager<UserInfo> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -67,7 +67,7 @@ namespace Siemens.MP.Areas.Identity.Pages.Account
             
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async System.Threading.Tasks.Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -79,13 +79,17 @@ namespace Siemens.MP.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new UserInfo { UserName = Input.Email, Email = Input.Email };
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 var role = Input.roleType.ToString();
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user,role);
                     _logger.LogInformation("User created a new account with password.");
+
+
+                    
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
