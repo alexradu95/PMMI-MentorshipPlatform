@@ -18,7 +18,7 @@ namespace Siemens.MP.Entities
         public Priority PriorityState { get; set; }
         public int? ProjectId { get; set; }
         public virtual Project Project { get; set; }
-        public int? UserInfoId { get; set; }
+        public string UserInfoId { get; set; }
         public UserInfo UserInfo { get; set; }
     }
 }

@@ -2,9 +2,10 @@
 @inject NavigationManager navigationManager
 @using Microsoft.AspNetCore.WebUtilities
 @using Siemens.MP.Enums
+@using Microsoft.AspNetCore.Identity;
 @inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Task> TaskRepository
-
-@using System.Threading;
+@inject UserManager<UserInfo> userManager
+@using Siemens.MP.Entities
 @inject NavigationManager NavManager
 <link rel="stylesheet" href="/css/DetailedTask.css">
 <body>
@@ -34,7 +35,7 @@
     <div class="container">
         <div class="float-right right-side-container ">
             <ul class="list-group ">
-                <li class="list-group-item py-4 border-style size-of-details">Assignee: <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-1 mt-1 rounded-circle" style="width:40px;" /> @task.CreatedBy</li>
+                <li class="list-group-item py-4 border-style size-of-details">Assignee: <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-1 mt-1 rounded-circle" style="width:40px;" /> @asignee</li>
                 <li class="list-group-item py-4 border-style size-of-details">Reporter: <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-1 mt-1 rounded-circle" style="width:40px;" /> @task.CreatedBy</li>
                 <li class="list-group-item py-4 border-style size-of-details">
                     Status: <span class="badge badge-secondary">
@@ -47,7 +48,7 @@
                     </span>
                     <button class="btn btn-primary" @onclick="UpdateDB">Update</button>
                 </li>
-       
+
                 <li class="list-group-item py-4 border-style size-of-details">
                     Priority:
                     @if (task.PriorityState.Equals(Priority.HIGH))
@@ -82,6 +83,8 @@
     public int NumberOfDaysRemaining;
     public Siemens.MP.Entities.Task newTask = new Siemens.MP.Entities.Task();
     public int i = 1;
+    public IList<UserInfo> userList;
+    public string asignee;
 
     protected override void OnInitialized()
     {
@@ -93,18 +96,22 @@
         }
     }
     public IList<Siemens.MP.Entities.Task> tasksList;
-    
+
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
-        
+        userList = userManager.Users.ToList();
         tasksList = await TaskRepository.GetAll();
         if (DateTime.Now < task.Deadline)
         {
             difference = task.Deadline - DateTime.Now;
             NumberOfDaysRemaining = (int)difference.TotalDays;
         }
-
+        foreach(var user in userList)
+        {
+            if (user.Id == task.UserInfoId)
+                asignee = user.UserName;
+        }
     }
 
     public Siemens.MP.Entities.Task

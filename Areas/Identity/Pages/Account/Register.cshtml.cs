@@ -85,11 +85,14 @@ namespace Siemens.MP.Areas.Identity.Pages.Account
                 var role = Input.roleType.ToString();
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user,role);
+    
+                    if(role == RoleType.STUDENT.ToString() && user.UserName.Contains("ctbav.ro"))
+                    {
+                        await _userManager.AddToRoleAsync(user, role);
+                    }else
+                        await _userManager.AddToRoleAsync(user, role);
+
                     _logger.LogInformation("User created a new account with password.");
-
-
-                    
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
