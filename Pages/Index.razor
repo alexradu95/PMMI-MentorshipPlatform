@@ -2,6 +2,7 @@
 
 @using Siemens.MP.Entities
 @inject Siemens.MP.Data.Repositories.GenericRepository<Note> NoteRepository
+@inject NavigationManager navigationManager
 
 <h3>Hello, Full Name of Student</h3>
 <p></p>
@@ -86,7 +87,7 @@
     </div>
 
     <div class="card">
-        <div class="card-header" style="background-color:burlywood">
+        <div class="card-header" style="background-color:#faebd7">
             <p class="h5">
                 <button id="0HLPTKM2659LL" type="button" class="btn" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                     <b>Note</b>
@@ -95,38 +96,86 @@
             </p>
         </div>
         <div class="collapse" id="collapseTwo">
-            <div class="card-body">
+            <div class="card-body" style="background-color:whitesmoke">
                 <ul>
                     @foreach (var note in notes)
                     {
-                        <li>
-                            <input @bind="note.Title" />
-                            <input @bind="note.CreatedAt" />
+                        <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color:#fcf5ec">
+                            <button class="buttonList" @onclick="ShowNoteContent">@note.Title</button>
+                            <p><i>@note.CreatedAt.ToShortDateString()</i></p>
                         </li>
                     }
                 </ul>
-                <button id="0HLPTP1OMP5O1" type="button" class="btn btn-outline-success" onclick="modalFunction()" data-toggle="modal" data-target="#exampleModal">
+                <button id="0HLPTP1OMP5O1" type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal" @onclick="OpenModal">
                     Add
                 </button>
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <input placeholder="Note Title" style="width:400px" @bind="title" />
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <textarea style="width:460px; height:400px" @bind="content"></textarea>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn btn-success" @onclick="AddNote">Save</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                @if (ShowModal == true)
+                {
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color:#ffffe0">
+                                    <input placeholder="Note Title" style="width:400px; background-color:#ffffea" @bind="title" />
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" style="background-color:#ffffe0">
+                                    <textarea style="width:460px; height:400px; background-color:#ffffea" @bind="content"></textarea>
+                                </div>
+                                <div class="modal-footer" style="background-color:#ffffe0">
+                                    <button type="button" class="btn btn btn-success" @onclick="AddNote">Save</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                }
+                <!--
+        @if (ShowContent == true)
+    {
+        <div class="modal fade show" style="display: block; padding-right: 17px;" tabindex="-1" role="dialog">
+            <div id="0HLQ1INKI0E3L" class="modal-backdrop fade show">
+            </div>
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">
+                            <i class="fas fa-edit"></i>Employee edit
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="max-height: 20vh; overflow-y: auto;;">
+                        <div class="form-group" style="">
+                            <label class="">Name</label>
+                            <input id="0HLQ1INKI0E3V" type="text" class="form-control" style="" placeholder="Enter name..." _bl_13="">
+                        </div>
+                        <div class="form-group" style="">
+                            <label class="">Surname</label>
+                            <input id="0HLQ1INKI0E40" type="text" class="form-control" style="" placeholder="Enter surname..." _bl_14="">
+                        </div>
+                        <div class="form-group" style="">
+                            <label class="">Date of birth</label>
+                            <input id="0HLQ1INKI0E41" type="date" class="form-control" style="" placeholder="Pick a date" _bl_15="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="0HLQ1INKI0E3T" type="button" class="btn btn-secondary" style="" _bl_11="">
+                            Close
+                        </button>
+                        <button id="0HLQ1INKI0E3U" type="button" class="btn btn-primary" style="" _bl_12="">
+                            Save Changes
+                        </button>
+                    </div>
                 </div>
+            </div>
+        </div>
+    }
+    -->
+
+
             </div>
         </div>
     </div>
@@ -154,25 +203,71 @@
     private string title;
     private string content;
     private IList<Note> notes;
+    bool ShowModal = false;
+    bool ShowContent = false;
 
-    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+
+    private void OpenModal()
     {
-        notes = await NoteRepository.GetAll();
+        ShowModal = true;
+    }
+
+    private void CloseModal()
+    {
+        ShowModal = false;
     }
 
     private void AddNote()
     {
         if (!string.IsNullOrWhiteSpace(title) && !string.IsNullOrWhiteSpace(content))
         {
-            //Note note = new Note { Title = title, Content = content };
-            //DbContext.Add<Note>(note);
-            //DbContext.SaveChanges();
-        }
+            Note newNote = new Note
+            {
+                Title = title,
+                Content = content
+            };
 
+            NoteRepository.Insert(newNote);
+            OnInitializedAsync();
+            ResetFieldToDefault();
+            CloseModal();
+        }
+    }
+
+    private void ResetFieldToDefault()
+    {
         title = string.Empty;
         content = string.Empty;
-
     }
+
+    private void ShowNoteContent()
+    {
+        ShowContent = true;
+    }
+    
+    
+    private void CloseNoteContent()
+    {
+        ShowContent = false;
+    }
+
+
+
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        notes = await NoteRepository.GetAll();
+        //notes = await NoteRepository.GetAsync();
+    }
+
+
+
+
+    //public void DeleteNote()
+    //{
+    //    TaskRepository.Delete(note.Id);
+    //}
+
+
 
 
     LineChart<double> lineChart;

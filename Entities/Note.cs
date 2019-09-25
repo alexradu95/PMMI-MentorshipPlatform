@@ -12,6 +12,9 @@ namespace Siemens.MP.Entities
             this.Title = title;
             this.Content = content;
         }
+        public Note()
+        {
+        }
         public int Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
