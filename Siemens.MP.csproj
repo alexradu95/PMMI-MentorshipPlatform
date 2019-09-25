@@ -27,6 +27,12 @@
     <Compile Remove="Data\Migrations\20190918131345_abstractEntityFields.Designer.cs" />
     <Compile Remove="Data\Migrations\20190918133039_AbstractEntityFields.cs" />
     <Compile Remove="Data\Migrations\20190918133039_AbstractEntityFields.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190925081134_RelationBetweenUserInfoAndIdentityUser.cs" />
+    <Compile Remove="Data\Migrations\20190925081134_RelationBetweenUserInfoAndIdentityUser.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190925081440_RelationBetweenUserInfoAndIdentityUser.cs" />
+    <Compile Remove="Data\Migrations\20190925081440_RelationBetweenUserInfoAndIdentityUser.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190925082419_RelationBetweenUserInfoAndIdentityUser.cs" />
+    <Compile Remove="Data\Migrations\20190925082419_RelationBetweenUserInfoAndIdentityUser.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,7 +47,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0-rc1-19462-10" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0-preview9.19421.4" />
   </ItemGroup>
 

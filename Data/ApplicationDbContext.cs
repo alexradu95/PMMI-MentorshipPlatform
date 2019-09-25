@@ -9,7 +9,7 @@ using Siemens.MP.Entities;
 
 namespace Siemens.MP.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<UserInfo>
     {
         public ApplicationDbContext()
         {
@@ -24,6 +24,7 @@ namespace Siemens.MP.Data
         public DbSet<Project> Projects { get; set; }
         public DbSet<Article> Articles { get; set; }
         public DbSet<Note> Notes { get; set; }
+        public DbSet<UserInfo> UsersInfo { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -37,6 +38,8 @@ namespace Siemens.MP.Data
                 optionsBuilder.UseSqlServer(connectionString);
             }
         }
+
+
     }
 
 }
