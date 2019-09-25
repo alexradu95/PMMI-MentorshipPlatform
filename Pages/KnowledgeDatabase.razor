@@ -2,9 +2,7 @@
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @using Microsoft.AspNetCore.Identity;
-@using Siemens.MP.Entities
-
-@inject UserManager<UserInfo> UserManager;
+@inject UserManager<IdentityUser> UserManager;
 @inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Article> ArticleRepository
 @using Siemens.MP.Enums
 
@@ -15,15 +13,18 @@
     <div class="col-md-2 border-right border-dark toronto-content">
 
         <h2>Categories</h2>
-
-        <ol class="list-group list-group-flush">
+        <ul id="projlist" class="projects list-group list-group-flush">
             @foreach (ArticleCategory category in Enum.GetValues(typeof(ArticleCategory)))
             {
-                <li class="list-group-item border-top " @onclick="@(() => ChangeTheCategory(category))">
-                    <h5>@MakeEnumPretty(category)</h5>
+                <li class="list-group-item py-4 border-style size-of-details liproject" @onclick="@(() => ChangeTheCategory(category))">
+                    <div class="issue-content-container">
+                        <center>
+                            <h5>@MakeEnumPretty(category)</h5>
+                        </center>
+                    </div>
                 </li>
             }
-        </ol>
+        </ul>
     </div>
 
     <Siemens.MP.Pages.Components.KnowledgeDbArticlesListComponent @bind-articleCategory="articleCategory"></Siemens.MP.Pages.Components.KnowledgeDbArticlesListComponent>
