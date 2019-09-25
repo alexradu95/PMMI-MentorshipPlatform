@@ -39,16 +39,18 @@ namespace Siemens.MP
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<UserInfo>()
                 .AddRoles<IdentityRole>()
                .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<UserInfo>>();
             services.AddScoped<GenericRepository<Project>>();
             services.AddScoped<GenericRepository<Siemens.MP.Entities.Task>>();
             services.AddScoped<GenericRepository<Siemens.MP.Entities.Article>>();
             services.AddScoped<GenericRepository<Siemens.MP.Entities.Note>>();
+            services.AddScoped<SignInManager<UserInfo>, SignInManager<UserInfo>>();
+
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -68,7 +70,7 @@ namespace Siemens.MP
         {
             //initializing custom roles 
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var UserManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<UserInfo>>();
             string[] roleNames = { RoleType.ADMIN.ToString(), RoleType.MENTOR.ToString(), RoleType.STUDENT.ToString()};
             IdentityResult roleResult;
             
@@ -84,7 +86,7 @@ namespace Siemens.MP
             }
 
             //Here you could create a super user who will maintain the web app
-            var poweruser = new IdentityUser
+            var poweruser = new UserInfo
             {
 
                 UserName = "admin@gmail.com",

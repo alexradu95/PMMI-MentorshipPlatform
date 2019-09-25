@@ -8,7 +8,7 @@ namespace Siemens.MP.Entities
 {
     public class Project : AbstractEntity
     {
-        public Project() {}
+        public Project() { }
         public Project(string title, string description)
         {
             this.Title = title;
@@ -21,5 +21,7 @@ namespace Siemens.MP.Entities
         public DateTime DeadLine { get; set; }
         public int IdReporter { get; set; }
         public virtual ICollection<Task> Tasks { get; set; }
+
+
     }
 }

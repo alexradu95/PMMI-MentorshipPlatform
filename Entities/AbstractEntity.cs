@@ -9,14 +9,13 @@ namespace Siemens.MP.Entities
     //abstract class that is extended by database models
     public abstract class AbstractEntity
     {
-
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
         public string CreatedById { get; set; }
         public string ModifiedById { get; set; }
 
-        public virtual IdentityUser CreatedBy { get; set; }
-        public virtual IdentityUser ModifiedBy { get; set; }
+        public virtual UserInfo CreatedBy { get; set; }
+        public virtual UserInfo ModifiedBy { get; set; }
 
     }
 }

@@ -5,7 +5,7 @@
 @using Microsoft.AspNetCore.Identity;
 @inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Task> TaskRepository
 @inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
-@inject UserManager<IdentityUser> userManager
+@inject UserManager<UserInfo> userManager
 
 
 @if (tasks == null)
@@ -117,7 +117,7 @@ else
     List<Siemens.MP.Entities.Task> tasks;
     private Priority priorityState;
     private string taskDescription;
-    private IList<IdentityUser> studentList;
+    private IList<UserInfo> studentList;
     bool ShowPopup = false;
     public RoleType role;
     
