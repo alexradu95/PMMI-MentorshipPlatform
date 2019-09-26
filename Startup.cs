@@ -50,7 +50,7 @@ namespace Siemens.MP
             services.AddScoped<GenericRepository<Siemens.MP.Entities.Article>>();
             services.AddScoped<GenericRepository<Siemens.MP.Entities.Note>>();
             services.AddScoped<SignInManager<UserInfo>, SignInManager<UserInfo>>();
-
+            services.AddScoped<IdentityUtilsService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

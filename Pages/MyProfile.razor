@@ -1,6 +1,7 @@
 ﻿@page "/myprofile"
 @using Siemens.MP.Entities;
 @using Siemens.MP.Pages.Components
+@inject Siemens.MP.Areas.Identity.IdentityUtilsService identityUtils
 
 <head>
     <link rel="stylesheet" href="/css/MyProfile.css">
@@ -125,14 +126,14 @@
 
 @code {
 
-    //private UserInfo userInfo;
+    private UserInfo userInfo;
 
-    //public UserInfo objUser;
 
     public bool edit { get; set; }
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
+        userInfo = identityUtils.GetCurrentUserAwaited();
         edit = false;
     }
 
