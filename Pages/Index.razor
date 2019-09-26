@@ -18,18 +18,16 @@
 </head>
 <body>
 
-
-
     <div class="card">
         <div class="card-header" style="background-color:#705af2">
             <p class="h5">
-                <button type="button" class="btn" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="#collapseOne">
+                <button type="button" class="btn" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="#collapseOne">
                     <img src="/css/bar-chart.png" height="20" width="20">
-                    <b>Actual tasks</b>
+                    <b style="color:aliceblue">Actual tasks</b>
                 </button>
             </p>
         </div>
-        <div class="collapse" id="collapseOne">
+        <div class="collapse show" id="collapseOne">
             <div class="card-body">
                 <div>
                     <h5 class="card-title" style="float:left; color:darkblue">Grafic : @now.ToShortDateString().Replace('-', ' ') </h5>
@@ -81,8 +79,6 @@
         </div>    
     </div>
 
-
-
         <div class="card">
             <div class="card-header" style="background-color:mediumpurple">
                 <p class="h5">
@@ -110,8 +106,6 @@
         </div>
 
 </body>
-
-
 
 
 @code
@@ -215,7 +209,7 @@
         };
     }
 
-    string[] Labels = { "week 1", "week 2", "week 3", "week 4", "week 5", "week 6" };  //array --> list
+    string[] Labels = { "week 1", "week 2", "week 3", "week 4", "week 5", "week 6" };
     List<string> backgroundColors = new List<string> { ChartColor.FromRgba(93, 206, 212, 0.5f) };
     List<string> borderColors = new List<string> { ChartColor.FromRgba(50, 191, 195, 1) };
 
