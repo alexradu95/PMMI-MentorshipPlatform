@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+
 using Siemens.MP.Entities;
 using Siemens.MP.Enums;
 
@@ -61,6 +62,9 @@ namespace Siemens.MP.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+
+            
             [Display(Name ="Choose Role")]
             public RoleType roleType { get; set; }
 
@@ -89,6 +93,7 @@ namespace Siemens.MP.Areas.Identity.Pages.Account
                     if(role == RoleType.STUDENT.ToString() && user.UserName.Contains("ctbav.ro"))
                     {
                         await _userManager.AddToRoleAsync(user, role);
+                        
                     }else
                         await _userManager.AddToRoleAsync(user, role);
 

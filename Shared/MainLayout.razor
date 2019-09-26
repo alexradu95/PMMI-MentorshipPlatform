@@ -1,16 +1,36 @@
 ﻿@inherits LayoutComponentBase
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Context
 
-<div class="sidebar">
-    <NavMenu />
-</div>
 
-<div class="main">
-    <div class="top-row px-4">
-        <LoginDisplay />
-        <a href="https://docs.microsoft.com/en-us/aspnet/" target="_blank">About</a>
+
+@if (Context.HttpContext.User.Identity.IsAuthenticated)
+{
+
+
+    <div class="sidebar">
+        <NavMenu />
     </div>
 
-    <div class="content px-4">
-        @Body
+    <div class="main">
+        <div class="top-row px-4">
+            <LoginDisplay />
+            <a href="https://docs.microsoft.com/en-us/aspnet/" target="_blank">About</a>
+        </div>
+
+        <div class="content px-4">
+            @Body
+        </div>
     </div>
-</div>
+}
+else
+{
+    @Context.HttpContext.Response.Redirect("~Identity/Account/Login")
+    <div class="main">
+        <div class="top-row px-4">
+            <LoginDisplay />
+            <a href="https://docs.microsoft.com/en-us/aspnet/" target="_blank">About</a>
+        </div>
+    </div>
+}
+
