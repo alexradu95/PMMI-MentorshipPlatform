@@ -43,7 +43,7 @@ else
             </ul>
         </div>
         <div class="project-second-column">
-            <Siemens.MP.Pages.Components.DetailedProjectComponent @bind-IdProject="ProjectID" @bind-edit="edit" @bind-addTask="addTask"></Siemens.MP.Pages.Components.DetailedProjectComponent>
+            <Siemens.MP.Pages.Components.DetailedProjectComponent @bind-IdProject="ProjectID" @bind-edit="edit" @bind-addTask="addTask" @bind-addStudent="addStudent"></Siemens.MP.Pages.Components.DetailedProjectComponent>
             <Siemens.MP.Pages.Components.ProjectTasksComponent @bind-IdProject="ProjectID"></Siemens.MP.Pages.Components.ProjectTasksComponent>
         </div>
     </div>
@@ -63,6 +63,9 @@ else
     [Parameter]
     public bool addTask { get; set; }
 
+    [Parameter]
+    public bool addStudent { get; set; }
+
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
         projects = await ProjectRepository.GetAll();
@@ -75,6 +78,7 @@ else
         edit = false;
         ShowPopup = false;
         addTask = false;
+        addStudent = false;
         await OnInitializedAsync();
     }
 
