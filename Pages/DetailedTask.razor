@@ -5,36 +5,59 @@
 @using Microsoft.AspNetCore.Identity;
 @inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Task> TaskRepository
 @inject UserManager<UserInfo> userManager
+@inject Siemens.MP.Areas.Identity.IdentityUtilsService identityUtils
 @using Siemens.MP.Entities
 @inject NavigationManager NavManager
 <link rel="stylesheet" href="/css/DetailedTask.css">
 <body>
-    <h1><i>@task.Name</i></h1>
     <div class="container upper-container">
         <div class="float-left">
+            <h1><i>@task.Name</i></h1>
             <label style="font-size:25px"><b><i>Task Description:</i></b></label>
             <div class="card">
                 <textarea readonly style="width:700px; height:500px;font-size:20px" class="border-style" rows="5">@task.Description</textarea>
             </div>
-           </div>
         </div>
+    </div>
     <div class="container">
         <div class="float-right right-side-container ">
             <ul class="list-group ">
                 <li class="list-group-item py-4 border-style size-of-details">Assignee: <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-1 mt-1 rounded-circle" style="width:40px;" /> @asignee</li>
                 <li class="list-group-item py-4 border-style size-of-details">Reporter: <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-1 mt-1 rounded-circle" style="width:40px;" /> @task.CreatedBy.FirstName @task.CreatedBy.LastName</li>
-                <li class="list-group-item py-4 border-style size-of-details">
-                    Status: 
+                @if (userInfo.Id == task.UserInfoId)
+                {
+                    <li class="list-group-item py-4 border-style size-of-details">
+                        Status:
                         <select @bind="@task.State">
                             @foreach (StateOfTask taskState in Enum.GetValues(typeof(StateOfTask)))
                             {
                                 <option value=@taskState>@taskState.ToString()</option>
                             }
                         </select>
-                  
-                    <button class="btn btn-primary" @onclick="UpdateDB">Update</button>
-                </li>
 
+                        <button class="btn btn-primary" @onclick="UpdateDB">Update</button>
+                    </li>
+                }
+                else if (task.UserInfoId == null && userInfo.UserName.Contains("ctbav.ro"))
+                {
+                    <li class="list-group-item py-4 border-style size-of-details">
+                        Status:
+                        <select @bind="@task.State">
+                            @foreach (StateOfTask taskState in Enum.GetValues(typeof(StateOfTask)))
+                            {
+                                <option value=@taskState>@taskState.ToString()</option>
+                            }
+                        </select>
+
+                        <button class="btn btn-primary" @onclick="UpdateDBforProjectTask">Update</button>
+                    </li>
+                }
+                else
+                {
+                    <li class="list-group-item py-4 border-style size-of-details">
+                        Status: @task.State
+                    </li>
+                }
                 <li class="list-group-item py-4 border-style size-of-details">
                     Priority:
                     @if (task.PriorityState.Equals(Priority.HIGH))
@@ -72,6 +95,8 @@
     public IList<UserInfo> userList;
     public string asignee;
 
+    private UserInfo userInfo;
+
     protected override void OnInitialized()
     {
         var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri);
@@ -88,16 +113,18 @@
     {
         userList = userManager.Users.ToList();
         tasksList = await TaskRepository.GetAll();
+        userInfo = identityUtils.GetCurrentUserAwaited();
         if (DateTime.Now < task.Deadline)
         {
             difference = task.Deadline - DateTime.Now;
             NumberOfDaysRemaining = (int)difference.TotalDays;
         }
-        foreach(var user in userList)
+        foreach (var user in userList)
         {
             if (user.Id == task.UserInfoId)
-                asignee = user.FirstName +" "+ user.LastName;
+                asignee = user.FirstName + " " + user.LastName;
         }
+       
     }
 
     public Siemens.MP.Entities.Task
@@ -105,6 +132,14 @@
     private void UpdateDB()
     {
         newTask = task;
+         if (task.State == StateOfTask.TO_DO && task.UserInfoId != null)
+            newTask.UserInfoId = null;
+        TaskRepository.Update(newTask);
+    }
+    private void UpdateDBforProjectTask()
+    {
+        newTask = task;
+        newTask.UserInfoId = userInfo.Id;
         TaskRepository.Update(newTask);
     }
     public void DeleteTask()

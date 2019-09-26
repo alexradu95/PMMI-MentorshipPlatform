@@ -1,5 +1,6 @@
 ﻿@using Siemens.MP.Entities
 @inject Siemens.MP.Data.Repositories.GenericRepository<Note> NoteRepository
+@inject Siemens.MP.Areas.Identity.IdentityUtilsService identityUtils
 
 
 <div class="card">
@@ -23,19 +24,19 @@
             else
             {
                 <ul>
-                    @foreach (var note in notes)
-                    {
-                        <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color:#fcf5ec">
-                            @if (hideCheckbox == true)
-                            {
-                                <input type="checkbox" style="float:left; top:3px;width:18px;height:18px" @bind="note.CheckedForDeletion" />
-                            }
-                            <details>
-                                <summary class="buttonList" style="width:1200px">@note.Title <i style="float:right">@note.CreatedAt.ToShortDateString()</i></summary>
-                                <p class="mb-auto">@note.Content</p>
-                            </details>
-                        </li>
-                    }
+                        @foreach (var note in notes.Where(note => (note.CreatedBy != null && note.CreatedBy.UserName.Equals(identityUtils.GetCurrentUserName()))))
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color:#fcf5ec">
+                                @if (hideCheckbox == true)
+                                {
+                                    <input type="checkbox" style="float:left; top:3px;width:18px;height:18px" @bind="note.CheckedForDeletion" />
+                                }
+                                <details>
+                                    <summary class="buttonList" style="width:1200px">@note.Title <i style="float:right">@note.CreatedAt.ToShortDateString()</i></summary>
+                                    <p class="mb-auto">@note.Content</p>
+                                </details>
+                            </li>
+                        }
                 </ul>
             }
             <button id="0HLPTP1OMP5O1" type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal" onclick="modalFunction">
@@ -78,6 +79,7 @@
 
     private IList<Note> notes;
 
+    private UserInfo userInfo;
 
     [Parameter]
     public int IdNote { get; set; }
@@ -91,6 +93,7 @@
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
         notes = await NoteRepository.GetAll();
+        userInfo = identityUtils.GetCurrentUserAwaited();
     }
 
     private void AddNote()
@@ -118,7 +121,7 @@
     {
         foreach (var note in notes)
         {
-            if(note.CheckedForDeletion == true)
+            if (note.CheckedForDeletion == true)
             {
                 NoteRepository.Delete(note.Id);
             }
