@@ -6,6 +6,7 @@
 
 @inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Task> TaskRepository
 @inject NavigationManager navigationManager
+@inject Siemens.MP.Areas.Identity.IdentityUtilsService identityUtils
 
 
 <AuthorizeView>
@@ -76,34 +77,34 @@
                     </button>
                 </div>
             </div>
-        </div>    
+        </div>
     </div>
 
-        <div class="card">
-            <div class="card-header" style="background-color:mediumpurple">
-                <p class="h5">
-                    <button id="0HLPTKM2659LL" type="button" class="btn" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        <div class="spinner-grow spinner-grow-sm text-danger" role="status" style="animation-duration:1s">
-                            <span class="sr-only"></span>
-                        </div>
-                        <b>Weekly productivity tracking</b>
-                    </button>
-                </p>
-            </div>
-            <div class="collapse" id="collapseTwo">
-                <div class="card-body">
+    <div class="card">
+        <div class="card-header" style="background-color:mediumpurple">
+            <p class="h5">
+                <button id="0HLPTKM2659LL" type="button" class="btn" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    <div class="spinner-grow spinner-grow-sm text-danger" role="status" style="animation-duration:1s">
+                        <span class="sr-only"></span>
+                    </div>
+                    <b>Weekly productivity tracking</b>
+                </button>
+            </p>
+        </div>
+        <div class="collapse" id="collapseTwo">
+            <div class="card-body">
 
-                    <LineChart @ref="lineChart" TItem="double" />
+                <LineChart @ref="lineChart" TItem="double" />
 
-                    <button id="0HLPT1HBT4CU7" type="button" class="btn btn-outline-light" style="font-size:40px">⇦</button>
-                    <button id="0HLPT1HBT4CU7" type="button" class="btn btn-outline-light" style="font-size:40px; float:right">⇨</button>
-                </div>
+                <button id="0HLPT1HBT4CU7" type="button" class="btn btn-outline-light" style="font-size:40px">⇦</button>
+                <button id="0HLPT1HBT4CU7" type="button" class="btn btn-outline-light" style="font-size:40px; float:right">⇨</button>
             </div>
         </div>
+    </div>
 
-        <div>
-            <NoteComponent></NoteComponent>
-        </div>
+    <div>
+        <NoteComponent></NoteComponent>
+    </div>
 
 </body>
 
@@ -111,6 +112,7 @@
 @code
 {
 
+    private UserInfo userInfo;
     private float firstWidth = 0;
     private float secondWidth = 0;
     private float thirdWidth = 0;
@@ -121,6 +123,7 @@
     private int nrCodeReview = 0;
     private int nrDone = 0;
     private int nrHighPriorityTask = 0;
+    private int myTasks = 0;
 
     private DateTime now = DateTime.Now;
 
@@ -130,36 +133,41 @@
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
 
+        userInfo = identityUtils.GetCurrentUserAwaited();
         tasks = await TaskRepository.GetAll();
 
         foreach (var task in tasks)
         {
 
-            if (task.State == StateOfTask.TO_DO)
+            if (task.State == StateOfTask.TO_DO && task.UserInfoId == userInfo.Id)
             {
                 nrToDo++;
+                myTasks++;
 
             }
-            else if (task.State == StateOfTask.ONGOING)
+            else if (task.State == StateOfTask.ONGOING && task.UserInfoId == userInfo.Id)
             {
                 nrOngoing++;
+                myTasks++;
 
             }
-            else if (task.State == StateOfTask.CODE_REVIEW)
+            else if (task.State == StateOfTask.CODE_REVIEW && task.UserInfoId == userInfo.Id)
             {
                 nrCodeReview++;
+                myTasks++;
 
             }
-            else if (task.State == StateOfTask.DONE)
+            else if (task.State == StateOfTask.DONE && task.UserInfoId == userInfo.Id)
             {
                 nrDone++;
+                myTasks++;
             }
         }
         Percentage();
 
         foreach (var task in tasks)
         {
-            if (task.PriorityState == Priority.HIGH)
+            if (task.PriorityState == Priority.HIGH && task.UserInfoId == userInfo.Id)
             {
                 nrHighPriorityTask++;
             }
@@ -170,10 +178,10 @@
 
     private void Percentage()
     {
-        firstWidth = ((float)nrToDo / tasks.Count) * 100;
-        secondWidth = ((float)nrOngoing / tasks.Count) * 100;
-        thirdWidth = ((float)nrCodeReview / tasks.Count) * 100;
-        fourthWidth = ((float)nrDone / tasks.Count) * 100;
+        firstWidth = ((float)nrToDo / myTasks) * 100;
+        secondWidth = ((float)nrOngoing / myTasks) * 100;
+        thirdWidth = ((float)nrCodeReview / myTasks) * 100;
+        fourthWidth = ((float)nrDone / myTasks) * 100;
     }
 
 
