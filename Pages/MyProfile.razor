@@ -21,37 +21,37 @@
                                 <p>First name:</p>
                                 <input class="form-control" type="text"
                                        placeholder="enter the first name"
-                                  // @bind="userInfo.FirstName" /> <br />
+                                  @bind="userInfo.FirstName" /> <br />
 
                                 <p>Last name:</p>
                                 <input class="form-control" type="text"
                                        placeholder="enter the last name"
-                                  // @bind="userInfo.LastName" /> <br />
+                                  @bind="userInfo.LastName" /> <br />
 
                                 <p>City:</p>
                                 <input class="form-control" type="text"
                                        placeholder="enter the city"
-                                  // @bind="userInfo.City" /> <br />
+                                  @bind="userInfo.City" /> <br />
 
                                 <p>University:</p>
                                 <input class="form-control" type="text"
                                        placeholder="enter the university"
-                                 //  @bind="userInfo.University" /> <br />
+                                 @bind="userInfo.University" /> <br />
 
                                 <p>Phone:</p>
                                 <input class="form-control" type="text"
                                        placeholder="enter the phone"
-                                  // @bind="userInfo.Phone" /> <br />
+                                 @bind="userInfo.Phone" /> <br />
 
                                 <p>Github:</p>
                                 <input class="form-control" type="text"
                                        placeholder="enter your github link"
-                                 //  @bind="userInfo.Github" /> <br />
+                                 @bind="userInfo.Github" /> <br />
 
                                 <p>Facebook:</p>
                                 <input class="form-control" type="text"
                                        placeholder="enter your facebook link"
-                                 //  @bind="userInfo.Facebook" /> <br />
+                                 @bind="userInfo.Facebook" /> <br />
                             </bold>
 
                         </div>
@@ -80,9 +80,9 @@
                     <p class="title">John Wick</p>
 
                     <div class="text-card">
-                        <p><i class="fa fa-home"></i>Brasov</p>
-                        <p><i class="fa fa-university"></i>Matematica si Informatica</p>
-                        <p><i class="fa fa-phone-square"></i>0760030989</p>
+                        <p><i class="fa fa-home">@userInfo.City</i></p>
+                        <p><i class="fa fa-university"></i>@userInfo.University</p>
+                        <p><i class="fa fa-phone-square"></i>@userInfo.PhoneNumber</p>
                         <hr>
                         <p><b><i class="fa fa-asterisk info"></i>Skills</b></p>
                         <div class="skill-bar">
@@ -94,9 +94,11 @@
                         <p>
                             <a href="https://www.facebook.com/ionuut.alban">
                                 <i class="fa fa-facebook-square"></i>
+                                @userInfo.Facebook
                             </a>
                             <a href="https://github.com/albanionut">
                                 <i class="fa fa-github" aria-hidden="true"></i>
+                                @userInfo.Github
                             </a>
                         </p>
                     </center>
@@ -139,14 +141,12 @@
 
     private void EditUser()
     {
-        //objUser = editUser;
         edit = true;
     }
 
     private void SaveChanges()
     {
-        //UserInfoRepository.Update(objUser);
-        //OnInitializedAsync();
+        identityUtils.UpdateUser(userInfo);
         edit = false;
     }
 

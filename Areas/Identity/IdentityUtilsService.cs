@@ -34,6 +34,12 @@ namespace Siemens.MP.Areas.Identity
             return user.Id;
         }
 
+        public void UpdateUser(UserInfo userToBeUpdated)
+        {
+            _context.Update<UserInfo>(userToBeUpdated);
+            _context.SaveChanges();
+        }
+
 
 
     }
