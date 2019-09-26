@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor Context
 
-
+    <link rel="stylesheet" href="/css/landingpage.css">
 
 @if (Context.HttpContext.User.Identity.IsAuthenticated)
 {
@@ -25,12 +25,12 @@
 }
 else
 {
-    //@Context.HttpContext.Response.Redirect("~Identity/Account/Login")
-    <div class="main">
-        <div class="top-row px-4">
-            <LoginDisplay />
-            <a href="https://docs.microsoft.com/en-us/aspnet/" target="_blank">About</a>
-        </div>
+    <div class="bg"></div>
+    <div class="flex-container align-bottom" id="flex-container">
+
+        <h1 >Siemiens management application for students</h1>
+        <p class="lead">This is the landing page. Click the CTA below if you would like me to design one for you.</p>
+        <a href="Identity/Account/Login" class="cta">Log In !</a>
     </div>
 }
 
