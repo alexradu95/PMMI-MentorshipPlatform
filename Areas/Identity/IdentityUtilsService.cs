@@ -34,6 +34,12 @@ namespace Siemens.MP.Areas.Identity
             return user.Id;
         }
 
+        public string GetCurrentUserName()
+        {
+            UserInfo user = GetCurrentUserAwaited();
+            return user.UserName;
+        }
+
         public void UpdateUser(UserInfo userToBeUpdated)
         {
             _context.Update<UserInfo>(userToBeUpdated);

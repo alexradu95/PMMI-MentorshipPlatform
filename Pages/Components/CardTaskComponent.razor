@@ -1,5 +1,7 @@
 ﻿@inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Task> TaskRepository
 @inject NavigationManager navigationManager
+@inject Siemens.MP.Areas.Identity.IdentityUtilsService identityUtils
+@using Siemens.MP.Entities;
 
 @if (tasks == null)
 {
@@ -27,7 +29,7 @@ else
         <ul class="list-group">
             @if (filteredTasks.Count != 0)
             {
-                @foreach (var task in filteredTasks)
+                @foreach (var task in filteredTasks.Where(task => (task.UserInfo != null && task.UserInfo.UserName.Equals(identityUtils.GetCurrentUserName()))))
                 {
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <button class="buttontask" @onclick="@(() => Navigate(task.Id))">@task.Name</button>
@@ -48,12 +50,13 @@ else
                             <span class="badge badge-primary badge-pill list-group-item-info">@task.State</span>
                         }
                     </li>
-
                 }
+
             }
             else
             {
                 <div class=" list-group-item-danger align-self-center" style="padding:3px; margin:6px;">No results available.</div>
+
             }
         </ul>
 
@@ -61,13 +64,16 @@ else
     </div>
 }
 @code {
+    private UserInfo userInfo;
     private IList<Siemens.MP.Entities.Task>
     tasks;
+    private List<Siemens.MP.Entities.ProjectUser> userTaskList;
     private string searchTerm { get; set; } = "";
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
         tasks = await TaskRepository.GetAll();
+        userInfo = identityUtils.GetCurrentUserAwaited();
     }
     private IList<Siemens.MP.Entities.Task>
         filteredTasks => tasks.Where(i => i.Name.ToLower().Contains(searchTerm.ToLower())).ToList();
