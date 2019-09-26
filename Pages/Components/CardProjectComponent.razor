@@ -1,6 +1,8 @@
 ﻿@using Siemens.MP.Entities
 @inject Siemens.MP.Data.Repositories.GenericRepository<Project> ProjectRepository
+@inject  Siemens.MP.Data.Repositories.GenericRepository<ProjectUser> ProjectUserRepository
 @inject NavigationManager navigationManager
+@inject Siemens.MP.Areas.Identity.IdentityUtilsService identityUtils
 
 
 <div class="card" id="profile" style="margin-bottom:50px;">
@@ -19,13 +21,20 @@
 
     <hr style="margin-top:0px;margin-bottom:0px;">
     <ul class="list-group">
+
         @if (filteredProjects.Count != 0)
         {
             @foreach (var project in filteredProjects)
             {
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <button class="buttontask" onclick="location.href='projects'">@project.Title</button>
-                </li>
+                @foreach (var userPerProject in userProjectList) if (userPerProject.UserInfoId == userInfo.Id)
+                    {
+                        @if (project.Id == userPerProject.ProjectId)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <button class="buttontask" onclick="location.href='projects'">@project.Title</button>
+                            </li>
+                        }
+                    }
             }
         }
         else
@@ -39,12 +48,17 @@
 
 </div>
 @code {
+    private UserInfo userInfo;
     private List<Siemens.MP.Entities.Project> projects;
+    private List<Siemens.MP.Entities.ProjectUser> userProjectList;
     private string searchTerm { get; set; } = "";
+    private Project assignedProject { get; set; }
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
+        userProjectList = await ProjectUserRepository.GetAll();
         projects = await ProjectRepository.GetAll();
+        userInfo = identityUtils.GetCurrentUserAwaited();
     }
     private IList<Siemens.MP.Entities.Project> filteredProjects => projects.Where(i => i.Title.ToLower().Contains(searchTerm.ToLower())).ToList();
 
