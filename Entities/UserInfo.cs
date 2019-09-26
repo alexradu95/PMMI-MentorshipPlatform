@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,7 @@ namespace Siemens.MP.Entities
         public string Phone { get; set; }
         public string Github { get; set; }
         public string Facebook { get; set; }
+        
+
     }
 }
