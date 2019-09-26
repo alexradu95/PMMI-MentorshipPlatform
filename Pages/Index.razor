@@ -1,10 +1,15 @@
 ﻿@page "/"
 
 @using Siemens.MP.Entities
+@using Siemens.MP.Enums
 @inject Siemens.MP.Data.Repositories.GenericRepository<Note> NoteRepository
+@inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Task> TaskRepository
 @inject NavigationManager navigationManager
 
-<h3>Hello, Full Name of Student</h3>
+
+<AuthorizeView>
+    <h1><span style="color:#45165c">Hello, </span> <span style="color:#7d28a6">@context.User.Identity.Name.Split("@").First()</span></h1>
+</AuthorizeView>
 <p></p>
 
 <head>
@@ -17,10 +22,9 @@
             <div>
                 <h5 class="card-title" style="float:left">Grafic : @now.ToShortDateString().Replace('-', ' ')</h5>
                 <button id="0HLPS1QEUG99M" type="button" class="btn btn-outline-info" onclick="popoverFunction()" data-toggle="popover" data-content="Number of Tasks" data-placement="bottom"
-                        style="width:80px; height:30px; margin-bottom:0px; margin-left:17px">
+                        style="width:80px; height:30px; margin-bottom:0px; margin-left:17px; background-color:#b469d9; color:#531b6f; border-bottom-color:aqua">
                     INFO
                 </button>
-                <button type="button" class="btn btn-link">Tasks</button>
             </div>
 
             <p></p>
@@ -55,8 +59,8 @@
                 </div>
             </div>
 
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                Ai <a href="#" class="alert-link">@numberOfUrgentTasks</a> task-uri urgente! <strong>Alert Link.</strong>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Ai <a href="#" class="alert-link">@nrHighPriorityTask</a> task-uri urgente! <strong>Alert Link.</strong>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -65,7 +69,7 @@
     </div>
 
     <div class="card">
-        <div class="card-header" style="background-color:beige">
+        <div class="card-header" style="background-color:mediumpurple">
             <p class="h5">
                 <button id="0HLPTKM2659LL" type="button" class="btn" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                     <b>Weekly productivity tracking</b>
@@ -87,7 +91,7 @@
     </div>
 
     <div class="card">
-        <div class="card-header" style="background-color:#faebd7">
+        <div class="card-header" style="background-color:#ba55d3">
             <p class="h5">
                 <button id="0HLPTKM2659LL" type="button" class="btn" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                     <b>Note</b>
@@ -101,8 +105,10 @@
                     @foreach (var note in notes)
                     {
                         <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color:#fcf5ec">
-                            <button class="buttonList">@note.Title</button>
-                            <p><i>@note.CreatedAt.ToShortDateString()</i></p>
+                            <details>
+                                <summary class="buttonList" style="width:1200px">@note.Title <i style="float:right">@note.CreatedAt.ToShortDateString()</i></summary>
+                                <p class="mb-auto">@note.Content</p>
+                            </details>
                         </li>
                     }
                 </ul>
@@ -114,16 +120,16 @@
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
-                                <div class="modal-header" style="background-color:#ffffe0">
-                                    <input placeholder="Note Title" style="width:400px; background-color:#ffffea" @bind="title" />
+                                <div class="modal-header" style="background-color:#ffeaff">
+                                    <input placeholder="Note Title" style="width:400px; background-color:#fff7ff" @bind="title" />
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body" style="background-color:#ffffe0">
+                                <div class="modal-body" style="background-color:#ffeaff">
                                     <textarea style="width:460px; height:400px; background-color:#ffffea" @bind="content"></textarea>
                                 </div>
-                                <div class="modal-footer" style="background-color:#ffffe0">
+                                <div class="modal-footer" style="background-color:#ffeaff">
                                     <button type="button" class="btn btn btn-success" @onclick="AddNote">Save</button>
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                 </div>
@@ -135,23 +141,27 @@
             </div>
         </div>
     </div>
+
 </body>
+
+
 
 
 @code
 {
-    private int x = 7;
-    private int firstWidth = 25;
-    private int secondWidth = 10;
-    private int thirdWidth = 83;
-    private int fourthWidth = 2;
+
+    private float firstWidth = 50;
+    private float secondWidth = 50;
+    private float thirdWidth =  50;
+    private float fourthWidth =  50;
 
     private int numberOfUrgentTasks = 7;
 
-    private int nrToDo = 4;
-    private int nrOngoing = 8;
-    private int nrCodeReview = 5;
-    private int nrDone = 1;
+    private int nrToDo = 0;
+    private int nrOngoing = 0;
+    private int nrCodeReview = 0;
+    private int nrDone = 0;
+    private int nrHighPriorityTask = 0;
 
     private DateTime now = DateTime.Now;
 
@@ -160,6 +170,7 @@
     private IList<Note> notes;
     bool ShowModal = false;
 
+    List<Siemens.MP.Entities.Task> tasks;
 
     private void OpenModal()
     {
@@ -198,18 +209,50 @@
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
         notes = await NoteRepository.GetAll();
-        //notes = await NoteRepository.GetAsync();
+        tasks = await TaskRepository.GetAll();
+
+        foreach (var task in tasks)
+        {
+
+            if (task.State == StateOfTask.TO_DO)
+            {
+                nrToDo++;
+
+            }
+            else if (task.State == StateOfTask.ONGOING)
+            {
+                nrOngoing++;
+
+            }
+            else if (task.State == StateOfTask.CODE_REVIEW)
+            {
+                nrCodeReview++;
+
+            }
+            else if (task.State == StateOfTask.DONE)
+            {
+                nrDone++;
+            }
+        }
+        Percentage();
+        foreach(var task in tasks)
+        {
+            if (task.PriorityState == Priority.HIGH)
+            {
+                nrHighPriorityTask++;
+            }
+        }
+
+
     }
 
-
-
-
-    //public void DeleteNote()
-    //{
-    //    TaskRepository.Delete(note.Id);
-    //}
-
-
+    private void Percentage()
+    {
+        firstWidth = ((float) nrToDo / tasks.Count) * 100;
+        secondWidth = ((float) nrOngoing / tasks.Count) * 100;
+        thirdWidth = ((float) nrCodeReview / tasks.Count) * 100;
+        fourthWidth = ((float) nrDone / tasks.Count) * 100;
+    }
 
 
     LineChart<double> lineChart;
