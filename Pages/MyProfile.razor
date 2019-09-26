@@ -21,37 +21,37 @@
                                 <p>First name:</p>
                                 <input class="form-control" type="text"
                                        placeholder="enter the first name"
-                                  @bind="userInfo.FirstName" /> <br />
+                                       @bind="userInfo.FirstName" /> <br />
 
                                 <p>Last name:</p>
                                 <input class="form-control" type="text"
                                        placeholder="enter the last name"
-                                  @bind="userInfo.LastName" /> <br />
+                                       @bind="userInfo.LastName" /> <br />
 
                                 <p>City:</p>
                                 <input class="form-control" type="text"
                                        placeholder="enter the city"
-                                  @bind="userInfo.City" /> <br />
+                                       @bind="userInfo.City" /> <br />
 
                                 <p>University:</p>
                                 <input class="form-control" type="text"
                                        placeholder="enter the university"
-                                 @bind="userInfo.University" /> <br />
+                                       @bind="userInfo.University" /> <br />
 
                                 <p>Phone:</p>
                                 <input class="form-control" type="text"
                                        placeholder="enter the phone"
-                                 @bind="userInfo.Phone" /> <br />
+                                       @bind="userInfo.Phone" /> <br />
 
                                 <p>Github:</p>
                                 <input class="form-control" type="text"
                                        placeholder="enter your github link"
-                                 @bind="userInfo.Github" /> <br />
+                                       @bind="userInfo.Github" /> <br />
 
                                 <p>Facebook:</p>
                                 <input class="form-control" type="text"
                                        placeholder="enter your facebook link"
-                                 @bind="userInfo.Facebook" /> <br />
+                                       @bind="userInfo.Facebook" /> <br />
                             </bold>
 
                         </div>
@@ -60,7 +60,7 @@
 
                     <div class="row" style="margin-bottom:20px">
                         <div class="col">
-                            <button class="btn btn-primary" 
+                            <button class="btn btn-primary"
                                     @onclick="SaveChanges">
                                 Save Changes
                             </button>
@@ -93,7 +93,7 @@
                                 <i class="fa fa-facebook-square"></i>
                             </a>
                             <a href="@userInfo.Github">
-                                <i class="fa fa-github" aria-hidden="true"></i> 
+                                <i class="fa fa-github" aria-hidden="true"></i>
                             </a>
                         </p>
                     </center>
@@ -110,14 +110,15 @@
             }
 
         </div>
+        <AuthorizeView Roles="STUDENT">
+            <div class="col-md-8">
 
-        <div class="col-md-8">
+                <CardProjectComponent></CardProjectComponent>
 
-            <CardProjectComponent></CardProjectComponent>
+                <CardTaskComponent></CardTaskComponent>
 
-            <CardTaskComponent></CardTaskComponent>
-
-        </div>
+            </div>
+        </AuthorizeView>
     </div>
 </body>
 

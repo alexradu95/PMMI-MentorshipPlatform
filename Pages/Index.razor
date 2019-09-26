@@ -9,7 +9,7 @@
 
 
 <AuthorizeView>
-    <h1><span style="color:#45165c">Hello, </span> <span style="color:#7d28a6">@context.User.Identity.Name.Split("@").First()</span></h1>
+    <h1><span style="color:#45165c">Hello, </span> <span style="color:#7d28a6">@context.User.Identity.Name.Split("@").First().ToUpper()</span></h1>
 </AuthorizeView>
 <p></p>
 
