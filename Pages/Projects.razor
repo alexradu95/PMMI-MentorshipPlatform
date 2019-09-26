@@ -4,6 +4,8 @@
 @using System.Threading
 @inject Siemens.MP.Data.ApplicationDbContext DbContext
 @inject Siemens.MP.Data.Repositories.GenericRepository<Project> ProjectRepository
+@inject Siemens.MP.Areas.Identity.IdentityUtilsService identityUtils
+@inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.ProjectUser> ProjectUserRepository
 <link rel="stylesheet" href="/css/DetailedTask.css">
 
 @if (projects == null)
@@ -12,11 +14,13 @@
 }
 else
 {
-    <div class="modal-body row">
+<div class="modal-body row">
+
+    <AuthorizeView Roles="ADMIN,MENTOR">
         <div class="project-first-column">
             <h3>Projects</h3>
             <ul id="projlist" class="projects list-group list-group-flush">
-                @foreach (Siemens.MP.Entities.Project project in projects)
+                @foreach (Project project in projects)
                 {
                     <li class="list-group-item py-4 border-style size-of-details liproject" title="@project.DescriptionPreview">
                         <div class="issue-content-container" @onclick="@(() => ChangeTheProjectID(project.Id))">
@@ -27,32 +31,55 @@ else
                         </div>
                     </li>
                 }
-                <AuthorizeView Roles="ADMIN,MENTOR">
 
-                    <li class="list-group-item py-4 border-style size-of-details liproject">
-                        <center>
-                            <button class="btn btn-primary"
-                                    @onclick="TriggerPopUp">
-                                Add New Project
-                            </button>
-                            <Siemens.MP.Pages.Components.AddProjectComponent @bind-ShowPopup="ShowPopup"></Siemens.MP.Pages.Components.AddProjectComponent>
-                        </center>
-                    </li>
+                <li class="list-group-item py-4 border-style size-of-details liproject">
+                    <center>
+                        <button class="btn btn-primary"
+                                @onclick="TriggerPopUp">
+                            Add New Project
+                        </button>
+                        <Siemens.MP.Pages.Components.AddProjectComponent @bind-ShowPopup="ShowPopup"></Siemens.MP.Pages.Components.AddProjectComponent>
+                    </center>
+                </li>
 
-                </AuthorizeView>
+
             </ul>
+
         </div>
-        <div class="project-second-column">
-            <Siemens.MP.Pages.Components.DetailedProjectComponent @bind-IdProject="ProjectID" @bind-edit="edit" @bind-addTask="addTask" @bind-addStudent="addStudent"></Siemens.MP.Pages.Components.DetailedProjectComponent>
-            <Siemens.MP.Pages.Components.ProjectTasksComponent @bind-IdProject="ProjectID"></Siemens.MP.Pages.Components.ProjectTasksComponent>
+    </AuthorizeView>
+    <AuthorizeView Roles="STUDENT">
+        <div class="project-first-column">
+            <h3>Your Projects</h3>
+            <ul id="projlist" class="projects list-group list-group-flush">
+                @foreach (Project project in projects)
+                    foreach (ProjectUser userPerProject in userProjects) if(userPerProject.ProjectId == project.Id && userPerProject.UserInfoId == userInfo.Id) {
+                    <li class="list-group-item py-4 border-style size-of-details liproject" title="@project.DescriptionPreview">
+                        <div class="issue-content-container" @onclick="@(() => ChangeTheProjectID(project.Id))">
+                            <center>
+                                <span class="issue-link-key">@project.Title</span>
+                                <span class="issue-link-summary">@project.DescriptionPreview</span>
+                            </center>
+                        </div>
+                    </li>
+                    }
+            </ul>
+
         </div>
+    </AuthorizeView>
+    <div class="project-second-column">
+        <Siemens.MP.Pages.Components.DetailedProjectComponent @bind-IdProject="ProjectID" @bind-edit="edit" @bind-addTask="addTask" @bind-addStudent="addStudent"></Siemens.MP.Pages.Components.DetailedProjectComponent>
+        <Siemens.MP.Pages.Components.ProjectTasksComponent @bind-IdProject="ProjectID"></Siemens.MP.Pages.Components.ProjectTasksComponent>
     </div>
+</div>
 }
 
 
 @code {
 
     private IList<Siemens.MP.Entities.Project> projects;
+    private IList<ProjectUser> userProjects;
+
+    private UserInfo userInfo;
 
     [Parameter]
     public int ProjectID { get; set; }
@@ -68,6 +95,8 @@ else
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
+        userProjects = await ProjectUserRepository.GetAll();
+        userInfo = identityUtils.GetCurrentUserAwaited();
         projects = await ProjectRepository.GetAll();
         ShowPopup = false;
     }
