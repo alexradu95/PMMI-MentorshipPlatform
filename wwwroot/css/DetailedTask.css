@@ -1,7 +1,8 @@
 ﻿.right-side-container{
    
     margin-top:1px;
-    margin-bottom:60px;
+    margin-right:20px;
+    margin-bottom:100px;
     width:30%;
 }
 .upper-container{
@@ -22,7 +23,7 @@ label{
 .border-style {
     resize: none;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    border: 2px solid black;
+    
     border-radius:1%;  
 }
 .button1 {

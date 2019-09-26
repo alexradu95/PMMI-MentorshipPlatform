@@ -106,7 +106,11 @@ else if (addStudent == true)
                 <option disabled hidden>Select Student</option>
                 @foreach (var student in studentList)
                 {
-                    <option value=@student.Id>@student.ToString()</option>
+                    if (student.UserName.Contains("ctbav.ro"))
+                    {
+
+                    <option value=@student.Id>@student.FirstName @student.LastName</option>
+                     }
                 }
 
             </select>
@@ -132,7 +136,7 @@ else
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
-                <span class="taskinfo badge badge-primary badge-pill list-group-item-danger">Created by @project.CreatedBy.UserName.Split('@').First()</span>
+                <span class="taskinfo badge badge-primary badge-pill list-group-item-danger">Created by @project.CreatedBy.FirstName @project.CreatedBy.LastName</span>
             </li>
             <li class="list-group-item">
                 <span class="taskinfo badge badge-primary badge-pill list-group-item-success">Deadline: @project.DeadLine</span>
@@ -144,7 +148,7 @@ else
                         foreach (var userEmail in studentList) if (userEmail.Id == studentPerTask.UserInfoId)
                             {
                             <span class="taskinfo badge badge-primary badge-pill list-group-item-info">
-                                @userEmail.Email
+                                @userEmail.FirstName @userEmail.LastName
                             </span>
                             }
                     }

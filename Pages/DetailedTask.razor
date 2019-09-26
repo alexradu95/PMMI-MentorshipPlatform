@@ -9,12 +9,12 @@
 @inject NavigationManager NavManager
 <link rel="stylesheet" href="/css/DetailedTask.css">
 <body>
-    <h2><i>@task.Name</i></h2>
+    <h1><i>@task.Name</i></h1>
     <div class="container upper-container">
         <div class="float-left">
-            <label><b><i>Task Description:</i></b></label>
+            <label style="font-size:25px"><b><i>Task Description:</i></b></label>
             <div class="card">
-                <textarea readonly style="width:700px" class="border-style" rows="5">@task.Description</textarea>
+                <textarea readonly style="width:700px; height:500px;font-size:20px" class="border-style" rows="5">@task.Description</textarea>
             </div>
            </div>
         </div>
@@ -22,16 +22,16 @@
         <div class="float-right right-side-container ">
             <ul class="list-group ">
                 <li class="list-group-item py-4 border-style size-of-details">Assignee: <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-1 mt-1 rounded-circle" style="width:40px;" /> @asignee</li>
-                <li class="list-group-item py-4 border-style size-of-details">Reporter: <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-1 mt-1 rounded-circle" style="width:40px;" /> @task.CreatedBy</li>
+                <li class="list-group-item py-4 border-style size-of-details">Reporter: <img src="/css/bootstrap/img.jpg" alt="John Doe" class="mr-1 mt-1 rounded-circle" style="width:40px;" /> @task.CreatedBy.FirstName @task.CreatedBy.LastName</li>
                 <li class="list-group-item py-4 border-style size-of-details">
-                    Status: <span class="badge badge-secondary">
+                    Status: 
                         <select @bind="@task.State">
                             @foreach (StateOfTask taskState in Enum.GetValues(typeof(StateOfTask)))
                             {
                                 <option value=@taskState>@taskState.ToString()</option>
                             }
                         </select>
-                    </span>
+                  
                     <button class="btn btn-primary" @onclick="UpdateDB">Update</button>
                 </li>
 
@@ -96,7 +96,7 @@
         foreach(var user in userList)
         {
             if (user.Id == task.UserInfoId)
-                asignee = user.UserName;
+                asignee = user.FirstName +" "+ user.LastName;
         }
     }
 

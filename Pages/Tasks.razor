@@ -23,6 +23,7 @@ else
                 <th>Deadline</th>
                 <th>Priority</th>
                 <th>Status</th>
+                <th>Asignee</th>
             </tr>
         </thead>
         <tbody>
@@ -37,6 +38,16 @@ else
                     <td>
                         @task.State
                     </td>
+                    @foreach (var student in studentList)
+                    {
+                        if (student.Id == task.UserInfoId)
+                        {
+                            <td>
+                                @student.FirstName  @student.LastName
+                            </td>
+                        }
+                    }
+
                 </tr>
             }
         </tbody>
@@ -78,17 +89,17 @@ else
                                 <input class="form-control" type="date"
                                        placeholder="Task Deadline"
                                        @bind="deadline" />
-                           
+
                                 <select @bind="studentID">
                                     <option disabled hidden>Select Student</option>
                                     @foreach (var student in studentList)
                                     {
                                         if (student.UserName.Contains("ctbav.ro"))
                                         {
-                                            <option value=@student.Id>@student.ToString()</option>
+                                            <option value=@student.Id>@student.FirstName @student.LastName </option>
                                         }
                                     }
-                                
+
                                 </select>
                                 <select @bind="priorityState">
 
@@ -114,56 +125,56 @@ else
 
 @code {
 
-        private string taskName;
-        private string taskDescriptionPreview;
-        private DateTime deadline=DateTime.Now;
-        private StateOfTask status;
-        List<Siemens.MP.Entities.Task> tasks;
-        private Priority priorityState;
-        private string taskDescription;
-        private IList<UserInfo> studentList;
-        bool ShowPopup = false;
-        public RoleType role;
-        private string studentID;
+    private string taskName;
+    private string taskDescriptionPreview;
+    private DateTime deadline = DateTime.Now;
+    private StateOfTask status;
+    List<Siemens.MP.Entities.Task> tasks;
+    private Priority priorityState;
+    private string taskDescription;
+    private IList<UserInfo> studentList;
+    bool ShowPopup = false;
+    public RoleType role;
+    private string studentID;
 
-        Entities.Task task = new Entities.Task();
+    Entities.Task task = new Entities.Task();
 
-        void AddNewTask()
+    void AddNewTask()
+    {
+        // Make new forecast
+        task = new Entities.Task();
+        // Set Id to 0 so we know it is a new record
+        task.Id = 0;
+        // Open the Popup
+        ShowPopup = true;
+    }
+
+    void ClosePopup()
+    {
+        // Close the Popup
+        ShowPopup = false;
+    }
+
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        studentList = userManager.Users.ToList();
+        List<Siemens.MP.Entities.Task> taskList = await TaskRepository.GetAll();
+        tasks = taskList;
+    }
+
+    private void AddTask()
+    {
+        if (!string.IsNullOrEmpty(taskName) && !string.IsNullOrEmpty(taskDescriptionPreview) && deadline >= DateTime.Now &&
+        !string.IsNullOrEmpty(taskDescription) && priorityState != Priority.DEFAULT && !string.IsNullOrEmpty(studentID))
         {
-            // Make new forecast
-            task = new Entities.Task();
-            // Set Id to 0 so we know it is a new record
-            task.Id = 0;
-            // Open the Popup
-            ShowPopup = true;
-        }
-
-        void ClosePopup()
-        {
-            // Close the Popup
-            ShowPopup = false;
-        }
-
-        protected override async System.Threading.Tasks.Task OnInitializedAsync()
-        {
-            studentList = userManager.Users.ToList();
-            List<Siemens.MP.Entities.Task> taskList = await TaskRepository.GetAll();
-            tasks = taskList;
-        }
-
-        private void AddTask()
-        {
-            if (!string.IsNullOrEmpty(taskName) && !string.IsNullOrEmpty(taskDescriptionPreview) && deadline >= DateTime.Now &&
-            !string.IsNullOrEmpty(taskDescription) && priorityState != Priority.DEFAULT && !string.IsNullOrEmpty(studentID))
+            Siemens.MP.Entities.Task newTask = new Siemens.MP.Entities.Task
             {
-                Siemens.MP.Entities.Task newTask = new Siemens.MP.Entities.Task
-                {
-                    Name = taskName,
-                    DescriptionPreview = taskDescriptionPreview,
-                    Deadline = deadline,
-                    Description = taskDescription,
-                    PriorityState = priorityState,
-                    UserInfoId = studentID
+                Name = taskName,
+                DescriptionPreview = taskDescriptionPreview,
+                Deadline = deadline,
+                Description = taskDescription,
+                PriorityState = priorityState,
+                UserInfoId = studentID
 
             };
             TaskRepository.Insert(newTask);
