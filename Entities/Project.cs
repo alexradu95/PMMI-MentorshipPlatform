@@ -21,6 +21,7 @@ namespace Siemens.MP.Entities
         public DateTime DeadLine { get; set; }
         public int IdReporter { get; set; }
         public virtual ICollection<Task> Tasks { get; set; }
+        public ICollection<ProjectUser> ProjectUsers { get; set; }
 
 
     }

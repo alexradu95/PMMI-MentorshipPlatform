@@ -1,7 +1,10 @@
 ﻿@using Siemens.MP.Entities
 @using Siemens.MP.Enums
+@using Microsoft.AspNetCore.Identity;
 @inject Siemens.MP.Data.Repositories.GenericRepository<Project> ProjectRepository
 @inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.Task> TaskRepository
+@inject Siemens.MP.Data.Repositories.GenericRepository<Siemens.MP.Entities.ProjectUser> ProjectUserRepository
+@inject UserManager<UserInfo> userManager
 
 @if (project == null)
 {
@@ -95,6 +98,31 @@ else if (addTask == true)
         </div>
     </center>
 }
+else if (addStudent == true)
+{
+    <center>
+        <div class="modal-body" style="width:50%; text-align: center;">
+            <select @bind="studentID">
+                <option disabled hidden>Select Student</option>
+                @foreach (var student in studentList)
+                {
+                    <option value=@student.Id>@student.ToString()</option>
+                }
+
+            </select>
+
+            <!-- Button to add the task -->
+            <button class="btn btn-primary"
+                    @onclick="SaveStudent">
+                Add Student
+            </button>
+            <button class="btn btn-success"
+                    @onclick="GoBack">
+                Back
+            </button>
+        </div>
+    </center>
+}
 else
 {
     <div class="card">
@@ -112,10 +140,14 @@ else
 
             <li class="list-group-item">
                 <h4>Students working on this project</h4>
-                <span class="taskinfo badge badge-primary badge-pill list-group-item-info">Marcelino</span>
-                <span class="taskinfo badge badge-primary badge-pill list-group-item-info">Iohannis</span>
-                <span class="taskinfo badge badge-primary badge-pill list-group-item-info">Base</span>
-                <span class="taskinfo badge badge-primary badge-pill list-group-item-info">Dancila</span>
+                @foreach (var studentPerTask in userProjectList) if (studentPerTask.ProjectId == IdProject) {
+                        foreach (var userEmail in studentList) if (userEmail.Id == studentPerTask.UserInfoId)
+                            {
+                            <span class="taskinfo badge badge-primary badge-pill list-group-item-info">
+                                @userEmail.Email
+                            </span>
+                            }
+                    }
             </li>
         </ul>
         <AuthorizeView Roles="ADMIN,MENTOR">
@@ -125,6 +157,9 @@ else
                 </button>
                 <button class="btn btn-primary" @onclick="@(() => AddTask())" style="width:20%">
                     Add New Task
+                </button>
+                <button class="btn btn-primary" @onclick="@(() => AddStudent())" style="width:20%">
+                    Add New Student
                 </button>
             </center>
         </AuthorizeView>
@@ -138,6 +173,9 @@ else
     private StateOfTask status;
     private Priority priorityState;
     private string taskDescription;
+    private IList<UserInfo> studentList;
+    private string studentID;
+
 
     [Parameter]
     public int IdProject { get; set; }
@@ -145,10 +183,13 @@ else
     public EventCallback<int> IdProjectChanged { get; set; }
 
     private IList<Siemens.MP.Entities.Project> projects;
+    private IList<Siemens.MP.Entities.ProjectUser> userProjectList;
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
+        studentList = userManager.Users.ToList();
         projects = await ProjectRepository.GetAll();
+        userProjectList = await ProjectUserRepository.GetAll();
         deadline = DateTime.Now.AddDays(1);
     }
 
@@ -165,6 +206,12 @@ else
     [Parameter]
     public EventCallback<bool> addTaskChanged { get; set; }
 
+    [Parameter]
+    public bool addStudent { get; set; }
+    [Parameter]
+    public EventCallback<bool> addStudentChanged { get; set; }
+
+
     public Project objProject;
 
     private void EditProject(Project editProject)
@@ -176,6 +223,11 @@ else
     private void AddTask()
     {
         addTask = true;
+    }
+
+    private void AddStudent()
+    {
+        addStudent = true;
     }
 
     private void SaveTask()
@@ -197,6 +249,20 @@ else
         }
     }
 
+    private void SaveStudent()
+    {
+        if (!string.IsNullOrEmpty(studentID))
+        {
+            ProjectUser newRelation = new ProjectUser
+            {
+                ProjectId = IdProject,
+                UserInfoId = studentID
+            };
+            ProjectUserRepository.Insert(newRelation);
+            OnInitializedAsync();
+            GoBack();
+        }
+    }
     private void SaveProject()
     {
         ProjectRepository.Update(objProject);
@@ -217,5 +283,7 @@ else
             edit = false;
         else if (addTask == true)
             addTask = false;
+        else if (addStudent == true)
+            addStudent = false;
     }
 }
