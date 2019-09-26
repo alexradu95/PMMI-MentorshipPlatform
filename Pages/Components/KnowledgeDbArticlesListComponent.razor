@@ -8,7 +8,8 @@
             <h4 class="mb-0">
                 <a class="text-dark">@article.Title</a>
             </h4>
-            <div class="mb-1 text-muted">@article.CreatedBy.UserName.Split('@').First()</div>
+            <div class="mb-1 text-muted"> By @article.CreatedBy.UserName.Split('@').First()</div>
+            <div class="mb-1 text-muted">Created at @article.CreatedAt</div>
             <details>
                 <summary>Read more</summary>
                 <p class="mb-auto">@article.Text</p>
