@@ -18,10 +18,10 @@
 </head>
 <body>
     <div class="card">
-        <h5 class="card-header">Actual tasks</h5>
+        <h5 class="card-header" style="color:darkblue">Actual tasks</h5>
         <div class="card-body">
             <div>
-                <h5 class="card-title" style="float:left">Grafic : @now.ToShortDateString().Replace('-', ' ')</h5>
+                <h5 class="card-title" style="float:left; color:darkblue">Grafic : @now.ToShortDateString().Replace('-', ' ')</h5>
                 <button id="0HLPS1QEUG99M" type="button" class="btn btn-outline-info" onclick="popoverFunction()" data-toggle="popover" data-content="Number of Tasks" data-placement="bottom"
                         style="width:80px; height:30px; margin-bottom:0px; margin-left:17px; background-color:#b469d9; color:#531b6f; border-bottom-color:aqua">
                     INFO
@@ -32,28 +32,28 @@
 
             <div>
                 <div>
-                    <p style="float:left; width:90px">To Do:</p>
+                    <p style="float:left; width:90px; color:darkblue">To Do:</p>
                     <div class="progress" style="margin:40px; height:25px" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="@nrToDo">
                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @firstWidth%; background-color:firebrick" aria-valuemin="0" aria-valuemax="100">@firstWidth%</div>
                     </div>
                 </div>
 
                 <div>
-                    <p style="float:left; clear:both; width:90px">Ongoing:</p>
+                    <p style="float:left; clear:both; width:90px; color:darkblue">Ongoing:</p>
                     <div class="progress" style="margin:40px; height:25px" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="@nrOngoing">
                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @secondWidth%; background-color:darkorange" aria-valuemin="0" aria-valuemax="100">@secondWidth%</div>
                     </div>
                 </div>
 
                 <div>
-                    <p style="float:left; clear:both; width:90px">Code review:</p>
+                    <p style="float:left; clear:both; width:90px; color:darkblue">Code review:</p>
                     <div class="progress" style="margin:40px; height:25px" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="@nrCodeReview">
                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @thirdWidth%; background-color:mediumpurple" aria-valuemin="0" aria-valuemax="100">@thirdWidth%</div>
                     </div>
                 </div>
 
                 <div>
-                    <p style="float:left; clear:both; width:90px">Done:</p>
+                    <p style="float:left; clear:both; width:90px; color:darkblue">Done:</p>
                     <div class="progress" style="margin:40px; height:25px" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="@nrDone">
                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @fourthWidth%; background-color:lightseagreen" aria-valuemin="0" aria-valuemax="100">@fourthWidth%</div>
                     </div>
@@ -61,7 +61,7 @@
             </div>
 
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                Ai <a href="#" class="alert-link">@nrHighPriorityTask</a> task-uri urgente! <strong>Alert Link.</strong>
+                Ai <a href="#" class="alert-link">@nrHighPriorityTask</a> task-uri cu <span style="color:#c30000">High-Priority</span>! <strong>Alert Link.</strong>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

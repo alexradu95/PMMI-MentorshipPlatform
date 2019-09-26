@@ -13,6 +13,9 @@
     </div>
     <div class="collapse" id="collapseTwo">
         <div class="card-body" style="background-color:whitesmoke">
+            <div hidden="hidden">
+                <p hidden=""></p>
+            </div>
             @if (notes.Count == 0)
             {
                 <p style="text-align:center"><b>No Notes</b></p>
@@ -23,6 +26,10 @@
                     @foreach (var note in notes)
                     {
                         <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color:#fcf5ec">
+                            @if (hideCheckbox == true)
+                            {
+                                <input type="checkbox" style="float:left; top:3px;width:18px;height:18px" @bind="note.CheckedForDeletion" />
+                            }
                             <details>
                                 <summary class="buttonList" style="width:1200px">@note.Title <i style="float:right">@note.CreatedAt.ToShortDateString()</i></summary>
                                 <p class="mb-auto">@note.Content</p>
@@ -34,6 +41,14 @@
             <button id="0HLPTP1OMP5O1" type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal" onclick="modalFunction">
                 Add
             </button>
+            <button id="0HLQ2DMRVMGHF" type="button" class="btn btn-outline-primary" style="float:right" @onclick="Edit">
+                EDIT
+            </button>
+            @if (hideCheckbox == true)
+            {
+                <button type="button" class="btn btn-outline-danger" style="float:right; margin-right:20px" @onclick="DeleteProject">DELETE</button>
+            }
+
 
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -60,13 +75,19 @@
 </div>
 
 @code {
-    
+
     private IList<Note> notes;
+
+
+    [Parameter]
+    public int IdNote { get; set; }
 
     private string title;
     private string content;
-    
-    
+
+    private bool hideCheckbox = false;
+
+
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
         notes = await NoteRepository.GetAll();
@@ -87,7 +108,25 @@
             ResetFieldToDefault();
         }
     }
-    
+
+    private void Edit()
+    {
+        hideCheckbox = true;
+    }
+
+    private void DeleteProject()
+    {
+        foreach (var note in notes)
+        {
+            if(note.CheckedForDeletion == true)
+            {
+                NoteRepository.Delete(note.Id);
+            }
+        }
+        OnInitializedAsync();
+        hideCheckbox = false;
+    }
+
     private void ResetFieldToDefault()
     {
         title = string.Empty;
