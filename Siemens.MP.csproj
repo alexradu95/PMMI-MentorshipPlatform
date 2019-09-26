@@ -53,11 +53,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controlers\" />
+    <None Include="wwwroot\css\bootstrap\img.jpg" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\css\bootstrap\img.jpg" />
+    <Folder Include="Controlers\" />
   </ItemGroup>
 
 </Project>
