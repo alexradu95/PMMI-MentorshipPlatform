@@ -31,25 +31,37 @@ else
             {
                 @foreach (var task in filteredTasks.Where(task => (task.UserInfo != null && task.UserInfo.UserName.Equals(identityUtils.GetCurrentUserName()))))
                 {
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <button class="buttontask" @onclick="@(() => Navigate(task.Id))">@task.Name</button>
-                        @if (task.State == Enums.StateOfTask.TO_DO)
-                        {
-                            <span class="badge badge-primary badge-pill list-group-item-danger">@task.State</span>
-                        }
-                        else if (task.State == Enums.StateOfTask.DONE)
-                        {
-                            <span class="badge badge-primary badge-pill list-group-item-success">@task.State</span>
-                        }
-                        else if (task.State == Enums.StateOfTask.CODE_REVIEW)
-                        {
-                            <span class="badge badge-primary badge-pill list-group-item-light">@task.State</span>
-                        }
-                        else if (task.State == Enums.StateOfTask.ONGOING)
-                        {
-                            <span class="badge badge-primary badge-pill list-group-item-info">@task.State</span>
-                        }
-                    </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <button class="buttontask" @onclick="@(() => Navigate(task.Id))">@task.Name</button>
+                @if (task.State == Enums.StateOfTask.TO_DO)
+                {
+                    <span class="badge badge-primary badge-pill list-group-item-danger">@task.State</span>
+                }
+                else if (task.State == Enums.StateOfTask.DONE)
+                {
+                    <span class="badge badge-primary badge-pill list-group-item-success">@task.State</span>
+                }
+                else if (task.State == Enums.StateOfTask.CODE_REVIEW)
+                {
+                    <span class="badge badge-primary badge-pill list-group-item-light">@task.State</span>
+                }
+                else if (task.State == Enums.StateOfTask.ONGOING)
+                {
+                    <span class="badge badge-primary badge-pill list-group-item-info">@task.State</span>
+                }
+                @if (task.PriorityState == Enums.Priority.HIGH)
+                {
+                    <span class="badge badge-primary badge-pill list-group-item-danger">@task.PriorityState</span>
+                }
+                else if (task.PriorityState == Enums.Priority.MEDIUM)
+                {
+                    <span class="badge badge-primary badge-pill list-group-item-info">@task.PriorityState</span>
+                }
+                else if (task.PriorityState == Enums.Priority.LOW)
+                {
+                    <span class="badge badge-primary badge-pill list-group-item-light">@task.PriorityState</span>
+                }
+            </li>
                 }
 
             }

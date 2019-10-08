@@ -3,20 +3,20 @@
 
 <div class="col-md-10">
     @foreach (var article in articles) if (articleCategory == article.ArticleCategory)
-    {
-        <div class="article">
-            <h4 class="mb-0">
-                <a class="text-dark">@article.Title</a>
-            </h4>
-            <div class="mb-1 text-muted"> By @article.CreatedBy.UserName.Split('@').First()</div>
-            <div class="mb-1 text-muted">Created at @article.CreatedAt</div>
-            <details>
-                <summary>Read more</summary>
-                <p class="mb-auto">@article.Text</p>
-            </details>
-            
-        </div>
-    }
+        {
+            <div class="article">
+                <h4 class="mb-0">
+                    <a class="text-dark">@article.Title</a>
+                </h4>
+                <div class="mb-1 text-muted"> By @article.CreatedBy.FirstName @article.CreatedBy.LastName</div>
+                <div class="mb-1 text-muted"><p style="font-size:12px">Created at @article.CreatedAt</p></div>
+                <details>
+                    <summary>Read more</summary>
+                    <p class="mb-auto">@article.Text</p>
+                </details>
+
+            </div>
+        }
 </div>
 
 @code {
