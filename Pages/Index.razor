@@ -19,12 +19,12 @@
 </head>
 <body>
 
-    <div class="card">
+    <div class="card" style="margin-bottom:10px">
         <div class="card-header" style="background-color:#705af2">
             <p class="h5">
-                <button type="button" class="btn" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="#collapseOne">
-                    <img src="/css/bar-chart.png" height="20" width="20">
-                    <b style="color:aliceblue">Actual tasks</b>
+                <button type="button" class="btn" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="#collapseOne" style="width:170px">
+                    <img src="/css/combo-xxl.png" height="20" width="20" style="float:left">
+                    <h5 style="color:white"><b>Actual tasks</b></h5>
                 </button>
             </p>
         </div>
@@ -32,46 +32,43 @@
             <div class="card-body">
                 <div>
                     <h5 class="card-title" style="float:left; color:darkblue">Grafic : @now.ToShortDateString().Replace('-', ' ') </h5>
-                    <button id="0HLPS1QEUG99M" type="button" class="btn btn-outline-info" onclick="popoverFunction()" data-toggle="popover" data-placement="bottom"
-                            style="width:80px; height:30px; margin-bottom:0px; margin-left:17px; background-color:#b469d9; color:#531b6f; border-bottom-color:aqua">
-                        INFO
-                    </button>
+                    <p style="color:darkblue; float:right">Pentru a vedea numarul task-urilor dați double-click pe progress bar</p>
                 </div>
 
                 <p></p>
 
                 <div>
                     <div>
-                        <p style="float:left; width:90px; color:darkblue">To Do:</p>
-                        <div class="progress" style="margin:40px; height:25px" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="@nrToDo">
+                        <p style="float:left; width:90px; color:darkblue">To Do:</p>  
+                        <div class="progress" onclick="popoverFunction()" style="margin:40px; height:25px" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="number of to do tasks: @nrToDo">
                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @firstWidth%; background-color:firebrick" aria-valuemin="0" aria-valuemax="100">@firstWidth%</div>
                         </div>
                     </div>
 
                     <div>
                         <p style="float:left; clear:both; width:90px; color:darkblue">Ongoing:</p>
-                        <div class="progress" style="margin:40px; height:25px" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="@nrOngoing">
+                        <div class="progress" onclick="popoverFunction()" style="margin:40px; height:25px" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="number of ongoing tasks: @nrOngoing">
                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @secondWidth%; background-color:darkorange" aria-valuemin="0" aria-valuemax="100">@secondWidth%</div>
                         </div>
                     </div>
 
                     <div>
                         <p style="float:left; clear:both; width:90px; color:darkblue">Code review:</p>
-                        <div class="progress" style="margin:40px; height:25px" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="@nrCodeReview">
+                        <div class="progress" onclick="popoverFunction()" style="margin:40px; height:25px" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="number of code review tasks: @nrCodeReview">
                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @thirdWidth%; background-color:mediumpurple" aria-valuemin="0" aria-valuemax="100">@thirdWidth%</div>
                         </div>
                     </div>
 
                     <div>
                         <p style="float:left; clear:both; width:90px; color:darkblue">Done:</p>
-                        <div class="progress" style="margin:40px; height:25px" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="@nrDone">
+                        <div class="progress" onclick="popoverFunction()" style="margin:40px; height:25px" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="number of done tasks: @nrDone">
                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @fourthWidth%; background-color:lightseagreen" aria-valuemin="0" aria-valuemax="100">@fourthWidth%</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    Ai <a href="#" class="alert-link">@nrHighPriorityTask</a> task-uri cu <span style="color:#c30000">High-Priority</span>! <strong>Alert Link.</strong>
+                    Ai <a href="#" class="alert-link">@nrUrgentTask</a> task-uri cu <span style="color:#c30000">urgente</span>! <strong>Alert Link.</strong>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -80,14 +77,12 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="card" style="margin-bottom:10px">
         <div class="card-header" style="background-color:mediumpurple">
             <p class="h5">
-                <button id="0HLPTKM2659LL" type="button" class="btn" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    <div class="spinner-grow spinner-grow-sm text-danger" role="status" style="animation-duration:1s">
-                        <span class="sr-only"></span>
-                    </div>
-                    <b>Weekly productivity tracking</b>
+                <button id="0HLPTKM2659LL" type="button" class="btn" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style="width:330px">
+                    <img src="/css/planner-xxl.png" height="20" width="20" style="float:left">
+                    <h5 style="color:white"><b>Weekly productivity tracking</b></h5>
                 </button>
             </p>
         </div>
@@ -113,19 +108,21 @@
 {
 
     private UserInfo userInfo;
-    private float firstWidth = 0;
-    private float secondWidth = 0;
-    private float thirdWidth = 0;
-    private float fourthWidth = 0;
+    private float firstWidth = 42;
+    private float secondWidth = 33;
+    private float thirdWidth = 8;
+    private float fourthWidth = 17;
 
-    private int nrToDo = 0;
-    private int nrOngoing = 0;
-    private int nrCodeReview = 0;
-    private int nrDone = 0;
-    private int nrHighPriorityTask = 0;
+    private int nrToDo = 5;
+    private int nrOngoing = 4;
+    private int nrCodeReview = 1;
+    private int nrDone = 2;
+    private int nrUrgentTask;
+    private TimeSpan difference;
     private int myTasks = 0;
 
     private DateTime now = DateTime.Now;
+    private TimeSpan maxValue = TimeSpan.FromDays(5);
 
     List<Siemens.MP.Entities.Task> tasks;
 
@@ -163,26 +160,37 @@
                 myTasks++;
             }
         }
-        Percentage();
+        //Percentage();
 
         foreach (var task in tasks)
         {
             if (task.PriorityState == Priority.HIGH && task.UserInfoId == userInfo.Id)
             {
-                nrHighPriorityTask++;
+                difference = task.Deadline - DateTime.Now;
+                nrUrgentTask++;
+                if(difference<DateTime.)
+                {
+
+                    NumberOfDaysRemaining = (int)difference.TotalDays;
+                }
             }
+        }
+        foreach (var task in tasks)
+        {
+            TimeSpan difference = task.Deadline - DateTime.Today;
+            if(int.Parse(difference))
         }
 
 
     }
 
-    private void Percentage()
-    {
-        firstWidth = ((float)nrToDo / myTasks) * 100;
-        secondWidth = ((float)nrOngoing / myTasks) * 100;
-        thirdWidth = ((float)nrCodeReview / myTasks) * 100;
-        fourthWidth = ((float)nrDone / myTasks) * 100;
-    }
+    //private void Percentage()
+    //{
+    //   firstWidth = ((float)nrToDo / myTasks) * 100;
+    //    secondWidth = ((float)nrOngoing / myTasks) * 100;
+    //    thirdWidth = ((float)nrCodeReview / myTasks) * 100;
+    //    fourthWidth = ((float)nrDone / myTasks) * 100;
+    //}
 
 
     LineChart<double> lineChart;
@@ -224,7 +232,7 @@
 
     List<double> DataHardcode()
     {
-        var listData = new List<double> { 0, 1, 3, 1, 4, 5 };
+        var listData = new List<double> { 0, 2, 1, 4, 2, 3 };
         return listData;
     }
 }
