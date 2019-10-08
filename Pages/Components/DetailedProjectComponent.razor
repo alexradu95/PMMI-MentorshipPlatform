@@ -106,17 +106,13 @@ else if (addStudent == true)
                 <option disabled hidden>Select Student</option>
                 @foreach (var student in studentList)
                 {
-                    alreadyAssigned = false;
-                    @foreach (var verifyStudent in userProjectList) if (verifyStudent.UserInfoId == student.Id && verifyStudent.ProjectId == IdProject)
-                        {
-                            alreadyAssigned = true;
-                        }
-                    if (student.UserName.Contains("ctbav.ro") && alreadyAssigned == false)
+                    if (student.UserName.Contains("ctbav.ro"))
                     {
-                        <option value=@student.Id>@student.FirstName @student.LastName</option>
-                    }
 
+                    <option value=@student.Id>@student.FirstName @student.LastName</option>
+                     }
                 }
+
             </select>
 
             <!-- Button to add the task -->
@@ -183,7 +179,7 @@ else
     private string taskDescription;
     private IList<UserInfo> studentList;
     private string studentID;
-    private bool alreadyAssigned;
+
 
     [Parameter]
     public int IdProject { get; set; }
